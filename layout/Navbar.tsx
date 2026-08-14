@@ -74,6 +74,7 @@ const Navbar: React.FC = () => {
               >
                 Contattami
               </a>
+              <NavLink to="/login" onClick={() => { closeMenu(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={navLinkClass}>Area personale</NavLink>
             </div>
           </div>
 
@@ -101,6 +102,7 @@ const Navbar: React.FC = () => {
               Contattami
             </a>
           </div>
+          <NavLink to="/login" onClick={() => { closeMenu(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="block px-3 py-2 text-lg font-semibold text-gray-700 hover:text-blue-600">Area personale</NavLink>
         </div>
       )}
     </nav>

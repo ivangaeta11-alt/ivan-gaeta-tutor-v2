@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
 import TestPage from './pages/TestPage';
+import RisorseRoute from './pages/RisorseRoute';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -16,6 +17,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/risorse" element={<RisorseRoute />} />
         <Route path="/test" element={<TestPage />} />
       </Routes>
     </BrowserRouter>

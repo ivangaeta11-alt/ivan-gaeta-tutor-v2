@@ -1,45 +1,26 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import Layout from "./layout/Layout";
 import HomePage from "./pages/HomePage";
-import ResourcesContainer from "./features/resources/ResourcesContainer";
-
-type View = "home" | "risorse";
 
 const App: React.FC = () => {
-  const [view, setView] = useState<View>("home");
+  const navigate = useNavigate();
 
   const handleContact = useCallback(() => {
-    setView("home");
-    setTimeout(() => {
-      document.getElementById("contatti")?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+    document.getElementById("contatti")?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
-  const renderPage = () => {
-    switch (view) {
-      case "home":
-        return (
-          <HomePage
-            onNavigateRisorse={() => setView("risorse")}
-            onNavigateContact={handleContact}
-          />
-        );
-      case "risorse":
-        return (
-          <ResourcesContainer onGoToContact={handleContact} />
-        );
-      default:
-        return null;
-    }
-  };
+  const handleNavigateRisorse = useCallback(() => {
+    navigate("/risorse");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [navigate]);
 
   return (
-    <Layout
-      currentView={view}
-      setView={setView}
-      onContact={handleContact}
-    >
-      {renderPage()}
+    <Layout onContact={handleContact}>
+      <HomePage
+        onNavigateRisorse={handleNavigateRisorse}
+        onNavigateContact={handleContact}
+      />
     </Layout>
   );
 };

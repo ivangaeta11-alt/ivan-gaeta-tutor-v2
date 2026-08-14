@@ -1,28 +1,16 @@
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 interface FooterProps {
-  setView: (view: 'home' | 'risorse') => void;
   onContact: () => void;
 }
 
-const Footer: React.FC<FooterProps> = ({ setView, onContact }) => {
+const Footer: React.FC<FooterProps> = ({ onContact }) => {
   const [imgError, setImgError] = useState(false);
   
   // Immagine in public/ per funzionare anche in produzione (path assoluto da root)
   const profileImg = `${import.meta.env.BASE_URL}ivan_gaeta_profile.jpeg`;
-
-  const handleHomeClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setView('home');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleRisorseClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setView('risorse');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   return (
     <footer className="bg-white py-16 border-t border-gray-100">
@@ -31,7 +19,7 @@ const Footer: React.FC<FooterProps> = ({ setView, onContact }) => {
           
           {/* Colonna Identità e Bio */}
           <div className="lg:col-span-3 space-y-8">
-            <div className="flex items-center cursor-pointer group" onClick={handleHomeClick}>
+            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center cursor-pointer group">
               <div className="relative w-16 h-16 mr-4 overflow-hidden rounded-full border-2 border-blue-50 shadow-sm group-hover:border-blue-400 transition-colors bg-gradient-to-br from-blue-500 to-emerald-500 flex items-center justify-center">
                 {!imgError ? (
                   <img 
@@ -47,7 +35,7 @@ const Footer: React.FC<FooterProps> = ({ setView, onContact }) => {
               <span className="text-2xl font-extrabold tracking-tight text-blue-900">
                 Ivan<span className="text-emerald-500"> Gaeta</span>
               </span>
-            </div>
+            </Link>
             
             <div className="max-w-2xl">
               <h4 className="text-lg font-bold text-gray-900 mb-4">Laureato in Fisica (L-30).</h4>
@@ -71,8 +59,8 @@ const Footer: React.FC<FooterProps> = ({ setView, onContact }) => {
             <div>
               <h5 className="font-bold text-gray-900 mb-6 uppercase tracking-wider text-xs">Link Rapidi</h5>
               <ul className="space-y-4 text-[15px] text-gray-500">
-                <li><a href="#" onClick={handleHomeClick} className="hover:text-blue-600 transition-colors">Home</a></li>
-                <li><a href="#" onClick={handleRisorseClick} className="hover:text-blue-600 transition-colors">Risorse gratuite</a></li>
+                <li><Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-blue-600 transition-colors">Home</Link></li>
+                <li><Link to="/risorse" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-blue-600 transition-colors">Risorse gratuite</Link></li>
                 <li><a href="#" onClick={(e) => { e.preventDefault(); onContact(); }} className="hover:text-blue-600 transition-colors font-semibold text-blue-600">Contattami</a></li>
               </ul>
             </div>

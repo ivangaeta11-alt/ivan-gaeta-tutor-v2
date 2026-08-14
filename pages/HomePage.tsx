@@ -9,10 +9,9 @@ import Contact from '../sections/Contact';
 
 interface HomePageProps {
   onNavigateRisorse: () => void;
-  onNavigateContact: () => void;
 }
 
-const HomePage: React.FC<HomePageProps> = ({ onNavigateRisorse, onNavigateContact }) => {
+const HomePage: React.FC<HomePageProps> = ({ onNavigateRisorse }) => {
   return (
     <>
       <Hero 
@@ -20,7 +19,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigateRisorse, onNavigateContac
       />
       <Manifesto />
       <Method />
-      <Features onNavigate={onNavigateContact} />
+      <Features />
       <Testimonials />
       <Contact />
     </>

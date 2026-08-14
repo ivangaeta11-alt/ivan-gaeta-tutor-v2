@@ -17,10 +17,7 @@ const App: React.FC = () => {
 
   return (
     <Layout onContact={handleContact}>
-      <HomePage
-        onNavigateRisorse={handleNavigateRisorse}
-        onNavigateContact={handleContact}
-      />
+      <HomePage onNavigateRisorse={handleNavigateRisorse} />
     </Layout>
   );
 };

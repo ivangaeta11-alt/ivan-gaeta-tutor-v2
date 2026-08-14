@@ -64,6 +64,7 @@ const Navbar: React.FC = () => {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-6">
               <NavLink to="/" end onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className={navLinkClass}>Home</NavLink>
+              <NavLink to="/offerta-formativa" onClick={() => { closeMenu(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={navLinkClass}>Offerta formativa</NavLink>
               <NavLink to="/risorse" onClick={() => { closeMenu(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={navLinkClass}>Risorse gratuite</NavLink>
               <a href="#recensioni" onClick={(e) => handleSectionClick(e, 'recensioni')} className="hover:text-blue-600 transition-colors font-medium text-gray-600">Recensioni</a>
               <a 
@@ -88,6 +89,7 @@ const Navbar: React.FC = () => {
       {isOpen && (
         <div className="md:hidden bg-white shadow-2xl absolute w-full left-0 top-full p-6 space-y-4 animate-in slide-in-from-top-4 duration-200 border-t border-gray-100">
           <NavLink to="/" end onClick={() => { closeMenu(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="block px-3 py-2 text-lg font-semibold text-gray-700 hover:text-blue-600">Home</NavLink>
+          <NavLink to="/offerta-formativa" onClick={() => { closeMenu(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="block px-3 py-2 text-lg font-semibold text-gray-700 hover:text-blue-600">Offerta formativa</NavLink>
           <NavLink to="/risorse" onClick={() => { closeMenu(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="block px-3 py-2 text-lg font-semibold text-gray-700 hover:text-blue-600">Risorse gratuite</NavLink>
           <a href="#recensioni" onClick={(e) => handleSectionClick(e, 'recensioni')} className="block px-3 py-2 text-lg font-semibold text-gray-700 hover:text-blue-600">Recensioni</a>
           <div className="pt-4">

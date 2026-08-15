@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, UserRound } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,6 +41,15 @@ const Navbar: React.FC = () => {
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `transition-colors font-medium ${isActive ? 'text-blue-600' : 'hover:text-blue-600'}`;
 
+  const areaPersonaleClass = ({ isActive }: { isActive: boolean }) =>
+    [
+      'inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold transition-all duration-200',
+      'border shadow-sm',
+      isActive
+        ? 'bg-emerald-50 text-emerald-700 border-emerald-200 shadow-emerald-900/5'
+        : 'bg-white/90 text-slate-700 border-slate-200 hover:border-emerald-300 hover:text-emerald-700 hover:bg-emerald-50/80 hover:shadow-md hover:shadow-emerald-900/10',
+    ].join(' ');
+
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled || !isHome || isOpen ? 'glass-morphism shadow-md py-2' : 'bg-transparent py-4'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -74,7 +83,14 @@ const Navbar: React.FC = () => {
               >
                 Contattami
               </a>
-              <NavLink to="/login" onClick={() => { closeMenu(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={navLinkClass}>Area personale</NavLink>
+              <NavLink
+                to="/login"
+                onClick={() => { closeMenu(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className={areaPersonaleClass}
+              >
+                <UserRound className="w-4 h-4 shrink-0" strokeWidth={2.25} />
+                <span>Area personale</span>
+              </NavLink>
             </div>
           </div>
 
@@ -102,7 +118,21 @@ const Navbar: React.FC = () => {
               Contattami
             </a>
           </div>
-          <NavLink to="/login" onClick={() => { closeMenu(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="block px-3 py-2 text-lg font-semibold text-gray-700 hover:text-blue-600">Area personale</NavLink>
+          <NavLink
+            to="/login"
+            onClick={() => { closeMenu(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            className={({ isActive }) =>
+              [
+                'flex items-center justify-center gap-2 w-full text-center px-5 py-4 rounded-2xl font-bold transition-all duration-200 border',
+                isActive
+                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-emerald-300 hover:text-emerald-700 hover:bg-emerald-50/80',
+              ].join(' ')
+            }
+          >
+            <UserRound className="w-5 h-5 shrink-0" strokeWidth={2.25} />
+            <span>Area personale</span>
+          </NavLink>
         </div>
       )}
     </nav>

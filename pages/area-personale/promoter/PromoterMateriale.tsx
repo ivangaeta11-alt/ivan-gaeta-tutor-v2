@@ -33,26 +33,26 @@ const PLACEHOLDER_SECTIONS = [
 
 const PromoterMateriale: React.FC = () => {
   return (
-    <div>
+    <div className="min-w-0 max-w-full">
       <PageHeader
         title="Materiale promozionale"
         description="Risorse per promuovere i percorsi formativi. I contenuti saranno disponibili nelle prossime versioni."
       />
 
-      <div className="p-5 mb-8 rounded-2xl bg-blue-50/60 border border-blue-100 text-sm text-slate-600 font-light">
+      <div className="p-5 mb-8 rounded-2xl bg-blue-50/60 border border-blue-100 text-sm text-slate-600 font-light break-words">
         Sezione in preparazione. Qui troverai tutto il materiale necessario per divulgare
         l'offerta formativa e tracciare le acquisizioni tramite il tuo link referral.
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-6">
+      <div className="grid sm:grid-cols-2 gap-6 min-w-0">
         {PLACEHOLDER_SECTIONS.map(({ icon: Icon, title, description }) => (
           <DashboardCard key={title} title={title}>
-            <div className="flex gap-4">
+            <div className="flex gap-4 min-w-0">
               <div className="shrink-0 w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center">
                 <Icon className="w-5 h-5 text-slate-400" aria-hidden />
               </div>
-              <div>
-                <p>{description}</p>
+              <div className="min-w-0">
+                <p className="break-words">{description}</p>
                 <p className="text-xs text-slate-400 mt-2">Disponibile a breve</p>
               </div>
             </div>

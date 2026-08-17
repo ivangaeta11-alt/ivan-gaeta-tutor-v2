@@ -19,7 +19,7 @@ const KpiGrid: React.FC<KpiGridProps> = ({ items, columns = 4 }) => {
       : "grid sm:grid-cols-2 gap-4";
 
   return (
-    <div className={gridClass}>
+    <div className={`${gridClass} min-w-0 w-full max-w-full`}>
       {items.map((item) => (
         <KpiCard key={item.label} label={item.label} value={item.value} hint={item.hint} />
       ))}

@@ -19,7 +19,7 @@ const NAV_ITEMS = [
 ] as const;
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
-  `flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+  `flex items-center gap-2.5 min-w-0 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors break-words ${
     isActive
       ? "bg-blue-50 text-blue-700 border border-blue-100"
       : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 border border-transparent"
@@ -48,7 +48,7 @@ const PromoterSidebar: React.FC = () => {
   return (
     <>
       {/* Mobile toggle */}
-      <div className="lg:hidden mb-6">
+      <div className="lg:hidden mb-6 min-w-0 max-w-full">
         <button
           type="button"
           onClick={() => setMobileOpen((o) => !o)}

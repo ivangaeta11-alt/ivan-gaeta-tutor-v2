@@ -14,7 +14,7 @@ const PromoterDashboard: React.FC = () => {
   const { promoter } = promoterDemo;
 
   return (
-    <div>
+    <div className="min-w-0 max-w-full">
       <PageHeader
         title="Dashboard"
         description="Riepilogo delle tue performance come promoter."
@@ -43,7 +43,7 @@ const PromoterDashboard: React.FC = () => {
         ]}
       />
 
-      <div className="mt-6 p-5 md:p-6 bg-blue-50/60 rounded-2xl border border-blue-100">
+      <div className="mt-6 p-5 md:p-6 bg-blue-50/60 rounded-2xl border border-blue-100 min-w-0 break-words">
         <p className="text-sm text-slate-600 font-light">
           <span className="font-semibold text-slate-800">Prossima liquidazione:</span>{" "}
           {formatDateLong(promoter.nextPayoutDate)}
@@ -53,23 +53,23 @@ const PromoterDashboard: React.FC = () => {
         </p>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-8 min-w-0">
         <h2 className="text-xl font-bold text-slate-900 mb-4 tracking-tight">Il tuo referral</h2>
-        <div className="grid sm:grid-cols-2 gap-6">
+        <div className="grid sm:grid-cols-2 gap-6 min-w-0">
           <DashboardCard title="Link personale">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-              <p className="font-mono text-sm text-slate-700 break-all flex-1">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 min-w-0">
+              <p className="font-mono text-sm text-slate-700 break-all flex-1 min-w-0">
                 {promoter.referralLink}
               </p>
-              <CopyButton text={promoter.referralLink} />
+              <CopyButton text={promoter.referralLink} className="w-full sm:w-auto" />
             </div>
           </DashboardCard>
           <DashboardCard title="Codice referral">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-              <p className="font-mono text-lg font-semibold text-slate-800">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 min-w-0">
+              <p className="font-mono text-lg font-semibold text-slate-800 break-all min-w-0">
                 {promoter.referralCode}
               </p>
-              <CopyButton text={promoter.referralCode} />
+              <CopyButton text={promoter.referralCode} className="w-full sm:w-auto" />
             </div>
           </DashboardCard>
         </div>

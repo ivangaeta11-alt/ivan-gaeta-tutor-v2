@@ -86,23 +86,26 @@ const PromoterStatistiche: React.FC = () => {
     [filteredLessons]
   );
 
+  const goToStudent = (studentId: string) => {
+    navigate(`/area-personale/promoter/statistiche/studente/${studentId}`);
+  };
+
   return (
-    <div>
+    <div className="min-w-0 max-w-full">
       <PageHeader
         title="Statistiche"
         description="Analisi delle prestazioni generate dagli studenti acquisiti. L'attribuzione è permanente; la commissione varia per tipologia di lezione."
       />
 
-      {/* Filtri */}
-      <div className="mb-6 p-4 md:p-5 bg-white rounded-2xl border border-slate-100 shadow-sm">
+      <div className="mb-6 p-4 md:p-5 bg-white rounded-2xl border border-slate-100 shadow-sm min-w-0 max-w-full">
         <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Filtri</p>
-        <div className="grid sm:grid-cols-3 gap-4">
-          <label className="block">
+        <div className="grid sm:grid-cols-3 gap-4 min-w-0">
+          <label className="block min-w-0">
             <span className="text-xs text-slate-500 mb-1 block">Periodo</span>
             <select
               value={period}
               onChange={(e) => setPeriod(e.target.value as PeriodFilter)}
-              className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-100"
+              className="w-full min-w-0 px-3 py-2 text-sm rounded-xl border border-slate-200 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-100"
             >
               {PERIOD_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>
@@ -111,12 +114,12 @@ const PromoterStatistiche: React.FC = () => {
               ))}
             </select>
           </label>
-          <label className="block">
+          <label className="block min-w-0">
             <span className="text-xs text-slate-500 mb-1 block">Studente</span>
             <select
               value={studentFilter}
               onChange={(e) => setStudentFilter(e.target.value)}
-              className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-100"
+              className="w-full min-w-0 px-3 py-2 text-sm rounded-xl border border-slate-200 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-100"
             >
               <option value="all">Tutti gli studenti</option>
               {studentSummaries.map(({ student }) => (
@@ -126,12 +129,12 @@ const PromoterStatistiche: React.FC = () => {
               ))}
             </select>
           </label>
-          <label className="block">
+          <label className="block min-w-0">
             <span className="text-xs text-slate-500 mb-1 block">Tipologia lezione</span>
             <select
               value={lessonType}
               onChange={(e) => setLessonType(e.target.value as LessonType | "all")}
-              className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-100"
+              className="w-full min-w-0 px-3 py-2 text-sm rounded-xl border border-slate-200 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-100"
             >
               {LESSON_TYPE_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>
@@ -167,12 +170,41 @@ const PromoterStatistiche: React.FC = () => {
         ]}
       />
 
-      {/* Tabella studenti */}
-      <section className="mt-10">
+      <section className="mt-10 min-w-0">
         <h2 className="text-xl font-bold text-slate-900 mb-4 tracking-tight">
           Studenti acquisiti
         </h2>
-        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm min-w-0 max-w-full">
+
+        <div className="space-y-3 sm:hidden">
+          {filteredStudentSummaries.map(({ student, totalRevenue, totalCommission, lastActivity }) => (
+            <button
+              key={student.id}
+              type="button"
+              onClick={() => goToStudent(student.id)}
+              className="w-full text-left p-4 bg-white rounded-2xl border border-slate-100 shadow-sm min-w-0 hover:bg-blue-50/40 transition-colors"
+            >
+              <p className="font-medium text-slate-900 break-words">{student.label}</p>
+              <p className="text-sm text-slate-500 mt-1">
+                Acquisito il {formatDate(student.acquiredAt)}
+              </p>
+              <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
+                <div>
+                  <p className="text-xs text-slate-400">Ricavi</p>
+                  <p className="font-medium text-slate-800 break-words">{formatCurrency(totalRevenue)}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400">Commissioni</p>
+                  <p className="font-medium text-slate-800 break-words">{formatCurrency(totalCommission)}</p>
+                </div>
+              </div>
+              <p className="text-xs text-slate-400 mt-2">
+                Ultima attività: {lastActivity ? formatDate(lastActivity) : "—"}
+              </p>
+            </button>
+          ))}
+        </div>
+
+        <div className="hidden sm:block bg-white rounded-3xl border border-slate-100 shadow-sm min-w-0 max-w-full">
           <ResponsiveTable>
             <table className="w-full">
               <thead>
@@ -189,14 +221,12 @@ const PromoterStatistiche: React.FC = () => {
                   <tr
                     key={student.id}
                     className={TABLE_ROW_CLICKABLE}
-                    onClick={() =>
-                      navigate(`/area-personale/promoter/statistiche/studente/${student.id}`)
-                    }
+                    onClick={() => goToStudent(student.id)}
                     role="button"
                     tabIndex={0}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" || e.key === " ") {
-                        navigate(`/area-personale/promoter/statistiche/studente/${student.id}`);
+                        goToStudent(student.id);
                       }
                     }}
                   >
@@ -220,10 +250,45 @@ const PromoterStatistiche: React.FC = () => {
         </p>
       </section>
 
-      {/* Storico lezioni */}
-      <section className="mt-10">
+      <section className="mt-10 min-w-0">
         <h2 className="text-xl font-bold text-slate-900 mb-4 tracking-tight">Storico lezioni</h2>
-        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm min-w-0 max-w-full">
+
+        <div className="space-y-3 sm:hidden">
+          {sortedLessonHistory.map((lesson) => (
+            <div
+              key={lesson.id}
+              className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm min-w-0"
+            >
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <p className="font-medium text-slate-900 break-words">{lesson.studentLabel}</p>
+                <LessonTypeBadge type={lesson.lessonType} />
+              </div>
+              <p className="text-sm text-slate-500 mt-1 break-words">{formatDate(lesson.date)}</p>
+              <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
+                <div>
+                  <p className="text-xs text-slate-400">Durata</p>
+                  <p className="font-medium text-slate-800">{formatDuration(lesson.durationHours)}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400">Importo</p>
+                  <p className="font-medium text-slate-800 break-words">{formatCurrency(lesson.amount)}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400">Tier</p>
+                  <p className="font-medium text-slate-800">{formatPercent(lesson.tierRate)}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400">Commissione</p>
+                  <p className="font-medium text-slate-800 break-words">
+                    {formatCurrency(lesson.commissionAmount)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="hidden sm:block bg-white rounded-3xl border border-slate-100 shadow-sm min-w-0 max-w-full">
           <ResponsiveTable>
             <table className="w-full">
               <thead>
@@ -257,9 +322,8 @@ const PromoterStatistiche: React.FC = () => {
         </div>
       </section>
 
-      {/* Nota coerenza filtri vs KPI globali */}
       {period === "all" && studentFilter === "all" && lessonType === "all" && (
-        <p className="text-xs text-slate-400 mt-6 font-light">
+        <p className="text-xs text-slate-400 mt-6 font-light break-words">
           Totale commissioni maturate (tutti i periodi):{" "}
           {formatCurrency(promoterKpis.totalCommissions)}
         </p>

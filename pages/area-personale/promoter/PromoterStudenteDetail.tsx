@@ -51,12 +51,12 @@ const PromoterStudenteDetail: React.FC = () => {
   const plan = getCommissionPlanById(student.commissionPlanId);
 
   return (
-    <div>
+    <div className="min-w-0 max-w-full">
       <Link
         to="/area-personale/promoter/statistiche"
         className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:text-blue-700 mb-6 transition-colors"
       >
-        <ArrowLeft className="w-4 h-4" aria-hidden />
+        <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden />
         Torna alle statistiche
       </Link>
 
@@ -65,55 +65,90 @@ const PromoterStudenteDetail: React.FC = () => {
         description="Dettaglio prestazioni generate. L'attribuzione al promoter è permanente; la percentuale di commissione dipende dalla tipologia di ogni singola lezione."
       />
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm">
-          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 min-w-0">
+        <div className="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm min-w-0">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 break-words">
             Acquisito il
           </p>
-          <p className="text-lg font-bold text-slate-900">{formatDate(student.acquiredAt)}</p>
+          <p className="text-lg font-bold text-slate-900 break-words">{formatDate(student.acquiredAt)}</p>
         </div>
-        <div className="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm">
-          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+        <div className="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm min-w-0">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 break-words">
             Ricavi totali
           </p>
-          <p className="text-lg font-bold text-slate-900">{formatCurrency(totalRevenue)}</p>
+          <p className="text-lg font-bold text-slate-900 break-words">{formatCurrency(totalRevenue)}</p>
         </div>
-        <div className="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm">
-          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+        <div className="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm min-w-0">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 break-words">
             Commissioni totali
           </p>
-          <p className="text-lg font-bold text-slate-900">{formatCurrency(totalCommission)}</p>
+          <p className="text-lg font-bold text-slate-900 break-words">{formatCurrency(totalCommission)}</p>
         </div>
-        <div className="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm">
-          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+        <div className="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm min-w-0">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 break-words">
             Ultima attività
           </p>
-          <p className="text-lg font-bold text-slate-900">
+          <p className="text-lg font-bold text-slate-900 break-words">
             {lastActivity ? formatDate(lastActivity) : "—"}
           </p>
         </div>
       </div>
 
       {plan && (
-        <p className="text-sm text-slate-500 font-light mb-6">
+        <p className="text-sm text-slate-500 font-light mb-6 break-words">
           Piano commissionale applicato:{" "}
           <span className="font-medium text-slate-700">{plan.displayName}</span>
         </p>
       )}
 
       {student.id === "s1042" && (
-        <div className="mb-6 p-4 rounded-2xl bg-violet-50/60 border border-violet-100 text-sm text-violet-800 font-light">
+        <div className="mb-6 p-4 rounded-2xl bg-violet-50/60 border border-violet-100 text-sm text-violet-800 font-light break-words">
           Questo studente ha lezioni in tutte e tre le tipologie (individuale, gruppo piccolo,
           gruppo grande). L'attribuzione resta invariata; cambia solo il tier applicato per
           ciascuna prestazione.
         </div>
       )}
 
-      <section>
+      <section className="min-w-0">
         <h2 className="text-xl font-bold text-slate-900 mb-4 tracking-tight">
           Cronologia prestazioni
         </h2>
-        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm min-w-0 max-w-full">
+
+        <div className="space-y-3 sm:hidden">
+          {enrichedStudentLessons.map((lesson) => (
+            <div
+              key={lesson.id}
+              className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm min-w-0"
+            >
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <p className="font-medium text-slate-900 break-words">{formatDate(lesson.date)}</p>
+                <LessonTypeBadge type={lesson.lessonType} />
+              </div>
+              <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
+                <div>
+                  <p className="text-xs text-slate-400">Durata</p>
+                  <p className="font-medium text-slate-800">{formatDuration(lesson.durationHours)}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400">Importo</p>
+                  <p className="font-medium text-slate-800 break-words">{formatCurrency(lesson.amount)}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400">Tier</p>
+                  <p className="font-medium text-slate-800">{formatPercent(lesson.tierRate)}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400">Commissione</p>
+                  <p className="font-medium text-slate-800 break-words">
+                    {formatCurrency(lesson.commissionAmount)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="hidden sm:block bg-white rounded-3xl border border-slate-100 shadow-sm min-w-0 max-w-full">
           <ResponsiveTable>
             <table className="w-full">
               <thead>

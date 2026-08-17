@@ -5,7 +5,10 @@ import { ROLE_LABELS } from "../../types/roles";
 import PromoterSidebar from "./promoter/components/PromoterSidebar";
 import StudentSidebar from "./studente/components/StudentSidebar";
 import StudentHeaderActions from "./studente/components/StudentHeaderActions";
+import TutorSidebar from "./tutor/components/TutorSidebar";
+import TutorHeaderActions from "./tutor/components/TutorHeaderActions";
 import { MOCK_STUDENT, MOCK_NOTIFICATIONS } from "./studente/data";
+import { MOCK_TUTOR, MOCK_NOTIFICATIONS as TUTOR_NOTIFICATIONS } from "./tutor/data";
 
 interface AreaPersonaleLayoutProps {
   role: UserRole;
@@ -21,7 +24,12 @@ const AreaPersonaleLayout: React.FC<AreaPersonaleLayoutProps> = ({
   role,
   displayName = "Utente demo",
 }) => {
-  const resolvedName = role === "student" ? MOCK_STUDENT.displayName : displayName;
+  const resolvedName =
+    role === "student"
+      ? MOCK_STUDENT.displayName
+      : role === "tutor"
+        ? MOCK_TUTOR.displayName
+        : displayName;
 
   return (
     <div className="pt-28 pb-16 md:pt-32 md:pb-20 px-6 bg-gradient-to-b from-slate-50/80 to-white min-h-[70vh]">
@@ -40,6 +48,9 @@ const AreaPersonaleLayout: React.FC<AreaPersonaleLayoutProps> = ({
             {role === "student" && (
               <StudentHeaderActions notifications={MOCK_NOTIFICATIONS} />
             )}
+            {role === "tutor" && (
+              <TutorHeaderActions notifications={TUTOR_NOTIFICATIONS} />
+            )}
             <Link
               to="/login"
               className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors"
@@ -54,6 +65,8 @@ const AreaPersonaleLayout: React.FC<AreaPersonaleLayoutProps> = ({
             <PromoterSidebar />
           ) : role === "student" ? (
             <StudentSidebar />
+          ) : role === "tutor" ? (
+            <TutorSidebar />
           ) : (
             <aside className="hidden lg:block">
               <nav className="sticky top-28 space-y-2 p-4 rounded-2xl border border-slate-100 bg-white/80">

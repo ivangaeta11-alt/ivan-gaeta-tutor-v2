@@ -18,6 +18,16 @@ import StudenteGruppo from './pages/area-personale/studente/StudenteGruppo';
 import StudenteMateriali from './pages/area-personale/studente/StudenteMateriali';
 import StudenteCrediti from './pages/area-personale/studente/StudenteCrediti';
 import StudenteProfilo from './pages/area-personale/studente/StudenteProfilo';
+import TutorShell from './pages/area-personale/tutor/TutorShell';
+import TutorOverview from './pages/area-personale/tutor/TutorOverview';
+import TutorCalendario from './pages/area-personale/tutor/TutorCalendario';
+import TutorLezioneDetail from './pages/area-personale/tutor/TutorLezioneDetail';
+import TutorGruppi from './pages/area-personale/tutor/TutorGruppi';
+import TutorGruppoDetail from './pages/area-personale/tutor/TutorGruppoDetail';
+import TutorStudenteDetail from './pages/area-personale/tutor/TutorStudenteDetail';
+import TutorMateriali from './pages/area-personale/tutor/TutorMateriali';
+import TutorCompensi from './pages/area-personale/tutor/TutorCompensi';
+import TutorProfilo from './pages/area-personale/tutor/TutorProfilo';
 import PromoterShell from './pages/area-personale/promoter/PromoterShell';
 import PromoterDashboard from './pages/area-personale/PromoterDashboard';
 import PromoterStatistiche from './pages/area-personale/promoter/PromoterStatistiche';
@@ -25,7 +35,6 @@ import PromoterStudenteDetail from './pages/area-personale/promoter/PromoterStud
 import PromoterLiquidazioni from './pages/area-personale/promoter/PromoterLiquidazioni';
 import PromoterMateriale from './pages/area-personale/promoter/PromoterMateriale';
 import PromoterProfilo from './pages/area-personale/promoter/PromoterProfilo';
-import TutorDashboard from './pages/area-personale/TutorDashboard';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -51,6 +60,13 @@ root.render(
         <Route path="/area-studente/materiali" element={<Navigate to="/area-personale/studente/materiali" replace />} />
         <Route path="/area-studente/crediti" element={<Navigate to="/area-personale/studente/crediti" replace />} />
         <Route path="/area-studente/profilo" element={<Navigate to="/area-personale/studente/profilo" replace />} />
+        {/* Alias route tutor */}
+        <Route path="/area-tutor" element={<Navigate to="/area-personale/tutor" replace />} />
+        <Route path="/area-tutor/calendario" element={<Navigate to="/area-personale/tutor/calendario" replace />} />
+        <Route path="/area-tutor/gruppi" element={<Navigate to="/area-personale/tutor/gruppi" replace />} />
+        <Route path="/area-tutor/materiali" element={<Navigate to="/area-personale/tutor/materiali" replace />} />
+        <Route path="/area-tutor/compensi" element={<Navigate to="/area-personale/tutor/compensi" replace />} />
+        <Route path="/area-tutor/profilo" element={<Navigate to="/area-personale/tutor/profilo" replace />} />
         <Route path="/area-personale" element={<AreaPersonaleShell />}>
           <Route index element={<Navigate to="/login" replace />} />
           <Route path="studente" element={<StudenteShell />}>
@@ -69,7 +85,17 @@ root.render(
             <Route path="materiale" element={<PromoterMateriale />} />
             <Route path="profilo" element={<PromoterProfilo />} />
           </Route>
-          <Route path="tutor" element={<TutorDashboard />} />
+          <Route path="tutor" element={<TutorShell />}>
+            <Route index element={<TutorOverview />} />
+            <Route path="calendario" element={<TutorCalendario />} />
+            <Route path="lezione/:lessonId" element={<TutorLezioneDetail />} />
+            <Route path="gruppi" element={<TutorGruppi />} />
+            <Route path="gruppi/:groupId" element={<TutorGruppoDetail />} />
+            <Route path="gruppi/:groupId/studente/:studentId" element={<TutorStudenteDetail />} />
+            <Route path="materiali" element={<TutorMateriali />} />
+            <Route path="compensi" element={<TutorCompensi />} />
+            <Route path="profilo" element={<TutorProfilo />} />
+          </Route>
         </Route>
         <Route path="/test" element={<TestPage />} />
       </Routes>

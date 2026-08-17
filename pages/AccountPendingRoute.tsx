@@ -1,33 +1,35 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import Layout from "../layout/Layout";
-import LoginPage from "./LoginPage";
+import AccountPendingPage from "./AccountPendingPage";
 import AuthLoadingScreen from "../features/auth/AuthLoadingScreen";
 import { useAuth } from "../features/auth/AuthProvider";
-import { useGoToContact } from "../hooks/useGoToContact";
-import { getPostLoginPath } from "../types/roles";
+import { getDashboardRoles, getPostLoginPath } from "../types/roles";
 
-const LoginRoute: React.FC = () => {
-  const handleContact = useGoToContact();
+const AccountPendingRoute: React.FC = () => {
   const { loading, session, roles } = useAuth();
 
   if (loading) {
     return (
-      <Layout onContact={handleContact}>
+      <Layout variant="dashboard">
         <AuthLoadingScreen />
       </Layout>
     );
   }
 
-  if (session) {
+  if (!session) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (getDashboardRoles(roles).length > 0) {
     return <Navigate to={getPostLoginPath(roles)} replace />;
   }
 
   return (
-    <Layout onContact={handleContact}>
-      <LoginPage />
+    <Layout variant="dashboard">
+      <AccountPendingPage />
     </Layout>
   );
 };
 
-export default LoginRoute;
+export default AccountPendingRoute;

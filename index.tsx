@@ -2,12 +2,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './features/auth/AuthProvider';
 import App from './App';
 import TestPage from './pages/TestPage';
 import RisorseRoute from './pages/RisorseRoute';
 import OffertaFormativaRoute from './pages/OffertaFormativaRoute';
 import AmbitoRoute from './pages/AmbitoRoute';
 import LoginRoute from './pages/LoginRoute';
+import AccountPendingRoute from './pages/AccountPendingRoute';
+import RoleSelectionRoute from './pages/RoleSelectionRoute';
 import RegistrazioneRoute from './pages/RegistrazioneRoute';
 import CollaboraRoute from './pages/CollaboraRoute';
 import AreaPersonaleShell from './pages/area-personale/AreaPersonaleShell';
@@ -44,13 +47,16 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
         <Route path="/" element={<App />} />
         <Route path="/offerta-formativa" element={<OffertaFormativaRoute />} />
         <Route path="/offerta-formativa/:slug" element={<AmbitoRoute />} />
         <Route path="/risorse" element={<RisorseRoute />} />
         <Route path="/login" element={<LoginRoute />} />
+        <Route path="/area-personale/in-attesa" element={<AccountPendingRoute />} />
+        <Route path="/area-personale/selezione-area" element={<RoleSelectionRoute />} />
         <Route path="/registrazione" element={<RegistrazioneRoute />} />
         <Route path="/collabora" element={<CollaboraRoute />} />
         {/* Alias route preferita in specifica */}
@@ -102,7 +108,8 @@ root.render(
           </Route>
         </Route>
         <Route path="/test" element={<TestPage />} />
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   </React.StrictMode>
 );

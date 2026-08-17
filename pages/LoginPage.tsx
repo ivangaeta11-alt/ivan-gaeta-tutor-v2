@@ -1,10 +1,42 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../features/auth/AuthProvider";
+import { fetchProfileAndRoles } from "../lib/auth/userData";
+import { supabase } from "../lib/supabase/client";
+import { getPostLoginPath } from "../types/roles";
 
 const LoginPage: React.FC = () => {
-  const handleSubmit = (e: React.FormEvent) => {
+  const navigate = useNavigate();
+  const { signIn } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Auth reale non ancora implementata
+    setError(null);
+    setSubmitting(true);
+
+    const result = await signIn(email, password);
+    if (result.error) {
+      setError(result.error);
+      setSubmitting(false);
+      return;
+    }
+
+    const { data: sessionData } = await supabase.auth.getSession();
+    const userId = sessionData.session?.user?.id;
+
+    if (!userId) {
+      setError("Accesso non riuscito. Riprova.");
+      setSubmitting(false);
+      return;
+    }
+
+    const { roles } = await fetchProfileAndRoles(userId);
+    navigate(getPostLoginPath(roles), { replace: true });
+    setSubmitting(false);
   };
 
   return (
@@ -21,9 +53,18 @@ const LoginPage: React.FC = () => {
         </div>
 
         <form
-          onSubmit={handleSubmit}
+          onSubmit={(e) => void handleSubmit(e)}
           className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-5"
         >
+          {error && (
+            <div
+              role="alert"
+              className="p-3 rounded-xl bg-red-50 border border-red-100 text-sm text-red-700"
+            >
+              {error}
+            </div>
+          )}
+
           <div>
             <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-2">
               Email
@@ -32,6 +73,9 @@ const LoginPage: React.FC = () => {
               id="email"
               type="email"
               autoComplete="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="nome@email.com"
               className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400"
             />
@@ -44,15 +88,19 @@ const LoginPage: React.FC = () => {
               id="password"
               type="password"
               autoComplete="current-password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400"
             />
           </div>
           <button
             type="submit"
-            className="w-full py-3.5 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition-colors shadow-md shadow-blue-900/20"
+            disabled={submitting}
+            className="w-full py-3.5 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition-colors shadow-md shadow-blue-900/20 disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            Accedi
+            {submitting ? "Accesso in corso…" : "Accedi"}
           </button>
         </form>
 
@@ -67,39 +115,6 @@ const LoginPage: React.FC = () => {
               Vuoi collaborare? Scopri come
             </Link>
           </p>
-        </div>
-
-        {/* Demo only — remove when real auth lands */}
-        <div className="mt-12 p-6 rounded-3xl border border-dashed border-amber-200 bg-amber-50/40">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-amber-800 mb-2">
-            Accesso demo
-          </h2>
-          <p className="text-xs text-amber-700/80 font-light mb-5 leading-relaxed">
-            Solo per sviluppo e test. Verrà rimosso con l&apos;autenticazione reale.
-          </p>
-          <div className="flex flex-col gap-3">
-            <Link
-              to="/area-personale/studente"
-              onClick={() => window.scrollTo({ top: 0 })}
-              className="w-full text-center py-3 rounded-xl bg-white border border-slate-200 font-semibold text-slate-800 hover:border-blue-300 hover:text-blue-600 transition-colors"
-            >
-              Entra come studente
-            </Link>
-            <Link
-              to="/area-personale/promoter"
-              onClick={() => window.scrollTo({ top: 0 })}
-              className="w-full text-center py-3 rounded-xl bg-white border border-slate-200 font-semibold text-slate-800 hover:border-blue-300 hover:text-blue-600 transition-colors"
-            >
-              Entra come promoter
-            </Link>
-            <Link
-              to="/area-personale/tutor"
-              onClick={() => window.scrollTo({ top: 0 })}
-              className="w-full text-center py-3 rounded-xl bg-white border border-slate-200 font-semibold text-slate-800 hover:border-blue-300 hover:text-blue-600 transition-colors"
-            >
-              Entra come tutor
-            </Link>
-          </div>
         </div>
       </div>
     </section>

@@ -2,13 +2,15 @@
 import { Risorsa } from '../types/resource';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const SUPABASE_KEY =
+  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ??
+  import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 // Validazione variabili d'ambiente all'avvio
 if (!SUPABASE_URL || !SUPABASE_KEY) {
   console.error(
     '⚠️ Variabili d\'ambiente Supabase mancanti!\n' +
-    'Assicurati di aver configurato VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY nel file .env'
+    'Assicurati di aver configurato VITE_SUPABASE_URL e VITE_SUPABASE_PUBLISHABLE_KEY nel file .env.local'
   );
 }
 

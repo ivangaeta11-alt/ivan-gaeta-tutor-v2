@@ -280,11 +280,11 @@ export const MOCK_NOTIFICATIONS: TutorNotification[] = [
 ];
 
 export const MOCK_AVAILABILITY: AvailabilitySlot[] = [
-  { day: "Lunedì", start: "09:00", end: "13:00" },
-  { day: "Martedì", start: "14:00", end: "20:00" },
-  { day: "Mercoledì", start: "09:00", end: "13:00" },
-  { day: "Giovedì", start: "14:00", end: "20:00" },
-  { day: "Venerdì", start: "09:00", end: "12:00" },
+  { id: "rec_001", day: "Lunedì", start: "09:00", end: "13:00" },
+  { id: "rec_002", day: "Martedì", start: "14:00", end: "20:00" },
+  { id: "rec_003", day: "Mercoledì", start: "09:00", end: "13:00" },
+  { id: "rec_004", day: "Giovedì", start: "14:00", end: "20:00" },
+  { id: "rec_005", day: "Venerdì", start: "09:00", end: "12:00" },
 ];
 
 export const MOCK_CALENDAR_AVAILABILITY: TutorCalendarSlot[] = [
@@ -294,7 +294,7 @@ export const MOCK_CALENDAR_AVAILABILITY: TutorCalendarSlot[] = [
 ];
 
 export const MOCK_UNAVAILABILITY: UnavailabilityPeriod[] = [
-  { start: "2026-08-25", end: "2026-08-31", reason: "Ferie estive" },
+  { id: "unav_001", start: "2026-08-25", end: "2026-08-31", reason: "Ferie estive" },
 ];
 
 export const MOCK_GROUP_VOTES: GroupVote[] = [

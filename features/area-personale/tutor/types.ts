@@ -36,12 +36,14 @@ export interface Tutor {
 }
 
 export interface AvailabilitySlot {
+  id: string;
   day: string;
   start: string;
   end: string;
 }
 
 export interface UnavailabilityPeriod {
+  id: string;
   start: string;
   end: string;
   reason: string;

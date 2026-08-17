@@ -3,13 +3,8 @@ import { Link } from "react-router-dom";
 import PageHeader from "../../../features/area-personale/studente/components/PageHeader";
 import DashboardCard from "../../../features/area-personale/DashboardCard";
 import InfoNotice from "../../../features/area-personale/studente/components/InfoNotice";
-import {
-  MOCK_TUTOR,
-  MOCK_AVAILABILITY,
-  MOCK_UNAVAILABILITY,
-} from "../../../features/area-personale/tutor/data";
+import { MOCK_TUTOR } from "../../../features/area-personale/tutor/data";
 import { tutorAvailabilitySession } from "../../../features/area-personale/tutor/data/tutorAvailabilitySession";
-import { formatDateShort } from "../../../features/area-personale/studente/utils/format";
 
 const TutorProfilo: React.FC = () => {
   const [saved, setSaved] = useState(false);
@@ -18,7 +13,7 @@ const TutorProfilo: React.FC = () => {
 
   return (
     <div>
-      <PageHeader title="Profilo e disponibilità" description="Dati professionali e fasce orarie." />
+      <PageHeader title="Profilo" description="Dati professionali e contatti." />
 
       {saved && (
         <div className="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-100 text-sm text-emerald-800">
@@ -39,55 +34,51 @@ const TutorProfilo: React.FC = () => {
           </div>
           <label className="block mb-3">
             <span className="text-xs font-semibold text-slate-600">Descrizione</span>
-            <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} className="mt-1 w-full px-3 py-2 rounded-xl border border-slate-200 text-sm" />
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={3}
+              className="mt-1 w-full px-3 py-2 rounded-xl border border-slate-200 text-sm"
+            />
           </label>
-          <p className="text-sm text-slate-600 mb-1">Materie: {MOCK_TUTOR.subjects.join(", ")}</p>
-          <p className="text-sm text-slate-600">Modalità: {MOCK_TUTOR.modes.map((m) => (m === "online" ? "Online" : "In presenza")).join(", ")}</p>
+          <p className="text-sm text-slate-600 mb-1">
+            Materie: {MOCK_TUTOR.subjects.join(", ")}
+          </p>
+          <p className="text-sm text-slate-600">
+            Modalità:{" "}
+            {MOCK_TUTOR.modes.map((m) => (m === "online" ? "Online" : "In presenza")).join(", ")}
+          </p>
         </DashboardCard>
 
         <DashboardCard title="Videolezione">
           <label className="block">
             <span className="text-xs font-semibold text-slate-600">Link abituale</span>
-            <input type="url" value={videoLink} onChange={(e) => setVideoLink(e.target.value)} className="mt-1 w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-mono" />
+            <input
+              type="url"
+              value={videoLink}
+              onChange={(e) => setVideoLink(e.target.value)}
+              className="mt-1 w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-mono"
+            />
           </label>
         </DashboardCard>
       </div>
 
-      <DashboardCard title="Disponibilità settimanale">
-        <ul className="space-y-2 mb-4">
-          {MOCK_AVAILABILITY.map((slot) => (
-            <li key={slot.day} className="flex justify-between text-sm p-2 rounded-lg bg-slate-50">
-              <span className="font-medium">{slot.day}</span>
-              <span className="text-slate-600">{slot.start} – {slot.end}</span>
-            </li>
-          ))}
-        </ul>
-        <p className="text-xs text-slate-500 mb-2">
-          Slot su date specifiche nel calendario: {tutorAvailabilitySession.slots.length} registrati
-          (demo).
+      <DashboardCard title="Disponibilità">
+        <p className="text-sm text-slate-600 mb-3">
+          {tutorAvailabilitySession.recurring.length} fasce ricorrenti ·{" "}
+          {tutorAvailabilitySession.slots.length} slot puntuali ·{" "}
+          {tutorAvailabilitySession.unavailability.length} periodi di indisponibilità (demo).
         </p>
         <Link
           to="/area-personale/tutor/calendario"
           className="text-sm font-semibold text-blue-600 hover:text-blue-700"
         >
-          Gestisci disponibilità nel calendario →
+          Gestisci calendario e disponibilità →
         </Link>
       </DashboardCard>
 
-      <div className="mt-6">
-        <DashboardCard title="Periodi di indisponibilità">
-          <ul className="space-y-2">
-            {MOCK_UNAVAILABILITY.map((p) => (
-              <li key={p.start} className="text-sm text-slate-600">
-                {formatDateShort(p.start)} – {formatDateShort(p.end)}: {p.reason}
-              </li>
-            ))}
-          </ul>
-        </DashboardCard>
-      </div>
-
       <InfoNotice>
-        Le modifiche alla disponibilità non cambiano automaticamente le lezioni già programmate.
+        Le modifiche al profilo non cambiano automaticamente le lezioni già programmate.
       </InfoNotice>
 
       <button

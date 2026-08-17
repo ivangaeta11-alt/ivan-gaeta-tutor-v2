@@ -34,30 +34,30 @@ const AreaPersonaleLayout: React.FC<AreaPersonaleLayoutProps> = ({
   return (
     <div className="pt-28 pb-16 md:pt-32 md:pb-20 px-4 sm:px-6 bg-gradient-to-b from-slate-50/80 to-white min-h-[70vh] overflow-x-hidden">
       <div className="max-w-6xl mx-auto w-full min-w-0">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10 pb-6 border-b border-slate-100 min-w-0">
-          <div className="min-w-0">
-            <p className="text-sm font-semibold text-blue-600 mb-1">Area personale</p>
-            <p className="text-slate-500 font-light text-sm break-words">
-              {resolvedName} · {ROLE_LABELS[role]}
-              <span className="ml-2 text-xs text-amber-600 bg-amber-50 border border-amber-100 px-2 py-0.5 rounded-lg whitespace-nowrap">
-                demo
-              </span>
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center justify-end gap-3 w-full md:w-auto ml-auto shrink-0 min-w-0">
+        <div className="flex items-start justify-between gap-4 mb-10 pb-6 border-b border-slate-100 min-w-0">
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            <div className="min-w-0">
+              <p className="text-sm font-semibold text-blue-600 mb-1">Area personale</p>
+              <p className="text-slate-500 font-light text-sm break-words">
+                {resolvedName} · {ROLE_LABELS[role]}
+                <span className="ml-2 text-xs text-amber-600 bg-amber-50 border border-amber-100 px-2 py-0.5 rounded-lg whitespace-nowrap">
+                  demo
+                </span>
+              </p>
+            </div>
             {role === "student" && (
               <StudentHeaderActions notifications={MOCK_NOTIFICATIONS} />
             )}
             {role === "tutor" && (
               <TutorHeaderActions notifications={TUTOR_NOTIFICATIONS} />
             )}
-            <Link
-              to="/login"
-              className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors"
-            >
-              Esci (demo)
-            </Link>
           </div>
+          <Link
+            to="/login"
+            className="shrink-0 text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors pt-0.5"
+          >
+            Esci (demo)
+          </Link>
         </div>
 
         <div className="grid lg:grid-cols-[220px_minmax(0,1fr)] gap-6 lg:gap-8 min-w-0">

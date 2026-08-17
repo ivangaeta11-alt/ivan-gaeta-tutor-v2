@@ -25,7 +25,7 @@ interface PanelPosition {
 function computePanelPosition(buttonEl: HTMLElement): PanelPosition {
   const rect = buttonEl.getBoundingClientRect();
   const width = Math.min(PANEL_MAX_WIDTH, window.innerWidth - VIEWPORT_MARGIN * 2);
-  let left = rect.right - width;
+  let left = rect.left;
   left = Math.max(
     VIEWPORT_MARGIN,
     Math.min(left, window.innerWidth - width - VIEWPORT_MARGIN)

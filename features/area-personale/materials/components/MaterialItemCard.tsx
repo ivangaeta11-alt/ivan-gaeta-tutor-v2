@@ -2,7 +2,7 @@ import React from "react";
 import type { ExplorerItem } from "./MaterialItemRow";
 import MaterialTypeIcon from "./MaterialTypeIcon";
 import MaterialStatusBadge from "./MaterialStatusBadge";
-import { formatDateShort } from "../../utils/format";
+import { formatDateShort } from "../../studente/utils/format";
 
 interface MaterialItemCardProps {
   item: ExplorerItem;

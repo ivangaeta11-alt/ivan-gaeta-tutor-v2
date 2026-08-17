@@ -1,5 +1,5 @@
 import React from "react";
-import InfoNotice from "../../components/InfoNotice";
+import InfoNotice from "../../studente/components/InfoNotice";
 
 const ArchivedWorkspaceNotice: React.FC = () => (
   <InfoNotice>

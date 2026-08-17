@@ -22,6 +22,8 @@ export type MaterialsSortField = "name" | "date" | "type";
 
 export type MaterialsArea = "tutor" | "submissions";
 
+export type MaterialsRole = "student" | "tutor";
+
 export interface MaterialPermissions {
   canView: boolean;
   canDownload: boolean;

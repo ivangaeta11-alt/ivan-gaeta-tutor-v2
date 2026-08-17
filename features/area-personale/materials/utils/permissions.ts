@@ -2,7 +2,8 @@ import type {
   MaterialPermissions,
   MaterialWorkspace,
   MaterialsArea,
-} from "./types";
+  MaterialsRole,
+} from "../types";
 
 const READONLY: MaterialPermissions = {
   canView: true,
@@ -14,7 +15,17 @@ const READONLY: MaterialPermissions = {
   canDelete: false,
 };
 
-const STUDENT_MANAGED: MaterialPermissions = {
+const STUDENT_SUBMISSIONS: MaterialPermissions = {
+  canView: true,
+  canDownload: true,
+  canUpload: true,
+  canCreateFolder: true,
+  canRename: true,
+  canReplace: true,
+  canDelete: true,
+};
+
+const TUTOR_MANAGED: MaterialPermissions = {
   canView: true,
   canDownload: true,
   canUpload: true,
@@ -34,8 +45,9 @@ const GUEST_LIMITED: MaterialPermissions = {
   canDelete: false,
 };
 
-/** Permessi centralizzati per area e workspace — solo presentazione UI, non sicurezza backend. */
+/** Permessi UI centralizzati per ruolo, area e workspace — demo, non sicurezza backend. */
 export function getMaterialPermissions(
+  role: MaterialsRole,
   workspace: MaterialWorkspace,
   area: MaterialsArea
 ): MaterialPermissions {
@@ -47,12 +59,19 @@ export function getMaterialPermissions(
     return READONLY;
   }
 
+  if (role === "tutor") {
+    if (area === "tutor") {
+      return TUTOR_MANAGED;
+    }
+    return READONLY;
+  }
+
   if (area === "tutor") {
     return READONLY;
   }
 
   if (area === "submissions") {
-    return STUDENT_MANAGED;
+    return STUDENT_SUBMISSIONS;
   }
 
   return READONLY;
@@ -60,4 +79,14 @@ export function getMaterialPermissions(
 
 export function isArchivedWorkspace(workspace: MaterialWorkspace): boolean {
   return workspace.isArchived || workspace.accessMode === "archived_readonly";
+}
+
+export function getSystemFolderDisplayName(
+  folder: { name: string; systemKind?: MaterialsArea },
+  role: MaterialsRole
+): string {
+  if (folder.systemKind === "submissions" && role === "tutor") {
+    return "Svolgimenti degli studenti";
+  }
+  return folder.name;
 }

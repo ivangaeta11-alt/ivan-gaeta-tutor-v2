@@ -3,7 +3,7 @@ import { Download, Play } from "lucide-react";
 import type { MaterialFile } from "../types";
 import { FILE_TYPE_LABELS } from "../types";
 import MaterialTypeIcon from "./MaterialTypeIcon";
-import { formatDateShort } from "../../utils/format";
+import { formatDateShort } from "../../studente/utils/format";
 import { useMaterials } from "../context/MaterialsContext";
 
 interface FilePreviewModalProps {

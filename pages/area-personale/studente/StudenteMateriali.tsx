@@ -1,11 +1,11 @@
 import React from "react";
-import { MaterialsProvider } from "../../../features/area-personale/studente/materials/context/MaterialsContext";
-import StudentMaterialsPage from "../../../features/area-personale/studente/materials/components/StudentMaterialsPage";
+import { MaterialsProvider } from "../../../features/area-personale/materials/context/MaterialsContext";
+import MaterialsShellPage from "../../../features/area-personale/materials/components/MaterialsShellPage";
 
 const StudenteMateriali: React.FC = () => {
   return (
-    <MaterialsProvider>
-      <StudentMaterialsPage />
+    <MaterialsProvider role="student">
+      <MaterialsShellPage />
     </MaterialsProvider>
   );
 };

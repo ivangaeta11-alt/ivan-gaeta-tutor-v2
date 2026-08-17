@@ -1,11 +1,11 @@
 import React from "react";
-import PageHeader from "../../components/PageHeader";
+import PageHeader from "../../studente/components/PageHeader";
 import MaterialsToolbar from "./MaterialsToolbar";
 import WorkspaceCard from "./WorkspaceCard";
 import MaterialTypeIcon from "./MaterialTypeIcon";
 import MaterialStatusBadge from "./MaterialStatusBadge";
 import { useMaterials } from "../context/MaterialsContext";
-import { formatDateShort } from "../../utils/format";
+import { formatDateShort } from "../../studente/utils/format";
 import { FILE_TYPE_LABELS } from "../types";
 
 const MaterialsHome: React.FC = () => {

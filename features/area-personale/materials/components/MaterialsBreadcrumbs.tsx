@@ -1,9 +1,11 @@
 import React from "react";
-import { ChevronRight } from "lucide-react";
 import { useMaterials } from "../context/MaterialsContext";
+import { getSystemFolderDisplayName } from "../utils/permissions";
+import { ChevronRight } from "lucide-react";
 
 const MaterialsBreadcrumbs: React.FC = () => {
-  const { currentWorkspace, breadcrumb, goHome, openFolder, openWorkspace } = useMaterials();
+  const { role, currentWorkspace, breadcrumb, goHome, openFolder, openWorkspace } =
+    useMaterials();
 
   if (!currentWorkspace) return null;
 
@@ -35,7 +37,7 @@ const MaterialsBreadcrumbs: React.FC = () => {
             onClick={() => openFolder(folder.id)}
             className="font-medium text-slate-700 hover:text-blue-600 truncate max-w-[120px] sm:max-w-none"
           >
-            {folder.name}
+            {getSystemFolderDisplayName(folder, role)}
           </button>
         </React.Fragment>
       ))}

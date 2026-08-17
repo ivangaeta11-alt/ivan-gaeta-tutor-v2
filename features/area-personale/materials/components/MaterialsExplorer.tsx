@@ -10,13 +10,14 @@ import FilePreviewModal from "./FilePreviewModal";
 import AssignmentDetailsModal from "./AssignmentDetailsModal";
 import CreateFolderDialog from "./CreateFolderDialog";
 import UploadFileDialog from "./UploadFileDialog";
-import ConfirmDialog from "../../components/ConfirmDialog";
+import ConfirmDialog from "../../studente/components/ConfirmDialog";
 import { useMaterials } from "../context/MaterialsContext";
-import { isArchivedWorkspace } from "../utils/permissions";
+import { isArchivedWorkspace, getSystemFolderDisplayName } from "../utils/permissions";
 import type { FileType } from "../types";
 
 const MaterialsExplorer: React.FC = () => {
   const {
+    role,
     currentWorkspace,
     navigation,
     folders,
@@ -86,8 +87,12 @@ const MaterialsExplorer: React.FC = () => {
         (f) => f.workspaceId === wsId && f.parentId === folderId
       );
       const current = folders.find((f) => f.id === folderId);
-      if (current?.systemKind === "submissions") {
+      if (current?.systemKind === "submissions" && role === "student") {
         folderAssignments = assignments.filter((a) => a.workspaceId === wsId);
+      } else if (current?.systemKind === "submissions" && role === "tutor") {
+        folderAssignments = assignments.filter(
+          (a) => a.workspaceId === wsId && a.studentFile
+        );
       }
     }
 
@@ -114,6 +119,7 @@ const MaterialsExplorer: React.FC = () => {
     assignments,
     searchQuery,
     typeFilter,
+    role,
   ]);
 
   const sortedItems = useMemo(() => {
@@ -151,7 +157,47 @@ const MaterialsExplorer: React.FC = () => {
   const handleOpen = (item: ExplorerItem) => {
     if (item.kind === "folder") openFolder(item.data.id);
     else if (item.kind === "file") openPreview(item.data);
-    else openAssignment(item.data);
+    else if (role === "tutor" && item.data.studentFile) {
+      window.alert(`Download simulato: ${item.data.studentFile.name}`);
+    } else openAssignment(item.data);
+  };
+
+  const emptyMessage = (() => {
+    if (!navigation.folderId) {
+      return "Seleziona una cartella di sistema per iniziare.";
+    }
+    if (role === "tutor" && currentArea === "submissions") {
+      return "Nessuno svolgimento caricato dagli studenti.";
+    }
+    if (role === "tutor" && currentArea === "tutor" && permissions.canUpload) {
+      return "Nessun file in questa cartella. Carica un file o crea una sottocartella.";
+    }
+    return "Nessun elemento in questa cartella.";
+  })();
+
+  const getItemDisplayName = (item: ExplorerItem) => {
+    if (item.kind === "folder") {
+      return getSystemFolderDisplayName(item.data, role);
+    }
+    if (item.kind === "assignment" && role === "tutor" && item.data.studentFile) {
+      return item.data.studentFile.name;
+    }
+    return item.kind === "assignment" ? item.data.title : item.data.name;
+  };
+
+  const getDownloadHandler = (item: ExplorerItem) => {
+    if (item.kind === "file" && permissions.canDownload) {
+      return () => window.alert(`Download simulato: ${item.data.name}`);
+    }
+    if (
+      item.kind === "assignment" &&
+      role === "tutor" &&
+      item.data.studentFile
+    ) {
+      return () =>
+        window.alert(`Download simulato: ${item.data.studentFile!.name}`);
+    }
+    return undefined;
   };
 
   const toolbarActions =
@@ -166,7 +212,7 @@ const MaterialsExplorer: React.FC = () => {
             <FolderPlus className="w-4 h-4" /> Nuova cartella
           </button>
         )}
-        {permissions.canUpload && navigation.folderId && currentArea === "submissions" && (
+        {permissions.canUpload && navigation.folderId && (
           <button
             type="button"
             onClick={() => setUploadOpen(true)}
@@ -198,7 +244,9 @@ const MaterialsExplorer: React.FC = () => {
 
       {showSubmissionsNotice && navigation.folderId && (
         <div className="mb-4 p-3 rounded-xl bg-violet-50/60 border border-violet-100 text-xs text-violet-800">
-          Le mie consegne — area privata visibile a te, al tutor assegnato e a Ivan.
+          {role === "tutor"
+            ? "Svolgimenti degli studenti — area di sola consultazione e download."
+            : "Le mie consegne — area privata visibile a te, al tutor assegnato e a Ivan."}
         </div>
       )}
 
@@ -227,13 +275,7 @@ const MaterialsExplorer: React.FC = () => {
       )}
 
       {sortedItems.length === 0 ? (
-        <EmptyFolderState
-          message={
-            navigation.folderId
-              ? "Nessun elemento in questa cartella."
-              : "Seleziona una cartella di sistema per iniziare."
-          }
-        />
+        <EmptyFolderState message={emptyMessage} />
       ) : viewMode === "list" ? (
         <div className="space-y-2">
           {sortedItems.map((item) => (
@@ -244,13 +286,10 @@ const MaterialsExplorer: React.FC = () => {
                   : item.data.id
               }
               item={item}
-              showStatus={currentArea === "submissions"}
+              displayName={getItemDisplayName(item)}
+              showStatus={role === "student" && currentArea === "submissions"}
               onOpen={() => handleOpen(item)}
-              onDownload={
-                item.kind === "file" && permissions.canDownload
-                  ? () => window.alert(`Download simulato: ${item.data.name}`)
-                  : undefined
-              }
+              onDownload={getDownloadHandler(item)}
               onRename={
                 item.kind === "folder" &&
                 !item.data.isSystem &&
@@ -297,11 +336,7 @@ const MaterialsExplorer: React.FC = () => {
               key={item.kind === "assignment" ? item.data.id : item.data.id}
               item={item}
               onOpen={() => handleOpen(item)}
-              onDownload={
-                item.kind === "file" && permissions.canDownload
-                  ? () => window.alert(`Download simulato: ${item.data.name}`)
-                  : undefined
-              }
+              onDownload={getDownloadHandler(item)}
               onDelete={
                 item.kind === "file" && permissions.canDelete
                   ? () =>
@@ -320,7 +355,7 @@ const MaterialsExplorer: React.FC = () => {
       {previewFile && (
         <FilePreviewModal file={previewFile} onClose={closePreview} />
       )}
-      {activeAssignment && (
+      {activeAssignment && role === "student" && (
         <AssignmentDetailsModal assignment={activeAssignment} onClose={closeAssignment} />
       )}
       <CreateFolderDialog

@@ -2,7 +2,7 @@ import React from "react";
 import { Archive, FolderOpen, Lock, Users, User } from "lucide-react";
 import type { MaterialWorkspace } from "../types";
 import { WORKSPACE_TYPE_LABELS } from "../types";
-import { formatDateShort } from "../../utils/format";
+import { formatDateShort } from "../../studente/utils/format";
 
 interface WorkspaceCardProps {
   workspace: MaterialWorkspace;

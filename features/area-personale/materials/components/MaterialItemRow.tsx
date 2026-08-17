@@ -3,7 +3,7 @@ import type { MaterialAssignment, MaterialFile, MaterialFolder } from "../types"
 import MaterialTypeIcon from "./MaterialTypeIcon";
 import MaterialStatusBadge from "./MaterialStatusBadge";
 import { FILE_TYPE_LABELS } from "../types";
-import { formatDateShort } from "../../utils/format";
+import { formatDateShort } from "../../studente/utils/format";
 
 export type ExplorerItem =
   | { kind: "folder"; data: MaterialFolder }
@@ -12,6 +12,8 @@ export type ExplorerItem =
 
 interface MaterialItemRowProps {
   item: ExplorerItem;
+  displayName?: string;
+  authorLabel?: string;
   showStatus?: boolean;
   onOpen: () => void;
   onDownload?: () => void;
@@ -22,6 +24,8 @@ interface MaterialItemRowProps {
 
 const MaterialItemRow: React.FC<MaterialItemRowProps> = ({
   item,
+  displayName,
+  authorLabel,
   showStatus,
   onOpen,
   onDownload,
@@ -30,7 +34,8 @@ const MaterialItemRow: React.FC<MaterialItemRowProps> = ({
   onDelete,
 }) => {
   const name =
-    item.kind === "assignment" ? item.data.title : item.data.name;
+    displayName ??
+    (item.kind === "assignment" ? item.data.title : item.data.name);
   const modified =
     item.kind === "folder"
       ? item.data.lastUpdated
@@ -38,11 +43,14 @@ const MaterialItemRow: React.FC<MaterialItemRowProps> = ({
         ? item.data.lastModified
         : item.data.publishedAt;
   const author =
-    item.kind === "file"
+    authorLabel ??
+    (item.kind === "file"
       ? item.data.publishedBy
       : item.kind === "assignment"
-        ? item.data.tutorName
-        : "—";
+        ? item.data.studentFile
+          ? "Studente"
+          : item.data.tutorName
+        : "—");
   const size = item.kind === "file" ? item.data.sizeLabel : "—";
   const typeLabel =
     item.kind === "folder"

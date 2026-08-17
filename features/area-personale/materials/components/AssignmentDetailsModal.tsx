@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Download, Upload } from "lucide-react";
 import type { MaterialAssignment } from "../types";
 import MaterialStatusBadge from "./MaterialStatusBadge";
-import { formatDateShort } from "../../utils/format";
+import { formatDateShort } from "../../studente/utils/format";
 import { useMaterials } from "../context/MaterialsContext";
 import { isArchivedWorkspace } from "../utils/permissions";
 

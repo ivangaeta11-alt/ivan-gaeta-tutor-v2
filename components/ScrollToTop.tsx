@@ -4,7 +4,7 @@ import {
   isMaterialsInternalNavigation,
   parseMaterialsPath,
   shouldScrollMaterialsEntry,
-} from "../features/area-personale/studente/materials/utils/materialsRoutes";
+} from "../features/area-personale/materials/utils/materialsRoutes";
 
 const scrollPositionsByPath = new Map<string, number>();
 

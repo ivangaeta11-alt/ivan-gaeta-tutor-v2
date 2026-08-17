@@ -31,9 +31,11 @@ import {
   buildMaterialsPath,
   resolveMaterialsLocation,
 } from "../utils/materialsRoutes";
-import type { FileType, MaterialsArea } from "../types";
+import type { FileType, MaterialsArea, MaterialsRole } from "../types";
+import { materialsSessionState } from "../data/materialsSessionState";
 
 interface MaterialsContextValue {
+  role: MaterialsRole;
   workspaces: MaterialWorkspace[];
   activeWorkspaces: MaterialWorkspace[];
   archivedWorkspaces: MaterialWorkspace[];
@@ -119,9 +121,10 @@ function sortItems<T extends { name?: string; lastModified?: string; fileType?: 
   });
 }
 
-export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const MaterialsProvider: React.FC<{
+  children: React.ReactNode;
+  role: MaterialsRole;
+}> = ({ children, role }) => {
   const { workspaceId: workspaceParam, folderId: folderParam } = useParams<{
     workspaceId?: string;
     folderId?: string;
@@ -132,8 +135,12 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
   const [sortField, setSortField] = useState<MaterialsSortField>("name");
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<FileType | "all">("all");
-  const [folders, setFolders] = useState<MaterialFolder[]>(MOCK_MATERIAL_FOLDERS);
-  const [files, setFiles] = useState<MaterialFile[]>(MOCK_MATERIAL_FILES);
+  const [folders, setFoldersState] = useState<MaterialFolder[]>(
+    () => materialsSessionState.folders
+  );
+  const [files, setFilesState] = useState<MaterialFile[]>(
+    () => materialsSessionState.files
+  );
   const [assignments, setAssignments] = useState<MaterialAssignment[]>(
     MOCK_MATERIAL_ASSIGNMENTS
   );
@@ -145,8 +152,9 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 
   const resolvedLocation = useMemo(
-    () => resolveMaterialsLocation(workspaceParam, folderParam, folders),
-    [workspaceParam, folderParam, folders]
+    () =>
+      resolveMaterialsLocation(role, workspaceParam, folderParam, folders),
+    [role, workspaceParam, folderParam, folders]
   );
 
   useEffect(() => {
@@ -165,12 +173,20 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
     [resolvedLocation]
   );
 
-  const workspaces = MOCK_MATERIAL_WORKSPACES;
+  const allWorkspaces = MOCK_MATERIAL_WORKSPACES;
+  const workspaces = useMemo(
+    () =>
+      role === "tutor"
+        ? allWorkspaces.filter((w) => w.type !== "guest")
+        : allWorkspaces,
+    [role, allWorkspaces]
+  );
   const activeWorkspaces = workspaces.filter(
     (w) => w.status === "active" && !w.isArchived
   );
   const archivedWorkspaces = workspaces.filter((w) => w.isArchived);
-  const guestWorkspaces = workspaces.filter((w) => w.status === "guest");
+  const guestWorkspaces =
+    role === "student" ? workspaces.filter((w) => w.status === "guest") : [];
 
   const currentWorkspace = navigation.workspaceId
     ? getWorkspaceById(navigation.workspaceId) ?? null
@@ -182,7 +198,7 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
     : null;
   const currentArea = inferArea(currentFolder);
   const permissions = currentWorkspace
-    ? getMaterialPermissions(currentWorkspace, currentArea)
+    ? getMaterialPermissions(role, currentWorkspace, currentArea)
     : {
         canView: true,
         canDownload: false,
@@ -204,6 +220,28 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
     return path;
   }, [currentFolder, folders]);
 
+  const setFolders = useCallback(
+    (updater: MaterialFolder[] | ((prev: MaterialFolder[]) => MaterialFolder[])) => {
+      setFoldersState((prev) => {
+        const next = typeof updater === "function" ? updater(prev) : updater;
+        materialsSessionState.folders = next;
+        return next;
+      });
+    },
+    []
+  );
+
+  const setFiles = useCallback(
+    (updater: MaterialFile[] | ((prev: MaterialFile[]) => MaterialFile[])) => {
+      setFilesState((prev) => {
+        const next = typeof updater === "function" ? updater(prev) : updater;
+        materialsSessionState.files = next;
+        return next;
+      });
+    },
+    []
+  );
+
   const markOpened = useCallback((id: string) => {
     setOpenedIds((prev) => new Set(prev).add(id));
     setFiles((prev) =>
@@ -216,20 +254,20 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const openWorkspace = useCallback(
     (workspaceId: string) => {
-      navigate(buildMaterialsPath(workspaceId));
+      navigate(buildMaterialsPath(role, workspaceId));
       setSearchQuery("");
       setTypeFilter("all");
     },
-    [navigate]
+    [navigate, role]
   );
 
   const navigateToLocation = useCallback(
     (workspaceId: string, folderId: string) => {
-      navigate(buildMaterialsPath(workspaceId, folderId));
+      navigate(buildMaterialsPath(role, workspaceId, folderId));
       setSearchQuery("");
       setTypeFilter("all");
     },
-    [navigate]
+    [navigate, role]
   );
 
   const openFolder = useCallback(
@@ -237,10 +275,10 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
       const folder =
         folders.find((f) => f.id === folderId) ?? getFolderById(folderId);
       if (!folder) return;
-      navigate(buildMaterialsPath(folder.workspaceId, folderId));
+      navigate(buildMaterialsPath(role, folder.workspaceId, folderId));
       setSearchQuery("");
     },
-    [navigate, folders]
+    [navigate, folders, role]
   );
 
   const openRecent = useCallback(
@@ -248,23 +286,23 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
       if (entry.assignmentId) {
         const asg = assignments.find((a) => a.id === entry.assignmentId);
         if (asg) {
-          navigate(buildMaterialsPath(entry.workspaceId, entry.targetFolderId));
+          navigate(buildMaterialsPath(role, entry.workspaceId, entry.targetFolderId));
           setActiveAssignment(asg);
           return;
         }
       }
-      navigate(buildMaterialsPath(entry.workspaceId, entry.targetFolderId));
+      navigate(buildMaterialsPath(role, entry.workspaceId, entry.targetFolderId));
       markOpened(entry.id);
     },
-    [assignments, markOpened, navigate]
+    [assignments, markOpened, navigate, role]
   );
 
   const goHome = useCallback(() => {
-    navigate(buildMaterialsPath());
+    navigate(buildMaterialsPath(role));
     setSearchQuery("");
     setActiveAssignment(null);
     setPreviewFile(null);
-  }, [navigate]);
+  }, [navigate, role]);
 
   const goBack = useCallback(() => {
     navigate(-1);
@@ -304,7 +342,7 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
         },
       ]);
     },
-    [navigation, permissions.canCreateFolder]
+    [navigation, permissions.canCreateFolder, setFolders]
   );
 
   const uploadFile = useCallback(
@@ -312,6 +350,7 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
       if (!navigation.workspaceId || !navigation.folderId || !permissions.canUpload) {
         return;
       }
+      const author = role === "tutor" ? "Ivan Gaeta" : "Marco R.";
       const id = `file_${Date.now()}`;
       setFiles((prev) => [
         ...prev,
@@ -322,15 +361,15 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
           name,
           fileType,
           sizeLabel: "850 KB",
-          author: "Marco R.",
-          publishedBy: "Marco R.",
+          author,
+          publishedBy: author,
           lastModified: new Date().toISOString().slice(0, 10),
           isNew: false,
-          area: "submissions",
+          area: currentArea,
         },
       ]);
     },
-    [navigation, permissions.canUpload]
+    [navigation, permissions.canUpload, role, currentArea, setFiles]
   );
 
   const renameFolder = useCallback(
@@ -343,7 +382,7 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
         )
       );
     },
-    [folders, permissions.canRename]
+    [folders, permissions.canRename, setFolders]
   );
 
   const renameFile = useCallback(
@@ -357,7 +396,7 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
         )
       );
     },
-    [permissions.canRename]
+    [permissions.canRename, setFiles]
   );
 
   const replaceFile = useCallback(
@@ -371,7 +410,7 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
         )
       );
     },
-    [permissions.canReplace]
+    [permissions.canReplace, setFiles]
   );
 
   const deleteFolder = useCallback(
@@ -381,7 +420,7 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
       setFolders((prev) => prev.filter((f) => f.id !== id && f.parentId !== id));
       setFiles((prev) => prev.filter((f) => f.parentId !== id));
     },
-    [folders, permissions.canDelete]
+    [folders, permissions.canDelete, setFolders, setFiles]
   );
 
   const deleteFile = useCallback(
@@ -389,7 +428,7 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
       if (!permissions.canDelete) return;
       setFiles((prev) => prev.filter((f) => f.id !== id));
     },
-    [permissions.canDelete]
+    [permissions.canDelete, setFiles]
   );
 
   const updateAssignment = useCallback(
@@ -439,6 +478,7 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const value = useMemo<MaterialsContextValue>(
     () => ({
+      role,
       workspaces,
       activeWorkspaces,
       archivedWorkspaces,
@@ -486,6 +526,7 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
       globalSearchResults,
     }),
     [
+      role,
       workspaces,
       activeWorkspaces,
       archivedWorkspaces,

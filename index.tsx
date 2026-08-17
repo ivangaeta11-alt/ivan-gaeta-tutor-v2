@@ -94,6 +94,8 @@ root.render(
             <Route path="gruppi" element={<TutorGruppi />} />
             <Route path="gruppi/:groupId" element={<TutorGruppoDetail />} />
             <Route path="gruppi/:groupId/studente/:studentId" element={<TutorStudenteDetail />} />
+            <Route path="materiali/:workspaceId/:folderId" element={<TutorMateriali />} />
+            <Route path="materiali/:workspaceId" element={<TutorMateriali />} />
             <Route path="materiali" element={<TutorMateriali />} />
             <Route path="compensi" element={<TutorCompensi />} />
             <Route path="profilo" element={<TutorProfilo />} />

@@ -34,12 +34,14 @@ const ResourcesContainer: React.FC<ResourcesContainerProps> = ({
 
   const fetchResources = useCallback(async () => {
     const hasSupabase =
-      import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY;
+      import.meta.env.VITE_SUPABASE_URL &&
+      (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+        import.meta.env.VITE_SUPABASE_ANON_KEY);
 
     if (!hasSupabase) {
       setLoading(false);
       setError(
-        "Configurazione Supabase mancante. Aggiungi VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY nel file .env"
+        "Configurazione Supabase mancante. Aggiungi VITE_SUPABASE_URL e VITE_SUPABASE_PUBLISHABLE_KEY nel file .env.local"
       );
       return;
     }

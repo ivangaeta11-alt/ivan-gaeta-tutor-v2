@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './features/auth/AuthProvider';
+import { AppErrorBoundary } from './components/AppErrorBoundary';
 import App from './App';
 import TestPage from './pages/TestPage';
 import RisorseRoute from './pages/RisorseRoute';
@@ -47,8 +48,9 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <AuthProvider>
-      <BrowserRouter>
+    <AppErrorBoundary>
+      <AuthProvider>
+        <BrowserRouter>
         <Routes>
         <Route path="/" element={<App />} />
         <Route path="/offerta-formativa" element={<OffertaFormativaRoute />} />
@@ -109,7 +111,8 @@ root.render(
         </Route>
         <Route path="/test" element={<TestPage />} />
         </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+        </BrowserRouter>
+      </AuthProvider>
+    </AppErrorBoundary>
   </React.StrictMode>
 );

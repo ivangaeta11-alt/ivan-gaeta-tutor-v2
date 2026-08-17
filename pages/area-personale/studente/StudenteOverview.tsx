@@ -6,31 +6,36 @@ import RequiredActions from "../../../features/area-personale/studente/component
 import RecentMaterials from "../../../features/area-personale/studente/components/RecentMaterials";
 import InfoNotice from "../../../features/area-personale/studente/components/InfoNotice";
 import ConfirmDialog from "../../../features/area-personale/studente/components/ConfirmDialog";
-import {
-  MOCK_NEXT_LESSON,
-  MOCK_RECENT_MATERIALS,
-  MOCK_VOTES,
-  MOCK_WALLETS,
-} from "../../../features/area-personale/studente/data";
+import NewLessonBookingCard from "../../../features/area-personale/studente/components/NewLessonBookingCard";
+import ActiveGroupProposals from "../../../features/area-personale/studente/components/ActiveGroupProposals";
+import { useStudentDashboard } from "../../../features/area-personale/studente/context/StudentDashboardContext";
+import { MOCK_RECENT_MATERIALS, MOCK_VOTES } from "../../../features/area-personale/studente/data";
 
 const StudenteOverview: React.FC = () => {
   const [transferOpen, setTransferOpen] = useState(false);
-  const personalWallet = MOCK_WALLETS.find((w) => w.type === "personal")!;
-  const collectiveWallet = MOCK_WALLETS.find((w) => w.type === "collective")!;
+  const { wallets, nextLesson, activeProposals } = useStudentDashboard();
+  const personalWallet = wallets.find((w) => w.type === "personal")!;
+  const collectiveWallet = wallets.find((w) => w.type === "collective")!;
 
   return (
-    <div>
+    <div className="min-w-0 max-w-full">
       <PageHeader
         title="Panoramica"
         description="Il tuo centro operativo: prossima lezione, crediti e azioni da completare."
       />
 
       <div className="space-y-8">
-        <NextLessonCard lesson={MOCK_NEXT_LESSON} />
+        {nextLesson && <NextLessonCard lesson={nextLesson} />}
+
+        <RequiredActions votes={MOCK_VOTES} />
+
+        <NewLessonBookingCard />
+
+        <ActiveGroupProposals proposals={activeProposals} />
 
         <section>
           <h2 className="text-xl font-bold text-slate-900 mb-4 tracking-tight">Crediti</h2>
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-2 gap-4 min-w-0">
             <WalletCard wallet={personalWallet} />
             <WalletCard
               wallet={collectiveWallet}
@@ -39,8 +44,6 @@ const StudenteOverview: React.FC = () => {
             />
           </div>
         </section>
-
-        <RequiredActions votes={MOCK_VOTES} />
 
         <RecentMaterials materials={MOCK_RECENT_MATERIALS} />
 

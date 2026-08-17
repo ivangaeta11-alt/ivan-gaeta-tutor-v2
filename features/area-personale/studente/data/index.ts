@@ -12,3 +12,15 @@ export {
   MOCK_NOTIFICATIONS,
   CREDIT_EURO_RATIO,
 } from "./studentDashboardMock";
+
+export {
+  MOCK_ASSIGNED_TUTOR,
+  MOCK_BOOKING_SUBJECTS,
+  MOCK_DURATION_OPTIONS,
+  MOCK_INDIVIDUAL_SLOTS,
+  MOCK_GROUP_EXTRA_SLOTS,
+  MOCK_GROUP_PROPOSALS,
+  getDurationOption,
+  getIndividualCost,
+  getGroupExtraCost,
+} from "./bookingMock";

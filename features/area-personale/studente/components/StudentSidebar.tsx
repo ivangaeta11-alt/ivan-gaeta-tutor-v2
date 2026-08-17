@@ -13,7 +13,7 @@ import {
 
 const NAV_ITEMS = [
   { to: "/area-personale/studente", label: "Panoramica", icon: LayoutDashboard, end: true },
-  { to: "/area-personale/studente/calendario", label: "Calendario", icon: Calendar, end: false },
+  { to: "/area-personale/studente/calendario", label: "Lezioni e prenotazioni", icon: Calendar, end: false },
   { to: "/area-personale/studente/gruppo", label: "Il mio gruppo", icon: Users, end: false },
   { to: "/area-personale/studente/materiali", label: "Materiali", icon: FolderOpen, end: false },
   { to: "/area-personale/studente/crediti", label: "Crediti e pagamenti", icon: Wallet, end: false },

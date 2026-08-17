@@ -20,7 +20,9 @@ const NextLessonCard: React.FC<NextLessonCardProps> = ({ lesson }) => {
             Prossima lezione
           </p>
           <h2 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight break-words">
-            {lesson.subject} – {lesson.groupName}
+            {lesson.kind === "individual"
+              ? `${lesson.subject} — Lezione individuale`
+              : `${lesson.subject} – ${lesson.groupName}`}
           </h2>
         </div>
         <div className="shrink-0">
@@ -43,7 +45,9 @@ const NextLessonCard: React.FC<NextLessonCardProps> = ({ lesson }) => {
         </div>
         <div className="flex items-center gap-2 text-sm text-slate-600">
           <Users className="w-4 h-4 text-slate-400 shrink-0" aria-hidden />
-          {lesson.effectiveMembers} membri
+          {lesson.kind === "individual"
+            ? "Lezione individuale"
+            : `${lesson.effectiveMembers} membri`}
         </div>
       </div>
 

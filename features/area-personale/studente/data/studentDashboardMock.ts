@@ -15,6 +15,7 @@ export const MOCK_STUDENT: Student = {
   displayName: "Marco R.",
   email: "marco.demo@example.com",
   personalCredits: 35,
+  isActiveGroupMember: true,
 };
 
 export const MOCK_GROUP: StudyGroup = {
@@ -40,6 +41,7 @@ export const MOCK_GROUP: StudyGroup = {
 export const MOCK_LESSONS: Lesson[] = [
   {
     id: "les_001",
+    kind: "group_recurring",
     groupId: "grp_smf_01",
     subject: "Fisica",
     groupName: "Gruppo SMF 01",
@@ -52,6 +54,7 @@ export const MOCK_LESSONS: Lesson[] = [
   },
   {
     id: "les_002",
+    kind: "group_recurring",
     groupId: "grp_smf_01",
     subject: "Fisica",
     groupName: "Gruppo SMF 01",
@@ -64,6 +67,7 @@ export const MOCK_LESSONS: Lesson[] = [
   },
   {
     id: "les_003",
+    kind: "group_recurring",
     groupId: "grp_smf_01",
     subject: "Fisica",
     groupName: "Gruppo SMF 01",
@@ -76,6 +80,7 @@ export const MOCK_LESSONS: Lesson[] = [
   },
   {
     id: "les_004",
+    kind: "group_recurring",
     groupId: "grp_smf_01",
     subject: "Fisica",
     groupName: "Gruppo SMF 01",
@@ -88,6 +93,7 @@ export const MOCK_LESSONS: Lesson[] = [
   },
   {
     id: "les_005",
+    kind: "group_recurring",
     groupId: "grp_smf_01",
     subject: "Fisica",
     groupName: "Gruppo SMF 01",
@@ -100,6 +106,7 @@ export const MOCK_LESSONS: Lesson[] = [
   },
   {
     id: "les_006",
+    kind: "group_recurring",
     groupId: "grp_smf_01",
     subject: "Fisica",
     groupName: "Gruppo SMF 01",
@@ -112,6 +119,7 @@ export const MOCK_LESSONS: Lesson[] = [
   },
   {
     id: "les_007",
+    kind: "group_recurring",
     groupId: "grp_smf_01",
     subject: "Fisica",
     groupName: "Gruppo SMF 01",
@@ -121,6 +129,23 @@ export const MOCK_LESSONS: Lesson[] = [
     mode: "online",
     status: "annullata_gruppo",
     effectiveMembers: 6,
+  },
+  {
+    id: "les_008",
+    kind: "group_extra",
+    groupId: "grp_smf_01",
+    subject: "Fisica",
+    groupName: "Gruppo SMF 01",
+    tutorName: "Ivan Gaeta",
+    date: "2026-08-30",
+    startTime: "18:00",
+    endTime: "19:30",
+    mode: "online",
+    status: "confermata",
+    effectiveMembers: 7,
+    durationMinutes: 90,
+    costCredits: 40,
+    proposalId: "prop_002",
   },
 ];
 

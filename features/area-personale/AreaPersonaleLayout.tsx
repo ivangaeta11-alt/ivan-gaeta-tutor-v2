@@ -3,6 +3,9 @@ import { Link, Outlet } from "react-router-dom";
 import type { UserRole } from "../../types/roles";
 import { ROLE_LABELS } from "../../types/roles";
 import PromoterSidebar from "./promoter/components/PromoterSidebar";
+import StudentSidebar from "./studente/components/StudentSidebar";
+import StudentHeaderActions from "./studente/components/StudentHeaderActions";
+import { MOCK_STUDENT, MOCK_NOTIFICATIONS } from "./studente/data";
 
 interface AreaPersonaleLayoutProps {
   role: UserRole;
@@ -18,6 +21,8 @@ const AreaPersonaleLayout: React.FC<AreaPersonaleLayoutProps> = ({
   role,
   displayName = "Utente demo",
 }) => {
+  const resolvedName = role === "student" ? MOCK_STUDENT.displayName : displayName;
+
   return (
     <div className="pt-28 pb-16 md:pt-32 md:pb-20 px-6 bg-gradient-to-b from-slate-50/80 to-white min-h-[70vh]">
       <div className="max-w-6xl mx-auto">
@@ -25,13 +30,16 @@ const AreaPersonaleLayout: React.FC<AreaPersonaleLayoutProps> = ({
           <div>
             <p className="text-sm font-semibold text-blue-600 mb-1">Area personale</p>
             <p className="text-slate-500 font-light text-sm">
-              {displayName} · {ROLE_LABELS[role]}
+              {resolvedName} · {ROLE_LABELS[role]}
               <span className="ml-2 text-xs text-amber-600 bg-amber-50 border border-amber-100 px-2 py-0.5 rounded-lg">
                 demo
               </span>
             </p>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap items-center gap-3">
+            {role === "student" && (
+              <StudentHeaderActions notifications={MOCK_NOTIFICATIONS} />
+            )}
             <Link
               to="/login"
               className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors"
@@ -44,6 +52,8 @@ const AreaPersonaleLayout: React.FC<AreaPersonaleLayoutProps> = ({
         <div className="grid lg:grid-cols-[220px_1fr] gap-8">
           {role === "promoter" ? (
             <PromoterSidebar />
+          ) : role === "student" ? (
+            <StudentSidebar />
           ) : (
             <aside className="hidden lg:block">
               <nav className="sticky top-28 space-y-2 p-4 rounded-2xl border border-slate-100 bg-white/80">

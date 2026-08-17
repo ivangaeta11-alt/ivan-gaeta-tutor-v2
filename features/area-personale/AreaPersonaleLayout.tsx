@@ -44,7 +44,7 @@ const AreaPersonaleLayout: React.FC<AreaPersonaleLayoutProps> = ({
               </span>
             </p>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center justify-end gap-3 w-full md:w-auto ml-auto shrink-0 min-w-0">
             {role === "student" && (
               <StudentHeaderActions notifications={MOCK_NOTIFICATIONS} />
             )}

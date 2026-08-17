@@ -51,8 +51,8 @@ const TutorMateriali: React.FC = () => {
 
       <section className="mb-10">
         <h2 className="text-xl font-bold text-slate-900 mb-4">Materiali pubblicati</h2>
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[640px] bg-white rounded-2xl border border-slate-100 overflow-hidden">
+        <div className="max-w-full overflow-x-auto overscroll-x-contain">
+          <table className="w-full min-w-[640px] bg-white rounded-2xl border border-slate-100">
             <thead>
               <tr className="bg-slate-50/50 border-b border-slate-100">
                 {["Titolo", "Tipo", "Destinatario", "Data", "Autore", "Stato"].map((h) => (
@@ -92,7 +92,7 @@ const TutorMateriali: React.FC = () => {
             </div>
           ))}
         </div>
-        <div className="hidden sm:block overflow-x-auto">
+        <div className="hidden sm:block max-w-full overflow-x-auto overscroll-x-contain">
           <table className="w-full min-w-[640px] bg-white rounded-2xl border border-slate-100">
             <thead>
               <tr className="bg-slate-50/50 border-b border-slate-100">

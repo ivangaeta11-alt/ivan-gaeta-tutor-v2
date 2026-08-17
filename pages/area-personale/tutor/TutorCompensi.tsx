@@ -43,7 +43,7 @@ const TutorCompensi: React.FC = () => {
             </div>
           ))}
         </div>
-        <div className="hidden sm:block overflow-x-auto">
+        <div className="hidden sm:block max-w-full overflow-x-auto overscroll-x-contain">
           <table className="w-full min-w-[640px] bg-white rounded-2xl border border-slate-100">
             <thead>
               <tr className="bg-slate-50/50 border-b border-slate-100">

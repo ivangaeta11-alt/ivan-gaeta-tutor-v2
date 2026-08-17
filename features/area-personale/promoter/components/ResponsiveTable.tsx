@@ -5,10 +5,10 @@ interface ResponsiveTableProps {
   className?: string;
 }
 
-/** Wrapper con scroll orizzontale su schermi piccoli. */
+/** Wrapper con scroll orizzontale su schermi piccoli, contenuto nel viewport. */
 const ResponsiveTable: React.FC<ResponsiveTableProps> = ({ children, className = "" }) => {
   return (
-    <div className={`overflow-x-auto -mx-1 px-1 ${className}`}>
+    <div className={`w-full max-w-full overflow-x-auto overscroll-x-contain ${className}`}>
       <div className="min-w-[640px]">{children}</div>
     </div>
   );

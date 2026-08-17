@@ -13,17 +13,19 @@ const NextLessonCard: React.FC<NextLessonCardProps> = ({ lesson }) => {
   const [showDetails, setShowDetails] = useState(false);
 
   return (
-    <div className="p-6 md:p-8 bg-white rounded-3xl border border-slate-100 shadow-sm">
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-5">
-        <div>
+    <div className="p-6 md:p-8 bg-white rounded-3xl border border-slate-100 shadow-sm min-w-0 max-w-full">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-5 min-w-0">
+        <div className="min-w-0">
           <p className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-1">
             Prossima lezione
           </p>
-          <h2 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight">
+          <h2 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight break-words">
             {lesson.subject} – {lesson.groupName}
           </h2>
         </div>
-        <LessonStatusBadge status={lesson.status} />
+        <div className="shrink-0">
+          <LessonStatusBadge status={lesson.status} />
+        </div>
       </div>
 
       <div className="grid sm:grid-cols-2 gap-3 mb-6">

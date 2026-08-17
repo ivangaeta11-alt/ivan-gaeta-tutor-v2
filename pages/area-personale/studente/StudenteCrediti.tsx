@@ -53,8 +53,8 @@ const StudenteCrediti: React.FC = () => {
         <h2 className="text-xl font-bold text-slate-900 mb-4 tracking-tight">
           Storico movimenti
         </h2>
-        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
-          <div className="overflow-x-auto">
+        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm min-w-0 max-w-full">
+          <div className="overflow-x-auto overscroll-x-contain max-w-full">
             <table className="w-full min-w-[480px]">
               <thead>
                 <tr className="border-b border-slate-100 bg-slate-50/50">

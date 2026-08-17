@@ -172,7 +172,7 @@ const PromoterStatistiche: React.FC = () => {
         <h2 className="text-xl font-bold text-slate-900 mb-4 tracking-tight">
           Studenti acquisiti
         </h2>
-        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm min-w-0 max-w-full">
           <ResponsiveTable>
             <table className="w-full">
               <thead>
@@ -223,7 +223,7 @@ const PromoterStatistiche: React.FC = () => {
       {/* Storico lezioni */}
       <section className="mt-10">
         <h2 className="text-xl font-bold text-slate-900 mb-4 tracking-tight">Storico lezioni</h2>
-        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm min-w-0 max-w-full">
           <ResponsiveTable>
             <table className="w-full">
               <thead>

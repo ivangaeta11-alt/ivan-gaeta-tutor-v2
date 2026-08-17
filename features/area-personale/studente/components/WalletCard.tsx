@@ -16,7 +16,7 @@ const WalletCard: React.FC<WalletCardProps> = ({
   showMovementsLink = false,
 }) => {
   return (
-    <div className="p-5 md:p-6 bg-white rounded-2xl border border-slate-100 shadow-sm">
+    <div className="p-5 md:p-6 bg-white rounded-2xl border border-slate-100 shadow-sm min-w-0 max-w-full">
       <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
         {wallet.label}
       </p>

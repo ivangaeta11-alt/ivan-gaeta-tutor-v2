@@ -17,10 +17,10 @@ const Layout: React.FC<LayoutProps> = ({
   onContact
 }) => {
   return (
-    <div className="min-h-screen flex flex-col relative">
+    <div className="min-h-screen flex flex-col relative overflow-x-hidden">
       <Navbar />
-      
-      <main className="flex-grow">
+
+      <main className="flex-grow overflow-x-hidden">
         {children}
       </main>
       

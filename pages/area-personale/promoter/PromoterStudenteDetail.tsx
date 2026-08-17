@@ -113,7 +113,7 @@ const PromoterStudenteDetail: React.FC = () => {
         <h2 className="text-xl font-bold text-slate-900 mb-4 tracking-tight">
           Cronologia prestazioni
         </h2>
-        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm min-w-0 max-w-full">
           <ResponsiveTable>
             <table className="w-full">
               <thead>

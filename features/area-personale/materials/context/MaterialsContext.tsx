@@ -17,7 +17,6 @@ import type {
   RecentMaterialEntry,
 } from "../types";
 import {
-  MOCK_MATERIAL_ASSIGNMENTS,
   MOCK_MATERIAL_FILES,
   MOCK_MATERIAL_FOLDERS,
   MOCK_MATERIAL_WORKSPACES,
@@ -32,7 +31,7 @@ import {
   resolveMaterialsLocation,
 } from "../utils/materialsRoutes";
 import type { FileType, MaterialsArea, MaterialsRole } from "../types";
-import { materialsSessionState } from "../data/materialsSessionState";
+import { materialsSessionState, type CreateAssignmentInput } from "../data/materialsSessionState";
 
 interface MaterialsContextValue {
   role: MaterialsRole;
@@ -88,6 +87,7 @@ interface MaterialsContextValue {
       >
     >
   ) => void;
+  createAssignment: (input: CreateAssignmentInput) => void;
   globalSearchResults: {
     files: MaterialFile[];
     folders: MaterialFolder[];
@@ -141,14 +141,29 @@ export const MaterialsProvider: React.FC<{
   const [files, setFilesState] = useState<MaterialFile[]>(
     () => materialsSessionState.files
   );
-  const [assignments, setAssignments] = useState<MaterialAssignment[]>(
-    MOCK_MATERIAL_ASSIGNMENTS
+  const [assignments, setAssignmentsState] = useState<MaterialAssignment[]>(
+    () => materialsSessionState.assignments
   );
   const [recentEntries, setRecentEntries] = useState(MOCK_RECENT_MATERIAL_ENTRIES);
   const [openedIds, setOpenedIds] = useState<Set<string>>(new Set());
   const [previewFile, setPreviewFile] = useState<MaterialFile | null>(null);
   const [activeAssignment, setActiveAssignment] = useState<MaterialAssignment | null>(
     null
+  );
+
+  const setAssignments = useCallback(
+    (
+      updater:
+        | MaterialAssignment[]
+        | ((prev: MaterialAssignment[]) => MaterialAssignment[])
+    ) => {
+      setAssignmentsState((prev) => {
+        const next = typeof updater === "function" ? updater(prev) : updater;
+        materialsSessionState.assignments = next;
+        return next;
+      });
+    },
+    []
   );
 
   const resolvedLocation = useMemo(
@@ -445,7 +460,39 @@ export const MaterialsProvider: React.FC<{
         prev && prev.id === id ? { ...prev, ...patch } : prev
       );
     },
-    []
+    [setAssignments]
+  );
+
+  const createAssignment = useCallback(
+    (input: CreateAssignmentInput) => {
+      if (role !== "tutor") return;
+      const workspace = getWorkspaceById(input.workspaceId);
+      if (!workspace || workspace.isArchived) return;
+
+      const id = `asg_${Date.now()}`;
+      const newAssignment: MaterialAssignment = {
+        id,
+        workspaceId: input.workspaceId,
+        title: input.title,
+        instructions: input.instructions,
+        subject: workspace.subject,
+        tutorName: "Ivan Gaeta",
+        publishedAt: new Date().toISOString().slice(0, 10),
+        dueDate: input.dueDate,
+        tutorAttachments: input.attachmentName
+          ? [
+              {
+                id: `att_${Date.now()}`,
+                name: input.attachmentName,
+                fileType: "pdf",
+              },
+            ]
+          : [],
+        status: "da_consegnare",
+      };
+      setAssignments((prev) => [newAssignment, ...prev]);
+    },
+    [role, setAssignments]
   );
 
   const globalSearchResults = useMemo(() => {
@@ -523,6 +570,7 @@ export const MaterialsProvider: React.FC<{
       deleteFolder,
       deleteFile,
       updateAssignment,
+      createAssignment,
       globalSearchResults,
     }),
     [
@@ -567,6 +615,7 @@ export const MaterialsProvider: React.FC<{
       deleteFolder,
       deleteFile,
       updateAssignment,
+      createAssignment,
       globalSearchResults,
     ]
   );

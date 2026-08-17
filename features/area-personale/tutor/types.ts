@@ -47,6 +47,14 @@ export interface UnavailabilityPeriod {
   reason: string;
 }
 
+/** Fascia di disponibilità su data specifica (calendario tutor). */
+export interface TutorCalendarSlot {
+  id: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+}
+
 export interface TutorStudent {
   id: string;
   displayName: string;

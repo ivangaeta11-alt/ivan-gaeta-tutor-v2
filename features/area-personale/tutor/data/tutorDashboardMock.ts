@@ -2,6 +2,7 @@ import type {
   AvailabilitySlot,
   RequiredAction,
   Tutor,
+  TutorCalendarSlot,
   TutorEarning,
   TutorGroup,
   TutorGuest,
@@ -284,6 +285,12 @@ export const MOCK_AVAILABILITY: AvailabilitySlot[] = [
   { day: "Mercoledì", start: "09:00", end: "13:00" },
   { day: "Giovedì", start: "14:00", end: "20:00" },
   { day: "Venerdì", start: "09:00", end: "12:00" },
+];
+
+export const MOCK_CALENDAR_AVAILABILITY: TutorCalendarSlot[] = [
+  { id: "av_001", date: "2026-08-19", startTime: "10:00", endTime: "12:00" },
+  { id: "av_002", date: "2026-08-20", startTime: "15:00", endTime: "18:00" },
+  { id: "av_003", date: "2026-08-22", startTime: "09:00", endTime: "11:00" },
 ];
 
 export const MOCK_UNAVAILABILITY: UnavailabilityPeriod[] = [

@@ -8,6 +8,7 @@ import EmptyFolderState from "./EmptyFolderState";
 import ArchivedWorkspaceNotice from "./ArchivedWorkspaceNotice";
 import FilePreviewModal from "./FilePreviewModal";
 import AssignmentDetailsModal from "./AssignmentDetailsModal";
+import TutorAssignmentModal from "./TutorAssignmentModal";
 import CreateFolderDialog from "./CreateFolderDialog";
 import UploadFileDialog from "./UploadFileDialog";
 import ConfirmDialog from "../../studente/components/ConfirmDialog";
@@ -90,9 +91,7 @@ const MaterialsExplorer: React.FC = () => {
       if (current?.systemKind === "submissions" && role === "student") {
         folderAssignments = assignments.filter((a) => a.workspaceId === wsId);
       } else if (current?.systemKind === "submissions" && role === "tutor") {
-        folderAssignments = assignments.filter(
-          (a) => a.workspaceId === wsId && a.studentFile
-        );
+        folderAssignments = assignments.filter((a) => a.workspaceId === wsId);
       }
     }
 
@@ -157,9 +156,7 @@ const MaterialsExplorer: React.FC = () => {
   const handleOpen = (item: ExplorerItem) => {
     if (item.kind === "folder") openFolder(item.data.id);
     else if (item.kind === "file") openPreview(item.data);
-    else if (role === "tutor" && item.data.studentFile) {
-      window.alert(`Download simulato: ${item.data.studentFile.name}`);
-    } else openAssignment(item.data);
+    else openAssignment(item.data);
   };
 
   const emptyMessage = (() => {
@@ -357,6 +354,9 @@ const MaterialsExplorer: React.FC = () => {
       )}
       {activeAssignment && role === "student" && (
         <AssignmentDetailsModal assignment={activeAssignment} onClose={closeAssignment} />
+      )}
+      {activeAssignment && role === "tutor" && (
+        <TutorAssignmentModal assignment={activeAssignment} onClose={closeAssignment} />
       )}
       <CreateFolderDialog
         open={createFolderOpen}

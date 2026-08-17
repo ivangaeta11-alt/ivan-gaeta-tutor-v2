@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import PageHeader from "../../../features/area-personale/studente/components/PageHeader";
 import DashboardCard from "../../../features/area-personale/DashboardCard";
 import InfoNotice from "../../../features/area-personale/studente/components/InfoNotice";
@@ -7,6 +8,7 @@ import {
   MOCK_AVAILABILITY,
   MOCK_UNAVAILABILITY,
 } from "../../../features/area-personale/tutor/data";
+import { tutorAvailabilitySession } from "../../../features/area-personale/tutor/data/tutorAvailabilitySession";
 import { formatDateShort } from "../../../features/area-personale/studente/utils/format";
 
 const TutorProfilo: React.FC = () => {
@@ -60,7 +62,16 @@ const TutorProfilo: React.FC = () => {
             </li>
           ))}
         </ul>
-        <p className="text-xs text-slate-400">Modifica disponibile in demo — stato locale.</p>
+        <p className="text-xs text-slate-500 mb-2">
+          Slot su date specifiche nel calendario: {tutorAvailabilitySession.slots.length} registrati
+          (demo).
+        </p>
+        <Link
+          to="/area-personale/tutor/calendario"
+          className="text-sm font-semibold text-blue-600 hover:text-blue-700"
+        >
+          Gestisci disponibilità nel calendario →
+        </Link>
       </DashboardCard>
 
       <div className="mt-6">

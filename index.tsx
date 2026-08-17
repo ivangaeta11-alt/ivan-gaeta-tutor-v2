@@ -73,6 +73,8 @@ root.render(
             <Route index element={<StudenteOverview />} />
             <Route path="calendario" element={<StudenteCalendario />} />
             <Route path="gruppo" element={<StudenteGruppo />} />
+            <Route path="materiali/:workspaceId/:folderId" element={<StudenteMateriali />} />
+            <Route path="materiali/:workspaceId" element={<StudenteMateriali />} />
             <Route path="materiali" element={<StudenteMateriali />} />
             <Route path="crediti" element={<StudenteCrediti />} />
             <Route path="profilo" element={<StudenteProfilo />} />

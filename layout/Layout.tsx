@@ -3,19 +3,27 @@ import React from 'react';
 // Layout components (same folder)
 import Navbar from './Navbar';
 import Footer from './Footer';
+import DashboardFooter from './DashboardFooter';
 
 // Sections (different folder)
 import FloatingContact from '../sections/FloatingContact';
 
+export type LayoutVariant = 'public' | 'dashboard';
+
 interface LayoutProps {
   children: React.ReactNode;
-  onContact: () => void;
+  onContact?: () => void;
+  /** Public site shows promo footer + WhatsApp; dashboard shows minimal footer only. */
+  variant?: LayoutVariant;
 }
 
 const Layout: React.FC<LayoutProps> = ({
   children,
-  onContact
+  onContact,
+  variant = 'public',
 }) => {
+  const isDashboard = variant === 'dashboard';
+
   return (
     <div className="min-h-screen flex flex-col relative overflow-x-hidden">
       <Navbar />
@@ -24,8 +32,14 @@ const Layout: React.FC<LayoutProps> = ({
         {children}
       </main>
       
-      <Footer onContact={onContact} />
-      <FloatingContact />
+      {isDashboard ? (
+        <DashboardFooter />
+      ) : (
+        <>
+          <Footer onContact={onContact!} />
+          <FloatingContact />
+        </>
+      )}
     </div>
   );
 };

@@ -2,9 +2,11 @@ import React, {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import type {
   MaterialAssignment,
   MaterialFile,
@@ -25,6 +27,10 @@ import {
   getWorkspaceById,
 } from "../data/materialsMock";
 import { getMaterialPermissions } from "../utils/permissions";
+import {
+  buildMaterialsPath,
+  resolveMaterialsLocation,
+} from "../utils/materialsRoutes";
 import type { FileType, MaterialsArea } from "../types";
 
 interface MaterialsContextValue {
@@ -116,10 +122,12 @@ function sortItems<T extends { name?: string; lastModified?: string; fileType?: 
 export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [navigation, setNavigation] = useState<{
-    workspaceId: string | null;
-    folderId: string | null;
-  }>({ workspaceId: null, folderId: null });
+  const { workspaceId: workspaceParam, folderId: folderParam } = useParams<{
+    workspaceId?: string;
+    folderId?: string;
+  }>();
+  const navigate = useNavigate();
+
   const [viewMode, setViewMode] = useState<MaterialsViewMode>("list");
   const [sortField, setSortField] = useState<MaterialsSortField>("name");
   const [searchQuery, setSearchQuery] = useState("");
@@ -134,6 +142,27 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
   const [previewFile, setPreviewFile] = useState<MaterialFile | null>(null);
   const [activeAssignment, setActiveAssignment] = useState<MaterialAssignment | null>(
     null
+  );
+
+  const resolvedLocation = useMemo(
+    () => resolveMaterialsLocation(workspaceParam, folderParam, folders),
+    [workspaceParam, folderParam, folders]
+  );
+
+  useEffect(() => {
+    if (resolvedLocation.redirectTo) {
+      navigate(resolvedLocation.redirectTo, { replace: true });
+    }
+  }, [resolvedLocation.redirectTo, navigate]);
+
+  const navigation = useMemo(
+    () => ({
+      workspaceId: resolvedLocation.redirectTo
+        ? null
+        : resolvedLocation.workspaceId,
+      folderId: resolvedLocation.redirectTo ? null : resolvedLocation.folderId,
+    }),
+    [resolvedLocation]
   );
 
   const workspaces = MOCK_MATERIAL_WORKSPACES;
@@ -185,61 +214,61 @@ export const MaterialsProvider: React.FC<{ children: React.ReactNode }> = ({
     );
   }, []);
 
-  const openWorkspace = useCallback((workspaceId: string) => {
-    setNavigation({ workspaceId, folderId: null });
-    setSearchQuery("");
-    setTypeFilter("all");
-  }, []);
+  const openWorkspace = useCallback(
+    (workspaceId: string) => {
+      navigate(buildMaterialsPath(workspaceId));
+      setSearchQuery("");
+      setTypeFilter("all");
+    },
+    [navigate]
+  );
 
-  const navigateToLocation = useCallback((workspaceId: string, folderId: string) => {
-    setNavigation({ workspaceId, folderId });
-    setSearchQuery("");
-    setTypeFilter("all");
-  }, []);
+  const navigateToLocation = useCallback(
+    (workspaceId: string, folderId: string) => {
+      navigate(buildMaterialsPath(workspaceId, folderId));
+      setSearchQuery("");
+      setTypeFilter("all");
+    },
+    [navigate]
+  );
 
-  const openFolder = useCallback((folderId: string) => {
-    setNavigation((prev) => ({ ...prev, folderId }));
-    setSearchQuery("");
-  }, []);
+  const openFolder = useCallback(
+    (folderId: string) => {
+      const folder =
+        folders.find((f) => f.id === folderId) ?? getFolderById(folderId);
+      if (!folder) return;
+      navigate(buildMaterialsPath(folder.workspaceId, folderId));
+      setSearchQuery("");
+    },
+    [navigate, folders]
+  );
 
   const openRecent = useCallback(
     (entry: RecentMaterialEntry) => {
       if (entry.assignmentId) {
         const asg = assignments.find((a) => a.id === entry.assignmentId);
         if (asg) {
-          setNavigation({
-            workspaceId: entry.workspaceId,
-            folderId: entry.targetFolderId,
-          });
+          navigate(buildMaterialsPath(entry.workspaceId, entry.targetFolderId));
           setActiveAssignment(asg);
           return;
         }
       }
-      setNavigation({
-        workspaceId: entry.workspaceId,
-        folderId: entry.targetFolderId,
-      });
+      navigate(buildMaterialsPath(entry.workspaceId, entry.targetFolderId));
       markOpened(entry.id);
     },
-    [assignments, markOpened]
+    [assignments, markOpened, navigate]
   );
 
   const goHome = useCallback(() => {
-    setNavigation({ workspaceId: null, folderId: null });
+    navigate(buildMaterialsPath());
     setSearchQuery("");
     setActiveAssignment(null);
     setPreviewFile(null);
-  }, []);
+  }, [navigate]);
 
   const goBack = useCallback(() => {
-    if (currentFolder?.parentId) {
-      setNavigation((prev) => ({ ...prev, folderId: currentFolder.parentId }));
-    } else if (navigation.workspaceId) {
-      setNavigation({ workspaceId: navigation.workspaceId, folderId: null });
-    } else {
-      goHome();
-    }
-  }, [currentFolder, navigation.workspaceId, goHome]);
+    navigate(-1);
+  }, [navigate]);
 
   const openPreview = useCallback(
     (file: MaterialFile) => {

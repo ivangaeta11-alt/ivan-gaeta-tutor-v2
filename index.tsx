@@ -12,7 +12,13 @@ import RegistrazioneRoute from './pages/RegistrazioneRoute';
 import CollaboraRoute from './pages/CollaboraRoute';
 import AreaPersonaleShell from './pages/area-personale/AreaPersonaleShell';
 import StudenteDashboard from './pages/area-personale/StudenteDashboard';
+import PromoterShell from './pages/area-personale/promoter/PromoterShell';
 import PromoterDashboard from './pages/area-personale/PromoterDashboard';
+import PromoterStatistiche from './pages/area-personale/promoter/PromoterStatistiche';
+import PromoterStudenteDetail from './pages/area-personale/promoter/PromoterStudenteDetail';
+import PromoterLiquidazioni from './pages/area-personale/promoter/PromoterLiquidazioni';
+import PromoterMateriale from './pages/area-personale/promoter/PromoterMateriale';
+import PromoterProfilo from './pages/area-personale/promoter/PromoterProfilo';
 import TutorDashboard from './pages/area-personale/TutorDashboard';
 
 const rootElement = document.getElementById('root');
@@ -35,7 +41,14 @@ root.render(
         <Route path="/area-personale" element={<AreaPersonaleShell />}>
           <Route index element={<Navigate to="/login" replace />} />
           <Route path="studente" element={<StudenteDashboard />} />
-          <Route path="promoter" element={<PromoterDashboard />} />
+          <Route path="promoter" element={<PromoterShell />}>
+            <Route index element={<PromoterDashboard />} />
+            <Route path="statistiche" element={<PromoterStatistiche />} />
+            <Route path="statistiche/studente/:studentId" element={<PromoterStudenteDetail />} />
+            <Route path="liquidazioni" element={<PromoterLiquidazioni />} />
+            <Route path="materiale" element={<PromoterMateriale />} />
+            <Route path="profilo" element={<PromoterProfilo />} />
+          </Route>
           <Route path="tutor" element={<TutorDashboard />} />
         </Route>
         <Route path="/test" element={<TestPage />} />

@@ -2,6 +2,7 @@ import React from "react";
 import { Link, Outlet } from "react-router-dom";
 import type { UserRole } from "../../types/roles";
 import { ROLE_LABELS } from "../../types/roles";
+import PromoterSidebar from "./promoter/components/PromoterSidebar";
 
 interface AreaPersonaleLayoutProps {
   role: UserRole;
@@ -40,18 +41,21 @@ const AreaPersonaleLayout: React.FC<AreaPersonaleLayoutProps> = ({
           </div>
         </div>
 
-        {/* Placeholder region for a future sidebar + main split */}
         <div className="grid lg:grid-cols-[220px_1fr] gap-8">
-          <aside className="hidden lg:block">
-            <nav className="sticky top-28 space-y-2 p-4 rounded-2xl border border-slate-100 bg-white/80">
-              <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
-                Menu
-              </p>
-              <p className="text-sm text-slate-400 font-light leading-relaxed">
-                La navigazione interna sarà disponibile nelle prossime versioni.
-              </p>
-            </nav>
-          </aside>
+          {role === "promoter" ? (
+            <PromoterSidebar />
+          ) : (
+            <aside className="hidden lg:block">
+              <nav className="sticky top-28 space-y-2 p-4 rounded-2xl border border-slate-100 bg-white/80">
+                <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
+                  Menu
+                </p>
+                <p className="text-sm text-slate-400 font-light leading-relaxed">
+                  La navigazione interna sarà disponibile nelle prossime versioni.
+                </p>
+              </nav>
+            </aside>
+          )}
 
           <div>
             <Outlet />

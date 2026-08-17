@@ -16,13 +16,15 @@ import {
 const AreaPersonaleShell: React.FC = () => {
   const handleContact = useGoToContact();
   const { pathname } = useLocation();
-  const segment = pathname.split("/").filter(Boolean).pop() ?? "";
+  const segments = pathname.split("/").filter(Boolean);
+  // /area-personale/{role}/... → role is the second segment
+  const roleSegment = segments[1] ?? "";
 
-  if (!AREA_PERSONALE_ROLES.includes(segment as AreaPersonaleSegment)) {
+  if (!AREA_PERSONALE_ROLES.includes(roleSegment as AreaPersonaleSegment)) {
     return <Navigate to="/login" replace />;
   }
 
-  const role = segmentToRole(segment as AreaPersonaleSegment);
+  const role = segmentToRole(roleSegment as AreaPersonaleSegment);
 
   return (
     <Layout onContact={handleContact}>

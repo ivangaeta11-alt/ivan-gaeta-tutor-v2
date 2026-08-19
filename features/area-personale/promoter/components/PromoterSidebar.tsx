@@ -2,20 +2,18 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import {
   LayoutDashboard,
-  BarChart3,
+  Users,
   Wallet,
-  Megaphone,
-  User,
+  Wrench,
   Menu,
   X,
 } from "lucide-react";
 
 const NAV_ITEMS = [
   { to: "/area-personale/promoter", label: "Dashboard", icon: LayoutDashboard, end: true },
-  { to: "/area-personale/promoter/statistiche", label: "Statistiche", icon: BarChart3, end: false },
-  { to: "/area-personale/promoter/liquidazioni", label: "Liquidazioni", icon: Wallet, end: false },
-  { to: "/area-personale/promoter/materiale", label: "Materiale promozionale", icon: Megaphone, end: false },
-  { to: "/area-personale/promoter/profilo", label: "Profilo", icon: User, end: false },
+  { to: "/area-personale/promoter/studenti", label: "Studenti", icon: Users, end: false },
+  { to: "/area-personale/promoter/commissioni", label: "Commissioni", icon: Wallet, end: false },
+  { to: "/area-personale/promoter/strumenti", label: "Strumenti", icon: Wrench, end: false },
 ] as const;
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
@@ -47,7 +45,6 @@ const PromoterSidebar: React.FC = () => {
 
   return (
     <>
-      {/* Mobile toggle */}
       <div className="lg:hidden mb-6 min-w-0 max-w-full">
         <button
           type="button"
@@ -65,7 +62,6 @@ const PromoterSidebar: React.FC = () => {
         )}
       </div>
 
-      {/* Desktop sidebar */}
       <aside className="hidden lg:block">
         <div className="sticky top-28 p-4 rounded-2xl border border-slate-100 bg-white/80">
           <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">

@@ -1,127 +1,144 @@
 import type {
   AcquiredStudent,
-  Commission,
-  CommissionPlan,
-  LessonRecord,
-  LessonType,
-  Payout,
-  Promoter,
+  CommissionMovement,
+  PayoutRecord,
+  PurchaseRecord,
 } from "../types";
+import {
+  cappedValidSpend,
+  cumulativeCommission,
+  remainingPotential,
+  isCommissionComplete,
+} from "./commissionModel";
 
-export interface EnrichedLesson extends LessonRecord {
-  studentLabel: string;
-  tierRate: number;
-  commissionAmount: number;
-}
-
-export interface StudentSummary {
+export interface StudentRow {
   student: AcquiredStudent;
-  totalRevenue: number;
-  totalCommission: number;
-  totalHours: number;
-  lastActivity: string | null;
+  validSpend: number;
+  commissionEarned: number;
+  remaining: number;
+  isComplete: boolean;
 }
 
-export interface PromoterKpis {
+export interface DashboardKpis {
   acquiredStudents: number;
-  totalRevenue: number;
-  totalCommissions: number;
-  pendingPayout: number;
-  liquidatedCommissions: number;
-  totalHours: number;
+  studentsInDemo: number;
+  maturingCommissions: number;
+  liquidableCommissions: number;
 }
 
-export function getPlanRate(plan: CommissionPlan, lessonType: LessonType): number {
-  return plan.rates[lessonType];
+export interface MonthFunnel {
+  acquired: number;
+  demosStarted: number;
+  payingClients: number;
+  demoToPayingRate: number;
+  commissionsEarnedThisMonth: number;
+  previousMonthCommissions: number;
 }
 
-export function computeCommissionAmount(amount: number, rate: number): number {
-  return Math.round(amount * rate * 100) / 100;
+export interface CommissionKpis {
+  maturing: number;
+  liquidable: number;
+  paid: number;
 }
 
-export function enrichLessons(
-  lessons: LessonRecord[],
+export function sumPurchasesForStudent(
+  studentId: string,
+  purchases: PurchaseRecord[]
+): number {
+  return purchases
+    .filter((p) => p.studentId === studentId)
+    .reduce((sum, p) => sum + p.amount, 0);
+}
+
+export function buildStudentRows(
   students: AcquiredStudent[],
-  plans: CommissionPlan[],
-  commissions: Commission[]
-): EnrichedLesson[] {
-  const studentMap = new Map(students.map((s) => [s.id, s]));
-  const planMap = new Map(plans.map((p) => [p.id, p]));
-  const commissionMap = new Map(commissions.map((c) => [c.lessonRecordId, c]));
-
-  return lessons.map((lesson) => {
-    const plan = planMap.get(lesson.commissionPlanId)!;
-    const rate = getPlanRate(plan, lesson.lessonType);
-    const commission = commissionMap.get(lesson.id);
-
-    return {
-      ...lesson,
-      studentLabel: studentMap.get(lesson.studentId)?.label ?? "Studente",
-      tierRate: commission?.rate ?? rate,
-      commissionAmount: commission?.amount ?? computeCommissionAmount(lesson.amount, rate),
-    };
-  });
-}
-
-export function buildStudentSummaries(
-  students: AcquiredStudent[],
-  lessons: LessonRecord[],
-  commissions: Commission[]
-): StudentSummary[] {
-  const commissionByLesson = new Map(commissions.map((c) => [c.lessonRecordId, c]));
-
+  purchases: PurchaseRecord[]
+): StudentRow[] {
   return students.map((student) => {
-    const studentLessons = lessons.filter((l) => l.studentId === student.id);
-    const totalRevenue = studentLessons.reduce((sum, l) => sum + l.amount, 0);
-    const totalCommission = studentLessons.reduce((sum, l) => {
-      const c = commissionByLesson.get(l.id);
-      return sum + (c?.amount ?? 0);
-    }, 0);
-    const totalHours = studentLessons.reduce((sum, l) => sum + l.durationHours, 0);
-    const lastActivity =
-      studentLessons.length > 0
-        ? studentLessons.reduce((latest, l) => (l.date > latest ? l.date : latest), studentLessons[0].date)
-        : null;
-
+    const totalSpend = sumPurchasesForStudent(student.id, purchases);
+    const validSpend = cappedValidSpend(totalSpend);
+    const commissionEarned = cumulativeCommission(validSpend);
     return {
       student,
-      totalRevenue,
-      totalCommission,
-      totalHours,
-      lastActivity,
+      validSpend,
+      commissionEarned,
+      remaining: remainingPotential(validSpend),
+      isComplete: isCommissionComplete(validSpend),
     };
   });
 }
 
-export function computePromoterKpis(
+export function computeDashboardKpis(
   students: AcquiredStudent[],
-  lessons: LessonRecord[],
-  commissions: Commission[],
-  payouts: Payout[]
-): PromoterKpis {
-  const totalRevenue = lessons.reduce((sum, l) => sum + l.amount, 0);
-  const totalCommissions = commissions.reduce((sum, c) => sum + c.amount, 0);
-  const pendingPayout = payouts
-    .filter((p) => p.status === "da_liquidare")
-    .reduce((sum, p) => sum + p.commissionsMatured, 0);
-  const liquidatedCommissions = commissions
-    .filter((c) => c.status === "liquidata")
-    .reduce((sum, c) => sum + c.amount, 0);
-  const totalHours = lessons.reduce((sum, l) => sum + l.durationHours, 0);
-
+  movements: CommissionMovement[]
+): DashboardKpis {
   return {
     acquiredStudents: students.length,
-    totalRevenue,
-    totalCommissions,
-    pendingPayout,
-    liquidatedCommissions,
-    totalHours,
+    studentsInDemo: students.filter((s) => s.status === "demo").length,
+    maturingCommissions: movements
+      .filter((m) => m.status === "in_maturazione")
+      .reduce((s, m) => s + m.commissionAmount, 0),
+    liquidableCommissions: movements
+      .filter((m) => m.status === "liquidabile")
+      .reduce((s, m) => s + m.commissionAmount, 0),
   };
 }
 
-export function getPromoterPlan(
-  promoter: Promoter,
-  plans: CommissionPlan[]
-): CommissionPlan {
-  return plans.find((p) => p.id === promoter.commissionPlanId)!;
+export function computeMonthFunnel(
+  students: AcquiredStudent[],
+  movements: CommissionMovement[],
+  monthPrefix: string
+): MonthFunnel {
+  const acquired = students.filter((s) => s.acquiredAt.startsWith(monthPrefix)).length;
+  const demosStarted = students.filter(
+    (s) =>
+      s.acquiredAt.startsWith(monthPrefix) &&
+      (s.status === "demo" || s.status === "cliente")
+  ).length;
+  const payingClients = students.filter(
+    (s) => s.acquiredAt.startsWith(monthPrefix) && s.status === "cliente"
+  ).length;
+  const demoToPayingRate =
+    demosStarted > 0 ? Math.round((payingClients / demosStarted) * 100) : 0;
+  const commissionsEarnedThisMonth = movements
+    .filter((m) => m.purchaseDate.startsWith(monthPrefix))
+    .reduce((s, m) => s + m.commissionAmount, 0);
+
+  const prevMonth = monthPrefix === "2026-08" ? "2026-07" : "2026-07";
+  const previousMonthCommissions = movements
+    .filter((m) => m.purchaseDate.startsWith(prevMonth))
+    .reduce((s, m) => s + m.commissionAmount, 0);
+
+  return {
+    acquired,
+    demosStarted,
+    payingClients,
+    demoToPayingRate,
+    commissionsEarnedThisMonth,
+    previousMonthCommissions,
+  };
+}
+
+export function computeCommissionKpis(movements: CommissionMovement[]): CommissionKpis {
+  return {
+    maturing: movements
+      .filter((m) => m.status === "in_maturazione")
+      .reduce((s, m) => s + m.commissionAmount, 0),
+    liquidable: movements
+      .filter((m) => m.status === "liquidabile")
+      .reduce((s, m) => s + m.commissionAmount, 0),
+    paid: movements
+      .filter((m) => m.status === "pagata")
+      .reduce((s, m) => s + m.commissionAmount, 0),
+  };
+}
+
+export function getMovementsForPayout(
+  payout: PayoutRecord,
+  movements: CommissionMovement[]
+): CommissionMovement[] {
+  if (payout.commissionIds.length === 0) {
+    return movements.filter((m) => m.payoutId === payout.id);
+  }
+  return movements.filter((m) => payout.commissionIds.includes(m.id));
 }

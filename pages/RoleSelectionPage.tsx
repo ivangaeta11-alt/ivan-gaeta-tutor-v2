@@ -11,7 +11,7 @@ import {
 const ROLE_DESCRIPTIONS: Partial<Record<UserRole, string>> = {
   student: "Lezioni, materiali, calendario e crediti.",
   tutor: "Calendario, gruppi, materiali e compensi.",
-  promoter: "Statistiche, liquidazioni e materiale promozionale.",
+  promoter: "Acquisizioni studenti, commissioni e strumenti referral.",
 };
 
 const RoleSelectionPage: React.FC = () => {

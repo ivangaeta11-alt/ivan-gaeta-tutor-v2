@@ -1,184 +1,150 @@
-import React, { useMemo } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import React from "react";
+import { Link, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import PageHeader from "../../../features/area-personale/promoter/components/PageHeader";
+import StudentStatusBadge from "../../../features/area-personale/promoter/components/StudentStatusBadge";
+import SpendProgressBar from "../../../features/area-personale/promoter/components/SpendProgressBar";
 import ResponsiveTable from "../../../features/area-personale/promoter/components/ResponsiveTable";
-import LessonTypeBadge from "../../../features/area-personale/promoter/components/LessonTypeBadge";
+import {
+  getMovementsForStudent,
+  getPurchasesForStudent,
+  getStudentById,
+} from "../../../features/area-personale/promoter/data";
+import {
+  cappedValidSpend,
+  cumulativeCommission,
+  remainingPotential,
+} from "../../../features/area-personale/promoter/utils/commissionModel";
+import { formatCurrency, formatDate } from "../../../features/area-personale/promoter/utils/format";
 import {
   TABLE_CELL,
   TABLE_HEAD,
   TABLE_ROW,
 } from "../../../features/area-personale/promoter/components/tableStyles";
-import {
-  getCommissionPlanById,
-  getLessonsForStudent,
-  getStudentById,
-} from "../../../features/area-personale/promoter/data/demoData";
-import { promoterDemo } from "../../../features/area-personale/promoter/data";
-import { enrichLessons } from "../../../features/area-personale/promoter/utils/calculations";
-import {
-  formatCurrency,
-  formatDate,
-  formatDuration,
-  formatPercent,
-} from "../../../features/area-personale/promoter/utils/format";
 
 const PromoterStudenteDetail: React.FC = () => {
-  const { studentId } = useParams<{ studentId: string }>();
-  const student = studentId ? getStudentById(studentId) : undefined;
-
-  const enrichedStudentLessons = useMemo(() => {
-    if (!student) return [];
-    const lessons = getLessonsForStudent(student.id);
-    return enrichLessons(
-      lessons,
-      [student],
-      promoterDemo.plans,
-      promoterDemo.commissions
-    );
-  }, [student]);
+  const { studentId = "" } = useParams();
+  const student = getStudentById(studentId);
+  const purchases = getPurchasesForStudent(studentId);
+  const movements = getMovementsForStudent(studentId);
 
   if (!student) {
-    return <Navigate to="/area-personale/promoter/statistiche" replace />;
+    return (
+      <div className="min-w-0">
+        <p className="text-slate-500">Studente non trovato.</p>
+        <Link
+          to="/area-personale/promoter/studenti"
+          className="text-sm font-semibold text-blue-600 hover:text-blue-700 mt-4 inline-block"
+        >
+          ← Torna agli studenti
+        </Link>
+      </div>
+    );
   }
 
-  const totalRevenue = enrichedStudentLessons.reduce((s, l) => s + l.amount, 0);
-  const totalCommission = enrichedStudentLessons.reduce((s, l) => s + l.commissionAmount, 0);
-  const lastActivity =
-    enrichedStudentLessons.length > 0
-      ? enrichedStudentLessons[enrichedStudentLessons.length - 1].date
-      : null;
-  const plan = getCommissionPlanById(student.commissionPlanId);
+  const totalSpend = purchases.reduce((s, p) => s + p.amount, 0);
+  const validSpend = cappedValidSpend(totalSpend);
+  const commission = cumulativeCommission(validSpend);
+  const remaining = remainingPotential(validSpend);
 
   return (
     <div className="min-w-0 max-w-full">
       <Link
-        to="/area-personale/promoter/statistiche"
-        className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:text-blue-700 mb-6 transition-colors"
+        to="/area-personale/promoter/studenti"
+        className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-blue-600 mb-6"
       >
-        <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden />
-        Torna alle statistiche
+        <ArrowLeft className="w-4 h-4" />
+        Studenti
       </Link>
 
       <PageHeader
         title={student.label}
-        description="Dettaglio prestazioni generate. L'attribuzione al promoter è permanente; la percentuale di commissione dipende dalla tipologia di ogni singola lezione."
+        description={`Acquisito il ${formatDate(student.acquiredAt)}`}
       />
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 min-w-0">
-        <div className="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm min-w-0">
-          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 break-words">
-            Acquisito il
+      <div className="flex flex-wrap items-center gap-2 mb-6">
+        <StudentStatusBadge status={student.status} />
+        {validSpend >= 100 && (
+          <span className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-100">
+            Commissione completata
+          </span>
+        )}
+      </div>
+
+      <div className="grid sm:grid-cols-3 gap-4 mb-8">
+        <div className="p-4 bg-white rounded-2xl border border-slate-100">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+            Spesa valida
           </p>
-          <p className="text-lg font-bold text-slate-900 break-words">{formatDate(student.acquiredAt)}</p>
+          <p className="text-xl font-extrabold text-slate-900">{formatCurrency(validSpend)}</p>
         </div>
-        <div className="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm min-w-0">
-          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 break-words">
-            Ricavi totali
+        <div className="p-4 bg-white rounded-2xl border border-slate-100">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+            Commissione maturata
           </p>
-          <p className="text-lg font-bold text-slate-900 break-words">{formatCurrency(totalRevenue)}</p>
+          <p className="text-xl font-extrabold text-slate-900">{formatCurrency(commission)}</p>
         </div>
-        <div className="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm min-w-0">
-          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 break-words">
-            Commissioni totali
+        <div className="p-4 bg-white rounded-2xl border border-slate-100">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+            Ancora ottenibile
           </p>
-          <p className="text-lg font-bold text-slate-900 break-words">{formatCurrency(totalCommission)}</p>
-        </div>
-        <div className="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm min-w-0">
-          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 break-words">
-            Ultima attività
-          </p>
-          <p className="text-lg font-bold text-slate-900 break-words">
-            {lastActivity ? formatDate(lastActivity) : "—"}
-          </p>
+          <p className="text-xl font-extrabold text-slate-900">{formatCurrency(remaining)}</p>
         </div>
       </div>
 
-      {plan && (
-        <p className="text-sm text-slate-500 font-light mb-6 break-words">
-          Piano commissionale applicato:{" "}
-          <span className="font-medium text-slate-700">{plan.displayName}</span>
-        </p>
-      )}
+      <div className="mb-8 max-w-md">
+        <SpendProgressBar validSpend={validSpend} />
+      </div>
 
-      {student.id === "s1042" && (
-        <div className="mb-6 p-4 rounded-2xl bg-violet-50/60 border border-violet-100 text-sm text-violet-800 font-light break-words">
-          Questo studente ha lezioni in tutte e tre le tipologie (individuale, gruppo piccolo,
-          gruppo grande). L'attribuzione resta invariata; cambia solo il tier applicato per
-          ciascuna prestazione.
-        </div>
-      )}
+      <h2 className="text-lg font-bold text-slate-900 mb-4">Storico acquisti</h2>
 
-      <section className="min-w-0">
-        <h2 className="text-xl font-bold text-slate-900 mb-4 tracking-tight">
-          Cronologia prestazioni
-        </h2>
+      <div className="sm:hidden space-y-3 mb-8">
+        {movements.map((m) => (
+          <div
+            key={m.id}
+            className="p-4 bg-white rounded-2xl border border-slate-100 text-sm"
+          >
+            <p className="font-semibold text-slate-800">{formatDate(m.purchaseDate)}</p>
+            <p className="text-slate-600 mt-1">
+              Acquisto {formatCurrency(m.purchaseAmount)} → commissione{" "}
+              <span className="font-semibold text-emerald-700">
+                +{formatCurrency(m.commissionAmount)}
+              </span>
+            </p>
+          </div>
+        ))}
+        {movements.length === 0 && (
+          <p className="text-sm text-slate-400">Nessun acquisto con commissione.</p>
+        )}
+      </div>
 
-        <div className="space-y-3 sm:hidden">
-          {enrichedStudentLessons.map((lesson) => (
-            <div
-              key={lesson.id}
-              className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm min-w-0"
-            >
-              <div className="flex flex-wrap items-start justify-between gap-2">
-                <p className="font-medium text-slate-900 break-words">{formatDate(lesson.date)}</p>
-                <LessonTypeBadge type={lesson.lessonType} />
-              </div>
-              <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
-                <div>
-                  <p className="text-xs text-slate-400">Durata</p>
-                  <p className="font-medium text-slate-800">{formatDuration(lesson.durationHours)}</p>
-                </div>
-                <div>
-                  <p className="text-xs text-slate-400">Importo</p>
-                  <p className="font-medium text-slate-800 break-words">{formatCurrency(lesson.amount)}</p>
-                </div>
-                <div>
-                  <p className="text-xs text-slate-400">Tier</p>
-                  <p className="font-medium text-slate-800">{formatPercent(lesson.tierRate)}</p>
-                </div>
-                <div>
-                  <p className="text-xs text-slate-400">Commissione</p>
-                  <p className="font-medium text-slate-800 break-words">
-                    {formatCurrency(lesson.commissionAmount)}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="hidden sm:block bg-white rounded-3xl border border-slate-100 shadow-sm min-w-0 max-w-full">
-          <ResponsiveTable>
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-slate-100 bg-slate-50/50">
-                  <th className={TABLE_HEAD}>Data</th>
-                  <th className={TABLE_HEAD}>Prestazione</th>
-                  <th className={TABLE_HEAD}>Durata</th>
-                  <th className={TABLE_HEAD}>Importo</th>
-                  <th className={TABLE_HEAD}>Tier</th>
-                  <th className={TABLE_HEAD}>Commissione</th>
+      <div className="hidden sm:block bg-white rounded-3xl border border-slate-100 shadow-sm min-w-0">
+        <ResponsiveTable>
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-slate-100">
+                <th className={TABLE_HEAD}>Data</th>
+                <th className={TABLE_HEAD}>Acquisto</th>
+                <th className={TABLE_HEAD}>Commissione</th>
+              </tr>
+            </thead>
+            <tbody>
+              {movements.map((m) => (
+                <tr key={m.id} className={TABLE_ROW}>
+                  <td className={TABLE_CELL}>{formatDate(m.purchaseDate)}</td>
+                  <td className={TABLE_CELL}>{formatCurrency(m.purchaseAmount)}</td>
+                  <td className={`${TABLE_CELL} font-semibold text-emerald-700`}>
+                    +{formatCurrency(m.commissionAmount)}
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {enrichedStudentLessons.map((lesson) => (
-                  <tr key={lesson.id} className={TABLE_ROW}>
-                    <td className={TABLE_CELL}>{formatDate(lesson.date)}</td>
-                    <td className={TABLE_CELL}>
-                      <LessonTypeBadge type={lesson.lessonType} />
-                    </td>
-                    <td className={TABLE_CELL}>{formatDuration(lesson.durationHours)}</td>
-                    <td className={TABLE_CELL}>{formatCurrency(lesson.amount)}</td>
-                    <td className={TABLE_CELL}>{formatPercent(lesson.tierRate)}</td>
-                    <td className={TABLE_CELL}>{formatCurrency(lesson.commissionAmount)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </ResponsiveTable>
-        </div>
-      </section>
+              ))}
+            </tbody>
+          </table>
+        </ResponsiveTable>
+        {movements.length === 0 && (
+          <p className="p-6 text-sm text-slate-400">Nessun acquisto con commissione.</p>
+        )}
+      </div>
     </div>
   );
 };

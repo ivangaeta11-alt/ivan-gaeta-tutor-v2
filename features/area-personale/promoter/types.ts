@@ -1,22 +1,12 @@
-/** Tipologia prestazione — la percentuale commissione dipende da questa, non dall'attribuzione studente. */
-export type LessonType = "individuale" | "gruppo_piccolo" | "gruppo_grande";
+export type StudentStatus = "registrato" | "demo" | "cliente" | "inattivo";
 
-export type CommissionStatus = "maturata" | "da_liquidare" | "liquidata";
+export type CommissionMovementStatus =
+  | "in_maturazione"
+  | "liquidabile"
+  | "pagata"
+  | "stornata";
 
-export type PayoutStatus = "liquidata" | "da_liquidare" | "in_elaborazione";
-
-export interface CommissionPlanRates {
-  individuale: number;
-  gruppo_piccolo: number;
-  gruppo_grande: number;
-}
-
-export interface CommissionPlan {
-  id: string;
-  /** Nome visualizzato in UI */
-  displayName: string;
-  rates: CommissionPlanRates;
-}
+export type PayoutRecordStatus = "pagata" | "in_elaborazione";
 
 export interface Promoter {
   id: string;
@@ -24,55 +14,67 @@ export interface Promoter {
   email: string;
   referralLink: string;
   referralCode: string;
-  /** Piano bloccato al momento dell'iscrizione promoter */
-  commissionPlanId: string;
   nextPayoutDate: string;
   lastPayoutDate: string;
 }
 
-/** Studente acquisito — attribuzione permanente al promoter */
+/** Studente acquisito con attribuzione permanente al promoter. */
 export interface AcquiredStudent {
   id: string;
   label: string;
   acquiredAt: string;
-  /** Piano commissionale al momento dell'acquisizione */
-  commissionPlanId: string;
+  status: StudentStatus;
 }
 
-export interface LessonRecord {
+/** Acquisto valido sullo studente (lezioni, crediti, pacchetti). */
+export interface PurchaseRecord {
   id: string;
   studentId: string;
   date: string;
-  lessonType: LessonType;
-  durationHours: number;
   amount: number;
-  commissionPlanId: string;
+  label: string;
 }
 
-export interface Commission {
+/** Singola commissione generata da un acquisto. */
+export interface CommissionMovement {
   id: string;
-  lessonRecordId: string;
+  purchaseId: string;
   studentId: string;
-  amount: number;
-  rate: number;
-  status: CommissionStatus;
+  purchaseDate: string;
+  purchaseAmount: number;
+  commissionAmount: number;
+  status: CommissionMovementStatus;
+  /** Data in cui completa i 15 giorni di maturazione. */
+  liquidableFrom: string;
+  /** Prima data di liquidazione utile (1 o 16 del mese). */
+  firstEligiblePayoutDate: string;
   payoutId?: string;
-  maturedAt: string;
 }
 
-export interface Payout {
+export interface PayoutRecord {
   id: string;
-  periodStart: string;
-  periodEnd: string;
   payoutDate: string;
-  commissionsMatured: number;
-  amountPaid: number | null;
-  status: PayoutStatus;
+  amount: number;
+  commissionCount: number;
+  status: PayoutRecordStatus;
   commissionIds: string[];
 }
 
-export const LESSON_TYPE_LABELS: Record<LessonType, string> = {
-  individuale: "Individuale",
-  gruppo_piccolo: "Gruppo piccolo",
-  gruppo_grande: "Gruppo grande",
+export const STUDENT_STATUS_LABELS: Record<StudentStatus, string> = {
+  registrato: "Registrato",
+  demo: "Demo",
+  cliente: "Cliente",
+  inattivo: "Inattivo",
+};
+
+export const COMMISSION_STATUS_LABELS: Record<CommissionMovementStatus, string> = {
+  in_maturazione: "In maturazione",
+  liquidabile: "Liquidabile",
+  pagata: "Pagata",
+  stornata: "Stornata",
+};
+
+export const PAYOUT_STATUS_LABELS: Record<PayoutRecordStatus, string> = {
+  pagata: "Pagata",
+  in_elaborazione: "In elaborazione",
 };

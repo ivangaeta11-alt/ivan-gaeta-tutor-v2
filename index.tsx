@@ -1,7 +1,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { AuthProvider } from './features/auth/AuthProvider';
 import { AppErrorBoundary } from './components/AppErrorBoundary';
 import App from './App';
@@ -34,11 +34,15 @@ import TutorCompensi from './pages/area-personale/tutor/TutorCompensi';
 import TutorProfilo from './pages/area-personale/tutor/TutorProfilo';
 import PromoterShell from './pages/area-personale/promoter/PromoterShell';
 import PromoterDashboard from './pages/area-personale/PromoterDashboard';
-import PromoterStatistiche from './pages/area-personale/promoter/PromoterStatistiche';
+import PromoterStudenti from './pages/area-personale/promoter/PromoterStudenti';
 import PromoterStudenteDetail from './pages/area-personale/promoter/PromoterStudenteDetail';
-import PromoterLiquidazioni from './pages/area-personale/promoter/PromoterLiquidazioni';
-import PromoterMateriale from './pages/area-personale/promoter/PromoterMateriale';
-import PromoterProfilo from './pages/area-personale/promoter/PromoterProfilo';
+import PromoterCommissioni from './pages/area-personale/promoter/PromoterCommissioni';
+import PromoterStrumenti from './pages/area-personale/promoter/PromoterStrumenti';
+
+function RedirectPromoterStudenteDetail() {
+  const { studentId } = useParams();
+  return <Navigate to={`/area-personale/promoter/studenti/${studentId ?? ''}`} replace />;
+}
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -89,11 +93,15 @@ root.render(
           </Route>
           <Route path="promoter" element={<PromoterShell />}>
             <Route index element={<PromoterDashboard />} />
-            <Route path="statistiche" element={<PromoterStatistiche />} />
-            <Route path="statistiche/studente/:studentId" element={<PromoterStudenteDetail />} />
-            <Route path="liquidazioni" element={<PromoterLiquidazioni />} />
-            <Route path="materiale" element={<PromoterMateriale />} />
-            <Route path="profilo" element={<PromoterProfilo />} />
+            <Route path="studenti" element={<PromoterStudenti />} />
+            <Route path="studenti/:studentId" element={<PromoterStudenteDetail />} />
+            <Route path="commissioni" element={<PromoterCommissioni />} />
+            <Route path="strumenti" element={<PromoterStrumenti />} />
+            <Route path="statistiche" element={<Navigate to="/area-personale/promoter/studenti" replace />} />
+            <Route path="statistiche/studente/:studentId" element={<RedirectPromoterStudenteDetail />} />
+            <Route path="liquidazioni" element={<Navigate to="/area-personale/promoter/commissioni" replace />} />
+            <Route path="materiale" element={<Navigate to="/area-personale/promoter/strumenti" replace />} />
+            <Route path="profilo" element={<Navigate to="/area-personale/promoter/strumenti" replace />} />
           </Route>
           <Route path="tutor" element={<TutorShell />}>
             <Route index element={<TutorOverview />} />

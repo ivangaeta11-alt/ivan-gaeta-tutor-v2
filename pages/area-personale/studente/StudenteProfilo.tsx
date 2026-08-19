@@ -51,7 +51,7 @@ const StudenteProfilo: React.FC = () => {
         <DashboardCard title="Metodi di pagamento">
           <p>Gestione carte e acquisto crediti.</p>
           <div className="mt-3 p-4 rounded-xl bg-slate-50 border border-slate-100 text-sm text-slate-500 font-light">
-            Non ancora configurato — sarà disponibile con Stripe.
+            Non ancora configurato. Sarà disponibile con Stripe.
           </div>
         </DashboardCard>
       </div>

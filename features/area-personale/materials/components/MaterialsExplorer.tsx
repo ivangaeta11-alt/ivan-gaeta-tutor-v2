@@ -242,8 +242,8 @@ const MaterialsExplorer: React.FC = () => {
       {showSubmissionsNotice && navigation.folderId && (
         <div className="mb-4 p-3 rounded-xl bg-violet-50/60 border border-violet-100 text-xs text-violet-800">
           {role === "tutor"
-            ? "Svolgimenti degli studenti — area di sola consultazione e download."
-            : "Le mie consegne — area privata visibile a te, al tutor assegnato e a Ivan."}
+            ? "Svolgimenti degli studenti: area di sola consultazione e download."
+            : "Le mie consegne: area privata visibile a te, al tutor assegnato e a Ivan."}
         </div>
       )}
 

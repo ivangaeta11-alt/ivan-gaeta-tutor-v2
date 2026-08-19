@@ -95,7 +95,7 @@ const TutorGruppoDetail: React.FC = () => {
         <section className="mb-8">
           <h2 className="text-lg font-bold text-slate-900 mb-3">Consegne da correggere ({submissions.length})</h2>
           {submissions.map((s) => (
-            <p key={s.id} className="text-sm text-slate-600 py-1">{s.studentName} — {s.exerciseTitle}</p>
+            <p key={s.id} className="text-sm text-slate-600 py-1">{s.studentName}, {s.exerciseTitle}</p>
           ))}
         </section>
       )}

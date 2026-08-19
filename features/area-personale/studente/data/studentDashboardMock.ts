@@ -232,7 +232,7 @@ export const MOCK_TUTOR_MATERIALS: Material[] = [
 export const MOCK_SUBMISSIONS: Submission[] = [
   {
     id: "sub_001",
-    title: "Esercizi Cinematica — Set A",
+    title: "Esercizi Cinematica: Set A",
     status: "da_correggere",
     submittedDate: "2026-08-16",
   },

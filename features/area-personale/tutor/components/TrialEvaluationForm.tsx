@@ -31,7 +31,7 @@ const TrialEvaluationForm: React.FC<TrialEvaluationFormProps> = ({ guest, onSave
 
   return (
     <div className="p-6 bg-white rounded-3xl border border-violet-100 shadow-sm">
-      <h3 className="text-lg font-bold text-slate-900 mb-1">Valutazione prova — {guest.displayName}</h3>
+      <h3 className="text-lg font-bold text-slate-900 mb-1">Valutazione prova: {guest.displayName}</h3>
       <p className="text-sm text-violet-700 font-light mb-5">
         Raccomandazione visiva al gruppo e a Ivan. Non equivale ad ammissione definitiva.
       </p>

@@ -164,7 +164,7 @@ const LessonRow: React.FC<{ lesson: Lesson; faded?: boolean }> = ({ lesson, fade
       <div className="min-w-0">
         <h3 className="font-bold text-slate-900 break-words">
           {lesson.kind === "individual"
-            ? `${lesson.subject} — Lezione individuale`
+            ? `${lesson.subject}: lezione individuale`
             : `${lesson.subject} – ${lesson.groupName}`}
         </h3>
         {lesson.tutorName && (
@@ -215,7 +215,7 @@ const ProposalRow: React.FC<{ proposal: GroupLessonProposal }> = ({ proposal }) 
           Proposta lezione extra
         </p>
         <h3 className="font-bold text-slate-900 break-words">
-          {proposal.subject} — {proposal.groupName}
+          {proposal.subject}, {proposal.groupName}
         </h3>
         <p className="text-sm text-slate-500 mt-0.5">
           {formatDate(proposal.date)} · {formatTimeRange(proposal.startTime, proposal.endTime)}

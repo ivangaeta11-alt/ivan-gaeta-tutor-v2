@@ -155,7 +155,7 @@ export const StudentDashboardProvider: React.FC<{ children: React.ReactNode }> =
           id: `mov_${Date.now()}`,
           date: new Date().toISOString().slice(0, 10),
           amount: -params.costCredits,
-          description: `Lezione individuale — ${params.subject}`,
+          description: `Lezione individuale: ${params.subject}`,
           walletType: "personal",
         },
       ]);

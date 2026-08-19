@@ -50,8 +50,8 @@ const MaterialItemRow: React.FC<MaterialItemRowProps> = ({
         ? item.data.studentFile
           ? "Studente"
           : item.data.tutorName
-        : "—");
-  const size = item.kind === "file" ? item.data.sizeLabel : "—";
+        : "N/D");
+  const size = item.kind === "file" ? item.data.sizeLabel : "N/D";
   const typeLabel =
     item.kind === "folder"
       ? "Cartella"

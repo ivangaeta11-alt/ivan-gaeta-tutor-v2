@@ -21,7 +21,7 @@ const NextLessonCard: React.FC<NextLessonCardProps> = ({ lesson }) => {
           </p>
           <h2 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight break-words">
             {lesson.kind === "individual"
-              ? `${lesson.subject} — Lezione individuale`
+              ? `${lesson.subject}: lezione individuale`
               : `${lesson.subject} – ${lesson.groupName}`}
           </h2>
         </div>

@@ -46,7 +46,7 @@ serve(async (req) => {
       html: `
         <h2>Nuova recensione ricevuta</h2>
         <p><strong>Nome:</strong> ${escapeHtml(author_name)}</p>
-        <p><strong>Materia:</strong> ${escapeHtml(subject || "—")}</p>
+        <p><strong>Materia:</strong> ${escapeHtml(subject || "N/D")}</p>
         <p><strong>Valutazione:</strong> ${stars} (${escapeHtml(rating)}/5)</p>
         <p><strong>Testo:</strong></p>
         <p>${escapeHtml(content).replaceAll("\n", "<br>")}</p>

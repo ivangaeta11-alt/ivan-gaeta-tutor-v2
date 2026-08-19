@@ -210,7 +210,7 @@ const Testimonials: React.FC = () => {
   const averageStars = cardItems.length
     ? cardItems.reduce((sum, i) => sum + i.stars, 0) / cardItems.length
     : 0;
-  const averageDisplay = averageStars > 0 ? averageStars.toFixed(1).replace('.', ',') : '—';
+  const averageDisplay = averageStars > 0 ? averageStars.toFixed(1).replace('.', ',') : 'N/D';
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {

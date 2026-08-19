@@ -71,7 +71,7 @@ export const MOCK_STUDENTS: TutorStudent[] = [
 
 export const MOCK_GUEST: TutorGuest = {
   id: "gst_001",
-  displayName: "Guest — Tommaso G.",
+  displayName: "Guest: Tommaso G.",
   initials: "TG",
   groupId: "grp_smf_01",
   initialLevel: "Da valutare",
@@ -97,7 +97,7 @@ export const MOCK_LESSONS: TutorLesson[] = [
     type: "gruppo",
     participantCount: 7,
     videoLink: "https://meet.example.com/smf-01-19ago",
-    topics: ["Dinamica — seconda legge di Newton"],
+    topics: ["Dinamica: seconda legge di Newton"],
     materials: ["mat_001"],
     privateNotes: "Ripassare esercizi del cap. 4",
   },
@@ -119,7 +119,7 @@ export const MOCK_LESSONS: TutorLesson[] = [
     id: "tl_003",
     groupId: "grp_smf_01",
     subject: "Fisica",
-    label: "Gruppo SMF 01 — Prova",
+    label: "Gruppo SMF 01: Prova",
     date: "2026-08-14",
     startTime: "18:00",
     endTime: "19:30",
@@ -156,7 +156,7 @@ export const MOCK_LESSONS: TutorLesson[] = [
     status: "in_attesa_conferma",
     type: "gruppo",
     participantCount: 4,
-    topics: ["Termodinamica — intro"],
+    topics: ["Termodinamica: intro"],
   },
   {
     id: "tl_006",
@@ -216,7 +216,7 @@ export const MOCK_LESSONS: TutorLesson[] = [
     id: "tl_010",
     groupId: "grp_smf_01",
     subject: "Fisica",
-    label: "Gruppo SMF 01 — Aggiuntiva",
+    label: "Gruppo SMF 01: Aggiuntiva",
     date: "2026-08-22",
     startTime: "16:00",
     endTime: "17:30",
@@ -231,11 +231,11 @@ export const MOCK_LESSONS: TutorLesson[] = [
 export const MOCK_NEXT_LESSON = MOCK_LESSONS[0];
 
 export const MOCK_REQUIRED_ACTIONS: RequiredAction[] = [
-  { id: "ra_001", type: "Consegne", title: "3 consegne da correggere — Gruppo SMF 01", priority: "alta", dueDate: "2026-08-20", actionLabel: "Correggi" },
+  { id: "ra_001", type: "Consegne", title: "3 consegne da correggere: Gruppo SMF 01", priority: "alta", dueDate: "2026-08-20", actionLabel: "Correggi" },
   { id: "ra_002", type: "Materiali", title: "Registrazione lezione del 14 agosto da caricare", priority: "media", dueDate: "2026-08-21", actionLabel: "Carica" },
   { id: "ra_003", type: "Prova", title: "Valutazione guest Tommaso G. da completare", priority: "alta", dueDate: "2026-08-19", actionLabel: "Valuta" },
   { id: "ra_004", type: "Calendario", title: "Modifica orario approvata dal gruppo SMF 01", priority: "bassa", dueDate: "2026-08-18", actionLabel: "Visualizza" },
-  { id: "ra_005", type: "Lezione", title: "Lezione del 12 agosto non confermata — saldo insufficiente", priority: "media", actionLabel: "Dettagli" },
+  { id: "ra_005", type: "Lezione", title: "Lezione del 12 agosto non confermata: saldo insufficiente", priority: "media", actionLabel: "Dettagli" },
 ];
 
 export const MOCK_WEEKLY_SUMMARY = {
@@ -246,20 +246,20 @@ export const MOCK_WEEKLY_SUMMARY = {
 };
 
 export const MOCK_LIBRARY: TutorMaterial[] = [
-  { id: "lib_001", type: "dispensa", title: "Cinematica — dispensa base", createdAt: "2026-07-01", reusable: true },
+  { id: "lib_001", type: "dispensa", title: "Cinematica: dispensa base", createdAt: "2026-07-01", reusable: true },
   { id: "lib_002", type: "formulario", title: "Formulario Fisica 1", createdAt: "2026-07-05", reusable: true },
-  { id: "lib_003", type: "esercizi", title: "Esercizi Dinamica — set A", createdAt: "2026-07-15", reusable: true },
+  { id: "lib_003", type: "esercizi", title: "Esercizi Dinamica: set A", createdAt: "2026-07-15", reusable: true },
   { id: "lib_004", type: "simulazione", title: "Simulazione parziale Fisica", createdAt: "2026-08-01", reusable: true },
 ];
 
 export const MOCK_PUBLISHED: PublishedMaterial[] = [
   { id: "pub_001", title: "Cinematica", type: "dispensa", target: "Gruppo SMF 01", date: "2026-08-15", author: "Ivan Gaeta", published: true },
-  { id: "pub_002", title: "Moto parabolico — esercizi", type: "esercizi", target: "Gruppo SMF 01", date: "2026-08-13", author: "Ivan Gaeta", published: true },
+  { id: "pub_002", title: "Moto parabolico: esercizi", type: "esercizi", target: "Gruppo SMF 01", date: "2026-08-13", author: "Ivan Gaeta", published: true },
   { id: "pub_003", title: "Lezione del 14 agosto", type: "registrazione", target: "Gruppo SMF 01", date: "2026-08-14", author: "Ivan Gaeta", published: false },
 ];
 
 export const MOCK_SUBMISSIONS: TutorSubmission[] = [
-  { id: "sub_001", studentId: "stu_001", studentName: "Marco R.", groupId: "grp_smf_01", groupName: "Gruppo SMF 01", exerciseTitle: "Esercizi Cinematica — Set A", submittedDate: "2026-08-16", status: "da_correggere", fileName: "cinematica_marco.pdf" },
+  { id: "sub_001", studentId: "stu_001", studentName: "Marco R.", groupId: "grp_smf_01", groupName: "Gruppo SMF 01", exerciseTitle: "Esercizi Cinematica: Set A", submittedDate: "2026-08-16", status: "da_correggere", fileName: "cinematica_marco.pdf" },
   { id: "sub_002", studentId: "stu_003", studentName: "Andrea S.", groupId: "grp_smf_01", groupName: "Gruppo SMF 01", exerciseTitle: "Verifica Moto rettilineo", submittedDate: "2026-08-15", status: "da_correggere", fileName: "moto_andrea.pdf" },
   { id: "sub_003", studentId: "stu_005", studentName: "Giulia P.", groupId: "grp_smf_01", groupName: "Gruppo SMF 01", exerciseTitle: "Compiti Moto parabolico", dueDate: "2026-08-22", status: "da_consegnare" },
   { id: "sub_004", studentId: "stu_002", studentName: "Laura B.", groupId: "grp_smf_01", groupName: "Gruppo SMF 01", exerciseTitle: "Esercizi Forze", submittedDate: "2026-08-10", status: "corretta", fileName: "forze_laura.pdf" },
@@ -274,7 +274,7 @@ export const MOCK_EARNINGS: TutorEarning[] = [
 ];
 
 export const MOCK_NOTIFICATIONS: TutorNotification[] = [
-  { id: "tn_001", message: "3 consegne in attesa di correzione — Gruppo SMF 01", date: "2026-08-17", read: false },
+  { id: "tn_001", message: "3 consegne in attesa di correzione: Gruppo SMF 01", date: "2026-08-17", read: false },
   { id: "tn_002", message: "Valutazione guest Tommaso G. da completare", date: "2026-08-17", read: false },
   { id: "tn_003", message: "Lezione SMF 01 del 19 agosto confermata", date: "2026-08-18", read: true },
 ];

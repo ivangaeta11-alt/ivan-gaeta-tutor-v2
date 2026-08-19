@@ -23,3 +23,17 @@ export function mapAuthError(message: string): string {
 
   return "Accesso non riuscito. Verifica le credenziali e riprova.";
 }
+
+export function mapProfileUpdateError(message: string): string {
+  const normalized = message.toLowerCase();
+
+  if (normalized.includes("permission") || normalized.includes("policy")) {
+    return "Non hai i permessi per aggiornare il profilo.";
+  }
+
+  if (normalized.includes("network") || normalized.includes("fetch")) {
+    return "Connessione non disponibile. Riprova tra poco.";
+  }
+
+  return "Impossibile salvare il profilo. Riprova tra poco.";
+}

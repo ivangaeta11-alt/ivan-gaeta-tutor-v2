@@ -23,3 +23,30 @@ export async function fetchProfileAndRoles(userId: string): Promise<{
     roles: (rolesResult.data ?? []).map((row) => row.role as UserRole),
   };
 }
+
+export interface UpdateOwnProfileInput {
+  full_name: string | null;
+  phone: string | null;
+}
+
+export async function updateOwnProfile(
+  userId: string,
+  input: UpdateOwnProfileInput
+): Promise<{ profile: Profile | null; error: string | null }> {
+  const { data, error } = await supabase
+    .from("profiles")
+    .update({
+      full_name: input.full_name,
+      phone: input.phone,
+    })
+    .eq("id", userId)
+    .select("*")
+    .maybeSingle();
+
+  if (error) {
+    console.error("Errore aggiornamento profilo:", error.message);
+    return { profile: null, error: error.message };
+  }
+
+  return { profile: data ?? null, error: null };
+}

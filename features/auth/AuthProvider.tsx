@@ -21,6 +21,7 @@ interface AuthContextValue {
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
+  refreshProfile: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -112,6 +113,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setRoles([]);
   }, []);
 
+  const refreshProfile = useCallback(async () => {
+    if (!session?.user) return;
+    const data = await fetchProfileAndRoles(session.user.id);
+    setProfile(data.profile);
+    setRoles(data.roles);
+  }, [session?.user]);
+
   const value = useMemo<AuthContextValue>(
     () => ({
       session,
@@ -121,8 +129,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       loading,
       signIn,
       signOut,
+      refreshProfile,
     }),
-    [session, profile, roles, loading, signIn, signOut]
+    [session, profile, roles, loading, signIn, signOut, refreshProfile]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

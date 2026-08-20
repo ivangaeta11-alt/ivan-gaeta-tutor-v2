@@ -19,6 +19,7 @@
   --hero-content-width: calc(
     var(--hero-copy-max) + var(--hero-main-gap) + var(--hero-stage-width)
   );
+  --hero-floating-badge-bottom: 96px;
 }
 
 @media (max-width: 1500px) and (min-width: 1181px) {
@@ -538,15 +539,18 @@
   flex-shrink: 0;
 }
 
-.hero-floating-card--custom {
+.hero-floating-card--custom,
+.hero-floating-card--students {
   top: auto;
-  bottom: 133px;
+  bottom: var(--hero-floating-badge-bottom);
+}
+
+.hero-floating-card--custom {
   right: 6px;
 }
 
 .hero-floating-card--students {
   left: 6px;
-  bottom: 25px;
 }
 
 .hero-floating-card__icon-teal {
@@ -563,21 +567,34 @@
   max-width: var(--hero-content-width);
   margin: 36px auto 0;
   padding-bottom: 28px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 0;
 }
 
 .hero-trust-item {
+  flex: 1;
   min-height: 54px;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 14px;
   color: #17335f;
   font-size: 16px;
   font-weight: 520;
   letter-spacing: -0.015em;
+}
+
+.hero-trust-item:first-child {
+  justify-content: flex-start;
+}
+
+.hero-trust-item:nth-child(2) {
+  justify-content: center;
+}
+
+.hero-trust-item:last-child {
+  justify-content: flex-end;
 }
 
 .hero-trust-item svg {
@@ -629,15 +646,9 @@
     top: calc(31px * 0.92);
   }
 
-  .hero-floating-card--custom {
-    top: auto;
-    bottom: calc(133px * 0.92);
-    right: 6px;
-  }
-
+  .hero-floating-card--custom,
   .hero-floating-card--students {
-    left: 6px;
-    bottom: calc(25px * 0.92);
+    bottom: calc(var(--hero-floating-badge-bottom) * 0.92);
   }
 }
 
@@ -754,14 +765,18 @@
     height: 280px;
   }
 
+  .hero-floating-card--custom,
+  .hero-floating-card--students {
+    top: auto;
+    bottom: 88px;
+  }
+
   .hero-floating-card--custom {
-    top: 140px;
     right: 0;
   }
 
   .hero-floating-card--students {
     left: 0;
-    bottom: 72px;
   }
 
   .hero-trust {
@@ -1012,15 +1027,18 @@
     height: 22px;
   }
 
+  .hero-floating-card--custom,
+  .hero-floating-card--students {
+    bottom: 72px;
+  }
+
   .hero-floating-card--custom {
     top: auto;
-    bottom: 108px;
     right: 4px;
   }
 
   .hero-floating-card--students {
     left: 4px;
-    bottom: 44px;
   }
 
   .hero-trust {
@@ -1103,14 +1121,17 @@
     padding-inline: 12px;
   }
 
+  .hero-floating-card--custom,
+  .hero-floating-card--students {
+    bottom: 68px;
+  }
+
   .hero-floating-card--custom {
     top: auto;
-    bottom: 96px;
     right: 2px;
   }
 
   .hero-floating-card--students {
-    bottom: 48px;
     left: 2px;
   }
 }

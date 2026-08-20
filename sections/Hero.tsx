@@ -9,6 +9,7 @@ import {
   Layers,
   FileText,
   Target,
+  ClipboardCheck,
 } from 'lucide-react';
 
 interface HeroProps {
@@ -97,8 +98,8 @@ const Hero: React.FC<HeroProps> = ({ onNavigateRisorse }) => {
               <span>Percorsi su misura</span>
             </div>
             <div className="hero-floating-card hero-floating-card--students" aria-hidden>
-              <Users className="hero-floating-card__icon-blue" />
-              <span>30+ studenti seguiti</span>
+              <ClipboardCheck className="hero-floating-card__icon-blue" />
+              <span>Medicina e TOLC</span>
             </div>
           </div>
         </div>

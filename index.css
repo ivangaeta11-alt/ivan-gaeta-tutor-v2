@@ -15,7 +15,7 @@
   --hero-main-gap: 46px;
   --hero-copy-max: 612px;
   --hero-stage-width: 450px;
-  --hero-stage-height: 405px;
+  --hero-stage-height: 430px;
   --hero-content-width: calc(
     var(--hero-copy-max) + var(--hero-main-gap) + var(--hero-stage-width)
   );
@@ -27,7 +27,7 @@
     --hero-main-gap: 40px;
     --hero-copy-max: 558px;
     --hero-stage-width: 414px;
-    --hero-stage-height: 378px;
+    --hero-stage-height: 400px;
   }
 }
 
@@ -498,12 +498,15 @@
 .hero-portrait-subject {
   position: absolute;
   z-index: 2;
-  height: 432px;
+  height: 100%;
+  max-height: 100%;
   width: auto;
   max-width: none;
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
+  object-fit: contain;
+  object-position: center bottom;
   filter: drop-shadow(0 7px 8px rgb(5 24 55 / 7%));
   pointer-events: none;
   user-select: none;
@@ -615,7 +618,8 @@
   }
 
   .hero-portrait-subject {
-    height: calc(432px * 0.92);
+    height: 100%;
+    max-height: 100%;
     bottom: 0;
   }
 
@@ -736,7 +740,8 @@
   }
 
   .hero-portrait-subject {
-    height: 480px;
+    height: 100%;
+    max-height: 100%;
     left: 50%;
     bottom: 0;
     transform: translateX(-50%);
@@ -974,8 +979,11 @@
     bottom: 0;
     width: auto;
     max-width: none;
-    height: calc(min(720px, 115vw) * 0.75);
+    height: 100%;
+    max-height: 100%;
     transform: translateX(-50%);
+    object-fit: contain;
+    object-position: center bottom;
     filter: drop-shadow(0 5px 6px rgb(5 24 55 / 7%));
   }
 
@@ -1086,7 +1094,8 @@
   }
 
   .hero-portrait-subject {
-    height: calc(min(720px, 115vw) * 0.72);
+    height: 100%;
+    max-height: 100%;
   }
 
   .hero-floating-card {

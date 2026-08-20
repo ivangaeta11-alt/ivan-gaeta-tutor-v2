@@ -613,20 +613,20 @@
   }
 }
 
-/* ── Single column breakpoint ── */
-@media (max-width: 1180px) {
+/* ── Tablet single column: 768px – 1180px ── */
+@media (max-width: 1180px) and (min-width: 768px) {
   :root {
     --page-padding-inline: 40px;
   }
 
   .site-header {
     height: auto;
-    min-height: 72px;
+    min-height: 88px;
   }
 
   .site-header__inner {
     grid-template-columns: 1fr auto;
-    height: 72px;
+    height: 88px;
   }
 
   .site-nav,
@@ -651,12 +651,13 @@
   }
 
   .hero {
-    padding-top: 72px;
+    padding-top: 88px;
   }
 
   .hero-main {
+    display: grid;
     grid-template-columns: 1fr;
-    padding-top: 40px;
+    padding-top: 36px;
     gap: 0;
   }
 
@@ -666,14 +667,16 @@
   }
 
   .hero-title {
-    font-size: clamp(52px, 7vw, 66px);
+    font-size: clamp(52px, 7vw, 62px);
     text-align: center;
+    margin-inline: auto;
   }
 
   .hero-description {
     margin-inline: auto;
-    font-size: 24px;
+    font-size: 22px;
     text-align: center;
+    max-width: 540px;
   }
 
   .hero-actions {
@@ -682,24 +685,52 @@
   }
 
   .hero-portrait-stage {
-    width: min(650px, 100%);
-    height: auto;
-    aspect-ratio: 650 / 600;
-    margin: 48px auto 0;
+    width: min(520px, 100%);
+    height: 480px;
+    margin: 40px auto 0;
     justify-self: center;
+    overflow: clip;
   }
 
   .hero-portrait-panel {
-    width: 89%;
-    height: 95%;
-    left: 7%;
-    top: 4%;
-    border-radius: clamp(32px, 8vw, 58px);
+    top: 36px;
+    left: 50%;
+    width: calc(100% - 40px);
+    height: 410px;
+    transform: translateX(-50%);
+    border-radius: 44px;
+  }
+
+  .hero-portrait-panel::after {
+    width: 340px;
+    height: 340px;
+    left: 50%;
+    top: 48px;
+    transform: translateX(-50%);
   }
 
   .hero-portrait-subject {
-    height: min(720px, 115vw);
-    bottom: -18%;
+    height: 480px;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+  }
+
+  .hero-portrait-accent {
+    top: 100px;
+    right: 4px;
+    width: 80px;
+    height: 280px;
+  }
+
+  .hero-floating-card--custom {
+    top: 140px;
+    right: 0;
+  }
+
+  .hero-floating-card--students {
+    left: 0;
+    bottom: 72px;
   }
 
   .hero-trust {
@@ -719,45 +750,325 @@
   }
 }
 
-@media (max-width: 768px) {
+/* ── Mobile: max-width 767px ── */
+@media (max-width: 767px) {
   :root {
-    --page-padding-inline: 24px;
+    --page-padding-inline: 20px;
+  }
+
+  .whatsapp-floating-button {
+    display: none !important;
+  }
+
+  .site-header {
+    min-height: 88px;
+    height: auto;
+  }
+
+  .site-header__inner {
+    grid-template-columns: 1fr auto;
+    min-height: 88px;
+    height: 88px;
+    padding-inline: 0;
+  }
+
+  .site-brand__avatar {
+    width: 56px;
+    height: 56px;
+  }
+
+  .site-brand__name {
+    font-size: clamp(28px, 8vw, 34px);
+    white-space: nowrap;
+  }
+
+  .site-nav,
+  .site-header__actions {
+    display: none;
+  }
+
+  .site-header__menu-toggle {
+    display: block;
+  }
+
+  .site-header__mobile-menu {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 24px;
+    box-shadow: 0 16px 40px rgb(6 23 53 / 10%);
+    border-top: 1px solid var(--hero-divider);
+  }
+
+  .hero {
+    padding-top: 88px;
+    overflow-x: clip;
+  }
+
+  .hero-main {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    padding-top: 0;
+    gap: 0;
+  }
+
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero-badge {
+    align-self: center;
+    min-height: 46px;
+    padding-inline: 20px;
+    gap: 9px;
+    font-size: 16px;
+    margin-top: 32px;
+  }
+
+  .hero-badge svg {
+    width: 20px;
+    height: 20px;
   }
 
   .hero-title {
-    font-size: clamp(39px, 10vw, 52px);
-    line-height: 1.04;
+    width: 100%;
+    max-width: 390px;
+    margin: 36px auto 0;
+    color: var(--hero-navy);
+    font-size: clamp(39px, 11vw, 45px);
+    line-height: 1.03;
+    letter-spacing: -0.045em;
+    font-weight: 760;
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  .hero-title-gradient {
+    margin-top: 4px;
   }
 
   .hero-description {
-    font-size: clamp(18px, 4.5vw, 20px);
+    width: 100%;
+    max-width: 360px;
+    margin: 40px auto 0;
+    color: var(--hero-text);
+    font-size: clamp(18px, 5.1vw, 20px);
+    line-height: 1.55;
+    letter-spacing: -0.02em;
+    font-weight: 430;
+    text-align: center;
   }
 
   .hero-actions {
+    display: flex;
     flex-direction: column;
+    align-items: stretch;
     width: 100%;
+    gap: 15px;
+    margin-top: 32px;
+    flex-wrap: nowrap;
   }
 
   .hero-primary-action,
   .hero-secondary-action {
     width: 100%;
     min-width: 0;
-    height: 60px;
+    height: 62px;
+    padding-inline: 18px;
+    border-radius: 13px;
+    font-size: 18px;
+    line-height: 1.15;
+    gap: 11px;
   }
 
-  .hero-floating-card--students {
-    left: 8px;
-    bottom: 80px;
+  .hero-primary-action svg,
+  .hero-secondary-action svg {
+    width: 25px;
+    height: 25px;
+    flex: 0 0 auto;
+  }
+
+  .hero-primary-action__arrow {
+    margin-left: 4px;
+  }
+
+  .hero-portrait-stage {
+    position: relative;
+    width: min(100%, 360px);
+    height: 470px;
+    margin: 34px auto 0;
+    justify-self: center;
+    isolation: isolate;
+    overflow: clip;
+    aspect-ratio: unset;
+  }
+
+  .hero-portrait-panel {
+    position: absolute;
+    z-index: 1;
+    top: 46px;
+    left: 50%;
+    width: calc(100% - 28px);
+    height: 400px;
+    transform: translateX(-50%);
+    border-radius: 36px;
+  }
+
+  .hero-portrait-panel::after {
+    width: 280px;
+    height: 280px;
+    left: 50%;
+    top: 52px;
+    transform: translateX(-50%);
+  }
+
+  .hero-portrait-panel__node {
+    display: none;
+  }
+
+  .hero-portrait-subject {
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    bottom: 0;
+    width: auto;
+    max-width: none;
+    height: calc(min(720px, 115vw) * 0.75);
+    transform: translateX(-50%);
+    filter: drop-shadow(0 5px 6px rgb(5 24 55 / 7%));
+  }
+
+  .hero-portrait-accent {
+    position: absolute;
+    z-index: 0;
+    top: 130px;
+    right: 2px;
+    width: 70px;
+    height: 260px;
+    transform: rotate(2deg);
+  }
+
+  .hero-floating-card {
+    min-height: 48px;
+    padding-inline: 14px;
+    gap: 8px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    line-height: 1.15;
+    white-space: nowrap;
+  }
+
+  .hero-floating-card svg {
+    width: 22px;
+    height: 22px;
   }
 
   .hero-floating-card--custom {
-    right: 4px;
+    top: 185px;
+    right: 0;
+  }
+
+  .hero-floating-card--students {
+    left: 0;
+    bottom: 58px;
+  }
+
+  .hero-trust {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin: 34px auto 0;
+    padding-bottom: 32px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .hero-trust-item {
+    width: 100%;
+    min-height: 84px;
+    padding: 18px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 18px;
+    color: #17335f;
+    font-size: 17px;
+    line-height: 1.35;
+    font-weight: 520;
+    letter-spacing: -0.015em;
+    text-align: left;
+    overflow: visible;
+    border-left: none !important;
+    border-top: none;
+  }
+
+  .hero-trust-item + .hero-trust-item {
+    border-top: 1px solid var(--hero-divider);
+  }
+
+  .hero-trust-item svg {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
   }
 }
 
-@media (max-width: 390px) {
+/* ── Very narrow phones: max-width 374px ── */
+@media (max-width: 374px) {
   :root {
-    --page-padding-inline: 20px;
+    --page-padding-inline: 18px;
+  }
+
+  .hero-title {
+    font-size: clamp(39px, 10.5vw, 41px);
+  }
+
+  .hero-description {
+    font-size: clamp(18px, 5vw, 19px);
+  }
+
+  .hero-secondary-action {
+    font-size: 17px;
+    padding-inline: 14px;
+  }
+
+  .hero-portrait-stage {
+    width: min(100%, 340px);
+    height: 450px;
+  }
+
+  .hero-portrait-panel {
+    height: 380px;
+    top: 42px;
+  }
+
+  .hero-portrait-subject {
+    height: calc(min(720px, 115vw) * 0.72);
+  }
+
+  .hero-floating-card {
+    font-size: 13px;
+    padding-inline: 12px;
+  }
+
+  .hero-floating-card--custom {
+    top: 175px;
+    right: 2px;
+  }
+
+  .hero-floating-card--students {
+    bottom: 52px;
+    left: 2px;
   }
 }
 

@@ -8,7 +8,7 @@ const FloatingContact: React.FC = () => {
       href="https://wa.me/393495519055" 
       target="_blank" 
       rel="noopener noreferrer"
-      className="fixed bottom-7 right-7 z-[100] group flex items-center gap-3"
+      className="whatsapp-floating-button fixed bottom-7 right-7 z-[100] group flex items-center gap-3"
     >
       <div className="bg-white px-4 py-2 rounded-xl shadow-xl border border-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden sm:block">
         <span className="text-sm font-bold text-gray-700 whitespace-nowrap">Contattami ora</span>

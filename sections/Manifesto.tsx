@@ -4,7 +4,7 @@ import { Quote } from 'lucide-react';
 
 const Manifesto: React.FC = () => {
   return (
-    <section className="pt-8 pb-8 md:pt-10 md:pb-10 bg-white px-6 relative overflow-hidden">
+    <section className="pt-4 pb-8 md:pt-6 md:pb-10 bg-white px-6 relative overflow-hidden">
       {/* Elementi decorativi di sfondo per coerenza visiva */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-50/30 rounded-full blur-[120px] -z-10"></div>
       

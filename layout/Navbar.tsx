@@ -75,7 +75,7 @@ const Navbar: React.FC = () => {
               <NavLink to="/" end onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className={navLinkClass}>Home</NavLink>
               <NavLink to="/offerta-formativa" onClick={() => { closeMenu(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={navLinkClass}>Offerta formativa</NavLink>
               <NavLink to="/risorse" onClick={() => { closeMenu(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={navLinkClass}>Risorse gratuite</NavLink>
-              <a href="#recensioni" onClick={(e) => handleSectionClick(e, 'recensioni')} className="hover:text-blue-600 transition-colors font-medium text-gray-600">Recensioni</a>
+              <a href="#recensioni" onClick={(e) => handleSectionClick(e, 'recensioni')} className="transition-colors font-medium hover:text-blue-600">Recensioni</a>
               <a 
                 href="#contatti" 
                 onClick={(e) => handleSectionClick(e, 'contatti')}

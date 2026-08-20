@@ -73,45 +73,45 @@ const Navbar: React.FC = () => {
           </span>
         </Link>
 
-        <nav className="site-nav" aria-label="Navigazione principale">
-          <NavLink
-            to="/"
-            end
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className={navLinkClass}
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="/offerta-formativa"
-            onClick={() => {
-              closeMenu();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            className={navLinkClass}
-          >
-            Offerta formativa
-          </NavLink>
-          <NavLink
-            to="/risorse"
-            onClick={() => {
-              closeMenu();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            className={navLinkClass}
-          >
-            Risorse gratuite
-          </NavLink>
-          <a
-            href="#recensioni"
-            onClick={(e) => handleSectionClick(e, 'recensioni')}
-            className="site-nav__link"
-          >
-            Recensioni
-          </a>
-        </nav>
+        <div className="site-header__cluster">
+          <nav className="site-nav" aria-label="Navigazione principale">
+            <NavLink
+              to="/"
+              end
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className={navLinkClass}
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/offerta-formativa"
+              onClick={() => {
+                closeMenu();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className={navLinkClass}
+            >
+              Offerta formativa
+            </NavLink>
+            <NavLink
+              to="/risorse"
+              onClick={() => {
+                closeMenu();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className={navLinkClass}
+            >
+              Risorse gratuite
+            </NavLink>
+            <a
+              href="#recensioni"
+              onClick={(e) => handleSectionClick(e, 'recensioni')}
+              className="site-nav__link"
+            >
+              Recensioni
+            </a>
+          </nav>
 
-        <div className="site-header__actions">
           <a
             href="#contatti"
             onClick={(e) => handleSectionClick(e, 'contatti')}
@@ -127,7 +127,7 @@ const Navbar: React.FC = () => {
             }}
             className={areaPersonaleClass}
           >
-            <UserRound size={18} strokeWidth={2.25} aria-hidden />
+            <UserRound size={16} strokeWidth={2.25} aria-hidden />
             <span>Area personale</span>
           </NavLink>
         </div>

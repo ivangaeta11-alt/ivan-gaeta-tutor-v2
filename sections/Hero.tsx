@@ -12,9 +12,9 @@ const TRUST_ITEMS = [
   { icon: FileText, label: 'Materiali ed esercizi inclusi' },
 ] as const;
 
-/** Intrinsic size of public/homepage_pic_transparent.png — update if the asset changes. */
-const PORTRAIT_WIDTH = 1122;
-const PORTRAIT_HEIGHT = 1402;
+/** Intrinsic size of public/homepage_pic_transparent.png */
+const PORTRAIT_WIDTH = 1254;
+const PORTRAIT_HEIGHT = 1254;
 
 const Hero: React.FC<HeroProps> = ({ onNavigateRisorse }) => {
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -80,7 +80,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigateRisorse }) => {
               <div className="hero-portrait-background" />
               <img
                 className="hero-portrait-subject"
-                src="/homepage_pic_transparent.png"
+                src={`${import.meta.env.BASE_URL}homepage_pic_transparent.png`}
                 alt="Ivan Gaeta, tutor di Matematica e Fisica"
                 width={PORTRAIT_WIDTH}
                 height={PORTRAIT_HEIGHT}

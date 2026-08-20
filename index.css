@@ -445,7 +445,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: -10px;
   z-index: 4;
   display: flex;
   align-items: center;
@@ -997,23 +997,26 @@
     position: static;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
     gap: 10px;
     width: 100%;
     margin-top: 14px;
     padding-inline: 0;
     min-height: 0;
+    bottom: auto;
   }
 
   .hero-floating-card {
     min-height: 48px;
-    padding-inline: 14px;
-    gap: 8px;
+    padding-inline: 16px;
+    gap: 10px;
     border-radius: 12px;
     font-size: 13.5px;
-    line-height: 1.15;
+    line-height: 1.2;
     white-space: nowrap;
-    width: 100%;
+    width: min(100%, 320px);
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
   }
 
@@ -1083,12 +1086,12 @@
 
   .hero-trust-item {
     width: 100%;
-    min-height: 84px;
-    padding: 18px 4px;
+    min-height: 72px;
+    padding: 18px 0;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 18px;
+    gap: 16px;
     color: #17335f;
     font-size: 17px;
     line-height: 1.35;
@@ -1100,6 +1103,12 @@
     border-top: none;
   }
 
+  .hero-trust-item span {
+    display: block;
+    flex: 1;
+    line-height: 1.35;
+  }
+
   .hero-trust-item + .hero-trust-item {
     border-top: 1px solid var(--hero-divider);
   }
@@ -1108,6 +1117,7 @@
     width: 34px;
     height: 34px;
     flex: 0 0 34px;
+    align-self: center;
   }
 }
 

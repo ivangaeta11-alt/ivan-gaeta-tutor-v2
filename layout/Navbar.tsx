@@ -6,12 +6,9 @@ import { Menu, X, UserRound } from 'lucide-react';
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [imgError, setImgError] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const isHome = location.pathname === '/';
-
-  const profileImg = `${import.meta.env.BASE_URL}ivan_gaeta_profile.jpeg`;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,17 +54,6 @@ const Navbar: React.FC = () => {
           }}
           className="site-brand"
         >
-          <div className="site-brand__avatar">
-            {!imgError ? (
-              <img
-                src={profileImg}
-                alt=""
-                onError={() => setImgError(true)}
-              />
-            ) : (
-              <span className="text-white font-bold text-sm tracking-tighter">IG</span>
-            )}
-          </div>
           <span className="site-brand__name">
             <span className="site-brand__name-ivan">Ivan</span>
             <span className="site-brand__name-gaeta"> Gaeta</span>

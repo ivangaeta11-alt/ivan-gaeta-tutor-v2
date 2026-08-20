@@ -19,7 +19,6 @@
   --hero-content-width: calc(
     var(--hero-copy-max) + var(--hero-main-gap) + var(--hero-stage-width)
   );
-  --hero-floating-badge-bottom: 96px;
 }
 
 @media (max-width: 1500px) and (min-width: 1181px) {
@@ -257,7 +256,7 @@
   display: grid;
   grid-template-columns: minmax(0, var(--hero-copy-max)) var(--hero-stage-width);
   column-gap: var(--hero-main-gap);
-  align-items: start;
+  align-items: stretch;
   justify-content: center;
   width: 100%;
   max-width: var(--hero-content-width);
@@ -269,6 +268,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  min-height: 100%;
 }
 
 .hero-badge {
@@ -341,7 +341,8 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-top: 30px;
+  margin-top: auto;
+  padding-top: 30px;
   flex-wrap: nowrap;
 }
 
@@ -423,12 +424,35 @@
 /* ── Portrait stage ── */
 .hero-portrait-stage {
   position: relative;
+  display: flex;
+  flex-direction: column;
   width: var(--hero-stage-width);
-  height: var(--hero-stage-height);
+  min-height: var(--hero-stage-height);
   justify-self: end;
   isolation: isolate;
   flex-shrink: 0;
+}
+
+.hero-portrait-visual {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: var(--hero-stage-height);
   overflow: clip;
+  width: 100%;
+}
+
+.hero-portrait-badges {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  min-height: 52px;
 }
 
 .hero-portrait-accent {
@@ -514,7 +538,7 @@
 }
 
 .hero-floating-card {
-  position: absolute;
+  position: static;
   z-index: 4;
   display: inline-flex;
   align-items: center;
@@ -537,20 +561,6 @@
   width: 20px;
   height: 20px;
   flex-shrink: 0;
-}
-
-.hero-floating-card--custom,
-.hero-floating-card--students {
-  top: auto;
-  bottom: var(--hero-floating-badge-bottom);
-}
-
-.hero-floating-card--custom {
-  right: 6px;
-}
-
-.hero-floating-card--students {
-  left: 6px;
 }
 
 .hero-floating-card__icon-teal {
@@ -616,7 +626,10 @@
 
   .hero-portrait-stage {
     width: var(--hero-stage-width);
-    height: var(--hero-stage-height);
+  }
+
+  .hero-portrait-visual {
+    min-height: var(--hero-stage-height);
   }
 
   .hero-portrait-panel {
@@ -644,11 +657,6 @@
     width: calc(77px * 0.92);
     height: calc(241px * 0.92);
     top: calc(31px * 0.92);
-  }
-
-  .hero-floating-card--custom,
-  .hero-floating-card--students {
-    bottom: calc(var(--hero-floating-badge-bottom) * 0.92);
   }
 }
 
@@ -705,6 +713,7 @@
   .hero-copy {
     align-items: center;
     text-align: center;
+    min-height: 0;
   }
 
   .hero-title {
@@ -723,14 +732,35 @@
   .hero-actions {
     justify-content: center;
     flex-wrap: wrap;
+    margin-top: 30px;
+    padding-top: 0;
   }
 
   .hero-portrait-stage {
+    position: relative;
+    display: block;
     width: min(520px, 100%);
     height: 480px;
+    min-height: 0;
     margin: 40px auto 0;
     justify-self: center;
+    overflow: visible;
+  }
+
+  .hero-portrait-visual {
+    position: absolute;
+    inset: 0;
+    min-height: 0;
     overflow: clip;
+  }
+
+  .hero-portrait-badges {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 88px;
+    z-index: 4;
+    min-height: 0;
   }
 
   .hero-portrait-panel {
@@ -763,20 +793,6 @@
     right: 4px;
     width: 80px;
     height: 280px;
-  }
-
-  .hero-floating-card--custom,
-  .hero-floating-card--students {
-    top: auto;
-    bottom: 88px;
-  }
-
-  .hero-floating-card--custom {
-    right: 0;
-  }
-
-  .hero-floating-card--students {
-    left: 0;
   }
 
   .hero-trust {
@@ -874,6 +890,7 @@
     flex-direction: column;
     align-items: stretch;
     width: 100%;
+    min-height: 0;
     text-align: center;
   }
 
@@ -927,6 +944,7 @@
     width: 100%;
     gap: 15px;
     margin-top: 32px;
+    padding-top: 0;
     flex-wrap: nowrap;
   }
 
@@ -955,13 +973,48 @@
 
   .hero-portrait-stage {
     position: relative;
+    display: flex;
+    flex-direction: column;
     width: min(100%, 360px);
-    height: 470px;
+    height: auto;
+    min-height: 0;
     margin: 34px auto 0;
     justify-self: center;
     isolation: isolate;
-    overflow: clip;
+    overflow: visible;
     aspect-ratio: unset;
+  }
+
+  .hero-portrait-visual {
+    position: relative;
+    width: 100%;
+    height: 470px;
+    flex-shrink: 0;
+    overflow: clip;
+  }
+
+  .hero-portrait-badges {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+    margin-top: 14px;
+    padding-inline: 0;
+    min-height: 0;
+  }
+
+  .hero-floating-card {
+    min-height: 48px;
+    padding-inline: 14px;
+    gap: 8px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    line-height: 1.15;
+    white-space: nowrap;
+    width: 100%;
+    justify-content: center;
   }
 
   .hero-portrait-panel {
@@ -1012,33 +1065,9 @@
     transform: rotate(2deg);
   }
 
-  .hero-floating-card {
-    min-height: 48px;
-    padding-inline: 14px;
-    gap: 8px;
-    border-radius: 12px;
-    font-size: 13.5px;
-    line-height: 1.15;
-    white-space: nowrap;
-  }
-
   .hero-floating-card svg {
     width: 22px;
     height: 22px;
-  }
-
-  .hero-floating-card--custom,
-  .hero-floating-card--students {
-    bottom: 72px;
-  }
-
-  .hero-floating-card--custom {
-    top: auto;
-    right: 4px;
-  }
-
-  .hero-floating-card--students {
-    left: 4px;
   }
 
   .hero-trust {
@@ -1103,7 +1132,15 @@
 
   .hero-portrait-stage {
     width: min(100%, 340px);
-    height: 450px;
+  }
+
+  .hero-portrait-visual {
+    height: 430px;
+  }
+
+  .hero-portrait-badges {
+    margin-top: 12px;
+    gap: 8px;
   }
 
   .hero-portrait-panel {
@@ -1119,20 +1156,6 @@
   .hero-floating-card {
     font-size: 13px;
     padding-inline: 12px;
-  }
-
-  .hero-floating-card--custom,
-  .hero-floating-card--students {
-    bottom: 68px;
-  }
-
-  .hero-floating-card--custom {
-    top: auto;
-    right: 2px;
-  }
-
-  .hero-floating-card--students {
-    left: 2px;
   }
 }
 

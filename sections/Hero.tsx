@@ -78,28 +78,32 @@ const Hero: React.FC<HeroProps> = ({ onNavigateRisorse }) => {
           </div>
 
           <div className="hero-portrait-stage">
-            <div className="hero-portrait-accent" aria-hidden />
-            <div className="hero-portrait-panel" aria-hidden>
-              <span className="hero-portrait-panel__node hero-portrait-panel__node--1" />
-              <span className="hero-portrait-panel__node hero-portrait-panel__node--2" />
-              <span className="hero-portrait-panel__node hero-portrait-panel__node--3" />
+            <div className="hero-portrait-visual">
+              <div className="hero-portrait-accent" aria-hidden />
+              <div className="hero-portrait-panel" aria-hidden>
+                <span className="hero-portrait-panel__node hero-portrait-panel__node--1" />
+                <span className="hero-portrait-panel__node hero-portrait-panel__node--2" />
+                <span className="hero-portrait-panel__node hero-portrait-panel__node--3" />
+              </div>
+              <img
+                className="hero-portrait-subject"
+                src={PORTRAIT_SRC}
+                alt="Ivan Gaeta, tutor di Matematica e Fisica"
+                width={PORTRAIT_WIDTH}
+                height={PORTRAIT_HEIGHT}
+                fetchPriority="high"
+                decoding="async"
+              />
             </div>
-            <img
-              className="hero-portrait-subject"
-              src={PORTRAIT_SRC}
-              alt="Ivan Gaeta, tutor di Matematica e Fisica"
-              width={PORTRAIT_WIDTH}
-              height={PORTRAIT_HEIGHT}
-              fetchPriority="high"
-              decoding="async"
-            />
-            <div className="hero-floating-card hero-floating-card--custom" aria-hidden>
-              <Target className="hero-floating-card__icon-teal" />
-              <span>Percorsi su misura</span>
-            </div>
-            <div className="hero-floating-card hero-floating-card--students" aria-hidden>
-              <ClipboardCheck className="hero-floating-card__icon-blue" />
-              <span>Medicina e TOLC</span>
+            <div className="hero-portrait-badges" aria-hidden>
+              <div className="hero-floating-card hero-floating-card--students">
+                <ClipboardCheck className="hero-floating-card__icon-blue" />
+                <span>Medicina e TOLC</span>
+              </div>
+              <div className="hero-floating-card hero-floating-card--custom">
+                <Target className="hero-floating-card__icon-teal" />
+                <span>Percorsi su misura</span>
+              </div>
             </div>
           </div>
         </div>

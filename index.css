@@ -585,6 +585,8 @@
      scende senza che il fondo della foto venga tagliato. */
   .hero-visual__media {
     aspect-ratio: 2.308;
+    -webkit-mask-image: linear-gradient(to right, transparent 8%, #000 23%);
+    mask-image: linear-gradient(to right, transparent 8%, #000 23%);
   }
 
   /* Equivale a background-size: 92% auto + background-position: calc(100% + 0.6%) bottom */
@@ -595,6 +597,8 @@
     left: auto;
     width: 92%;
     height: auto;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 10%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 10%);
   }
 }
 

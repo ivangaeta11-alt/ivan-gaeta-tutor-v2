@@ -294,29 +294,6 @@
   padding-top: clamp(4px, 1vw, 12px);
 }
 
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  width: fit-content;
-  min-height: 44px;
-  margin-bottom: clamp(14px, 1.8vw, 22px);
-  padding: 0 20px;
-  gap: 9px;
-  border: 1px solid var(--hero-border);
-  border-radius: 999px;
-  background: #f0f7ff;
-  color: var(--hero-blue);
-  font-size: 16px;
-  font-weight: 700;
-  box-shadow: 0 3px 10px rgb(8 80 180 / 6%);
-}
-
-.hero-badge svg {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-}
-
 .hero-title {
   margin: 0;
   max-width: var(--hero-copy-max);
@@ -501,7 +478,7 @@
 /* ── Hero + header: desktop ── */
 @media (min-width: 1200px) {
   :root {
-    --page-padding-inline: 72px;
+    --page-padding-inline: clamp(56px, 7.5vw, 136px);
     --hero-actions-max: 740px;
   }
 
@@ -551,7 +528,6 @@
 /* ── Hero + header: compact desktop ── */
 @media (max-width: 1500px) and (min-width: 1200px) {
   :root {
-    --page-padding-inline: 60px;
     --hero-copy-max: 640px;
     --hero-actions-max: 680px;
   }
@@ -581,20 +557,44 @@
 
 @media (max-width: 1359px) and (min-width: 1200px) {
   :root {
-    --hero-copy-max: 500px;
-    --hero-actions-max: 520px;
+    --hero-copy-max: 560px;
+    --hero-actions-max: 560px;
   }
 
   .hero-description {
-    max-width: 460px;
+    max-width: 500px;
   }
 }
 
 @media (min-width: 1600px) {
   :root {
-    --page-padding-inline: 80px;
     --hero-copy-max: 640px;
     --hero-actions-max: 760px;
+  }
+}
+
+/* ── Hero desktop: geometria del blocco testo e del visual ── */
+@media (min-width: 1200px) {
+  .hero-visual__copy-panel {
+    width: calc(var(--content-gutter) + var(--hero-copy-max) + 36px);
+    max-width: 56%;
+    padding-top: clamp(112px, 10.6vw, 152px);
+  }
+
+  /* Box leggermente più alto del rapporto dell'immagine: il soggetto
+     scende senza che il fondo della foto venga tagliato. */
+  .hero-visual__media {
+    aspect-ratio: 2.308;
+  }
+
+  /* Equivale a background-size: 92% auto + background-position: calc(100% + 0.6%) bottom */
+  .hero-visual__image {
+    top: auto;
+    right: -0.6%;
+    bottom: 0;
+    left: auto;
+    width: 92%;
+    height: auto;
   }
 }
 
@@ -814,15 +814,6 @@
     padding-top: clamp(8px, 2vw, 16px);
     text-align: left;
     align-items: flex-start;
-  }
-
-  .hero-badge {
-    align-self: flex-start;
-    min-height: 46px;
-    padding-inline: 20px;
-    gap: 9px;
-    font-size: 16px;
-    margin-bottom: clamp(20px, 5vw, 28px);
   }
 
   .hero-title {

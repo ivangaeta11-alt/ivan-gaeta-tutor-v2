@@ -36,53 +36,57 @@ const Hero: React.FC<HeroProps> = ({ onNavigateRisorse }) => {
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-visual">
-        <img
-          className="hero-visual__image"
-          src={LANDING_BG_SRC}
-          alt=""
-          width={LANDING_BG_WIDTH}
-          height={LANDING_BG_HEIGHT}
-          fetchPriority="high"
-          decoding="async"
-        />
+        <div className="hero-visual__layout">
+          <div className="hero-visual__copy-panel">
+            <div className="hero-copy">
+              <div className="hero-badge">
+                <GraduationCap aria-hidden />
+                <span>Tutor STEM</span>
+              </div>
 
-        <div className="page-container hero-visual__container">
-          <div className="hero-copy">
-            <div className="hero-badge">
-              <GraduationCap aria-hidden />
-              <span>Tutor STEM</span>
+              <h1 className="hero-title" id="hero-title">
+                <span>Percorsi strutturati in</span>
+                <span className="hero-title-gradient">Matematica e Fisica</span>
+              </h1>
+
+              <p className="hero-description">
+                Percorsi guidati di Matematica e Fisica per il{' '}
+                <strong>semestre filtro</strong> di Medicina, i test{' '}
+                <strong>TOLC</strong>, l&apos;università e le scuole superiori.
+              </p>
+
+              <div className="hero-actions">
+                <a
+                  href="#contatti"
+                  onClick={(e) => scrollToSection(e, 'contatti')}
+                  className="hero-primary-action"
+                >
+                  <MessageCircle className="hero-icon-whatsapp" size={22} aria-hidden />
+                  <span>Prenota una consulenza</span>
+                  <ArrowRight className="hero-primary-action__arrow" size={20} aria-hidden />
+                </a>
+                <button
+                  type="button"
+                  onClick={onNavigateRisorse}
+                  className="hero-secondary-action"
+                >
+                  <BookOpen size={22} aria-hidden />
+                  <span>Esplora le risorse gratuite</span>
+                </button>
+              </div>
             </div>
+          </div>
 
-            <h1 className="hero-title" id="hero-title">
-              <span>Percorsi strutturati in</span>
-              <span className="hero-title-gradient">Matematica e Fisica</span>
-            </h1>
-
-            <p className="hero-description">
-              Percorsi guidati di Matematica e Fisica per il{' '}
-              <strong>semestre filtro</strong> di Medicina, i test{' '}
-              <strong>TOLC</strong>, l&apos;università e le scuole superiori.
-            </p>
-
-            <div className="hero-actions">
-              <a
-                href="#contatti"
-                onClick={(e) => scrollToSection(e, 'contatti')}
-                className="hero-primary-action"
-              >
-                <MessageCircle className="hero-icon-whatsapp" size={22} aria-hidden />
-                <span>Prenota una consulenza</span>
-                <ArrowRight className="hero-primary-action__arrow" size={20} aria-hidden />
-              </a>
-              <button
-                type="button"
-                onClick={onNavigateRisorse}
-                className="hero-secondary-action"
-              >
-                <BookOpen size={22} aria-hidden />
-                <span>Esplora le risorse gratuite</span>
-              </button>
-            </div>
+          <div className="hero-visual__media" aria-hidden="true">
+            <img
+              className="hero-visual__image"
+              src={LANDING_BG_SRC}
+              alt=""
+              width={LANDING_BG_WIDTH}
+              height={LANDING_BG_HEIGHT}
+              fetchPriority="high"
+              decoding="async"
+            />
           </div>
         </div>
       </div>

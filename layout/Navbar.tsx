@@ -46,8 +46,7 @@ const Navbar: React.FC = () => {
     <header
       className={`site-header${overlayHeader ? ' site-header--overlay' : ''}${scrolled || !isHome || isOpen ? ' site-header--scrolled' : ''}`}
     >
-      <div className="page-container">
-        <div className="site-header__inner">
+      <div className="page-container site-header__inner">
           <Link
           to="/"
           onClick={() => {
@@ -130,7 +129,6 @@ const Navbar: React.FC = () => {
         >
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
-        </div>
       </div>
 
       {isOpen && (

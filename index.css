@@ -11,8 +11,9 @@
   --hero-white: #ffffff;
 
   --hero-copy-max: 620px;
+  --hero-actions-max: 720px;
   --hero-visual-height: clamp(720px, 56vw, 800px);
-  --hero-bg-position: 68% 48%;
+  --hero-bg-position: 70% 48%;
 }
 
 .page-container {
@@ -296,10 +297,13 @@
 
 .hero-actions {
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: clamp(16px, 1.3vw, 20px);
   margin-top: clamp(46px, 4.2vw, 52px);
   flex-wrap: nowrap;
+  width: 100%;
+  max-width: var(--hero-actions-max);
 }
 
 .hero-primary-action,
@@ -430,7 +434,8 @@
 @media (min-width: 1200px) {
   :root {
     --page-padding-inline: 72px;
-    --hero-bg-position: 68% 48%;
+    --hero-bg-position: 70% 48%;
+    --hero-actions-max: 740px;
   }
 
   .site-brand__name {
@@ -477,20 +482,33 @@
 @media (max-width: 1500px) and (min-width: 1200px) {
   :root {
     --page-padding-inline: 60px;
-    --hero-bg-position: 66% 47%;
+    --hero-bg-position: 68% 47%;
     --hero-copy-max: 580px;
+    --hero-actions-max: 680px;
   }
 
-  .hero-actions {
-    flex-wrap: wrap;
+  .hero-primary-action,
+  .hero-secondary-action {
+    font-size: 15px;
+  }
+
+  .hero-primary-action {
+    height: 60px;
+    padding-inline: 20px;
+  }
+
+  .hero-secondary-action {
+    height: 60px;
+    padding-inline: 18px;
   }
 }
 
 @media (min-width: 1600px) {
   :root {
     --page-padding-inline: 80px;
-    --hero-bg-position: 66% 50%;
+    --hero-bg-position: 68% 50%;
     --hero-copy-max: 640px;
+    --hero-actions-max: 760px;
   }
 }
 
@@ -555,7 +573,9 @@
   }
 
   .hero-actions {
-    flex-wrap: wrap;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    max-width: 100%;
   }
 
   .hero-trust-item:first-child,

@@ -7,6 +7,7 @@
   --hero-blue: #075bea;
   --hero-blue-dark: #084fd0;
   --hero-teal: #03a692;
+  --hero-border: #cfe1fb;
   --hero-divider: #e6edf5;
   --hero-white: #ffffff;
 
@@ -257,6 +258,29 @@
   max-width: var(--hero-copy-max);
   padding-top: clamp(24px, 5.5vw, 64px);
   pointer-events: auto;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 44px;
+  margin-bottom: clamp(18px, 2.2vw, 26px);
+  padding: 0 20px;
+  gap: 9px;
+  border: 1px solid var(--hero-border);
+  border-radius: 999px;
+  background: #f0f7ff;
+  color: var(--hero-blue);
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 3px 10px rgb(8 80 180 / 6%);
+}
+
+.hero-badge svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }
 
 .hero-title {
@@ -707,6 +731,16 @@
     max-width: min(390px, 100%);
     padding-top: clamp(8px, 2vw, 16px);
     text-align: left;
+    align-items: flex-start;
+  }
+
+  .hero-badge {
+    align-self: flex-start;
+    min-height: 46px;
+    padding-inline: 20px;
+    gap: 9px;
+    font-size: 16px;
+    margin-bottom: clamp(20px, 5vw, 28px);
   }
 
   .hero-title {

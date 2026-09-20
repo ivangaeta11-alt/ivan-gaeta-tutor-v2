@@ -4,6 +4,7 @@ import {
   ArrowRight,
   MessageCircle,
   BookOpen,
+  GraduationCap,
   Users,
   Layers,
   FileText,
@@ -47,6 +48,11 @@ const Hero: React.FC<HeroProps> = ({ onNavigateRisorse }) => {
 
         <div className="page-container hero-visual__container">
           <div className="hero-copy">
+            <div className="hero-badge">
+              <GraduationCap aria-hidden />
+              <span>Tutor STEM</span>
+            </div>
+
             <h1 className="hero-title" id="hero-title">
               <span>Percorsi strutturati in</span>
               <span className="hero-title-gradient">Matematica e Fisica</span>

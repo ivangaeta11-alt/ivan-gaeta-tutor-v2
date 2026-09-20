@@ -40,9 +40,11 @@ const Navbar: React.FC = () => {
   const areaPersonaleClass = ({ isActive }: { isActive: boolean }) =>
     `site-header__cta-secondary${isActive ? ' site-header__cta-secondary--active' : ''}`;
 
+  const overlayHeader = isHome && !scrolled && !isOpen;
+
   return (
     <header
-      className={`site-header${scrolled || !isHome || isOpen ? ' site-header--scrolled' : ''}`}
+      className={`site-header${overlayHeader ? ' site-header--overlay' : ''}${scrolled || !isHome || isOpen ? ' site-header--scrolled' : ''}`}
     >
       <div className="page-container">
         <div className="site-header__inner">

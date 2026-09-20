@@ -19,6 +19,10 @@ const TRUST_ITEMS = [
   { icon: FileText, label: 'Materiali ed esercizi inclusi' },
 ] as const;
 
+const LANDING_BG_SRC = `${import.meta.env.BASE_URL}landing-background.jpg`;
+const LANDING_BG_WIDTH = 3822;
+const LANDING_BG_HEIGHT = 1635;
+
 const Hero: React.FC<HeroProps> = ({ onNavigateRisorse }) => {
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
@@ -31,6 +35,16 @@ const Hero: React.FC<HeroProps> = ({ onNavigateRisorse }) => {
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-visual">
+        <img
+          className="hero-visual__image"
+          src={LANDING_BG_SRC}
+          alt=""
+          width={LANDING_BG_WIDTH}
+          height={LANDING_BG_HEIGHT}
+          fetchPriority="high"
+          decoding="async"
+        />
+
         <div className="page-container hero-visual__container">
           <div className="hero-copy">
             <h1 className="hero-title" id="hero-title">

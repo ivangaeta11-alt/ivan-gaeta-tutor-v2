@@ -10,10 +10,9 @@
   --hero-divider: #e6edf5;
   --hero-white: #ffffff;
 
-  --hero-copy-max: 620px;
-  --hero-actions-max: 720px;
-  --hero-visual-height: clamp(720px, 56vw, 800px);
-  --hero-bg-position: 70% 48%;
+  --hero-copy-max: 680px;
+  --hero-actions-max: 760px;
+  --hero-aspect-ratio: 3822 / 1635;
 }
 
 .page-container {
@@ -225,21 +224,29 @@
 }
 
 .hero-visual {
+  position: relative;
   width: 100%;
-  min-height: var(--hero-visual-height);
-  background-color: var(--hero-white);
-  background-image: url('/landing-background.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: var(--hero-bg-position);
+  background: var(--hero-white);
+  line-height: 0;
+}
+
+.hero-visual__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: var(--hero-aspect-ratio);
+  object-fit: contain;
+  object-position: top center;
 }
 
 .hero-visual__container {
-  min-height: var(--hero-visual-height);
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: flex-start;
   padding-top: 100px;
-  padding-bottom: 0;
+  line-height: normal;
+  pointer-events: none;
 }
 
 .hero-copy {
@@ -248,7 +255,8 @@
   align-items: flex-start;
   width: 100%;
   max-width: var(--hero-copy-max);
-  padding-top: clamp(48px, 8.5vh, 88px);
+  padding-top: clamp(24px, 5.5vw, 64px);
+  pointer-events: auto;
 }
 
 .hero-title {
@@ -434,7 +442,6 @@
 @media (min-width: 1200px) {
   :root {
     --page-padding-inline: 72px;
-    --hero-bg-position: 70% 48%;
     --hero-actions-max: 740px;
   }
 
@@ -482,7 +489,6 @@
 @media (max-width: 1500px) and (min-width: 1200px) {
   :root {
     --page-padding-inline: 60px;
-    --hero-bg-position: 68% 47%;
     --hero-copy-max: 580px;
     --hero-actions-max: 680px;
   }
@@ -506,7 +512,6 @@
 @media (min-width: 1600px) {
   :root {
     --page-padding-inline: 80px;
-    --hero-bg-position: 68% 50%;
     --hero-copy-max: 640px;
     --hero-actions-max: 760px;
   }
@@ -517,8 +522,6 @@
   :root {
     --page-padding-inline: 40px;
     --hero-copy-max: 560px;
-    --hero-visual-height: clamp(640px, 68vw, 720px);
-    --hero-bg-position: 70% 44%;
   }
 
   .site-header {
@@ -554,12 +557,32 @@
     border-top: 1px solid var(--hero-divider);
   }
 
+  .hero-visual {
+    display: flex;
+    flex-direction: column;
+    line-height: normal;
+  }
+
+  .hero-visual__image {
+    order: 2;
+    width: 100%;
+    height: auto;
+    aspect-ratio: var(--hero-aspect-ratio);
+    object-fit: cover;
+    object-position: center top;
+  }
+
   .hero-visual__container {
+    position: static;
+    order: 1;
     padding-top: 88px;
+    padding-bottom: clamp(28px, 4vw, 40px);
+    pointer-events: auto;
+    background: var(--hero-white);
   }
 
   .hero-copy {
-    padding-top: clamp(20px, 4vw, 40px);
+    padding-top: clamp(12px, 2vw, 24px);
     max-width: min(520px, 72vw);
   }
 
@@ -605,9 +628,21 @@
   :root {
     --page-padding-inline: 20px;
     --hero-copy-max: 100%;
-    --hero-visual-height: clamp(620px, 118vw, 760px);
-    --hero-bg-position: 74% 36%;
-    --hero-visual-height: clamp(680px, 130vw, 820px);
+  }
+
+  .hero-visual {
+    display: flex;
+    flex-direction: column;
+    line-height: normal;
+  }
+
+  .hero-visual__image {
+    order: 2;
+    width: 100%;
+    height: clamp(240px, 62vw, 320px);
+    aspect-ratio: auto;
+    object-fit: cover;
+    object-position: 72% 42%;
   }
 
   .whatsapp-floating-button {
@@ -659,13 +694,18 @@
   }
 
   .hero-visual__container {
+    position: static;
+    order: 1;
     padding-top: 88px;
+    padding-bottom: clamp(24px, 6vw, 36px);
     align-items: flex-start;
+    pointer-events: auto;
+    background: var(--hero-white);
   }
 
   .hero-copy {
     max-width: min(390px, 100%);
-    padding-top: clamp(16px, 4vw, 28px);
+    padding-top: clamp(8px, 2vw, 16px);
     text-align: left;
   }
 
@@ -745,8 +785,6 @@
 @media (max-width: 374px) {
   :root {
     --page-padding-inline: 18px;
-    --hero-visual-height: clamp(600px, 125vw, 700px);
-    --hero-bg-position: 74% 36%;
   }
 
   .hero-title {

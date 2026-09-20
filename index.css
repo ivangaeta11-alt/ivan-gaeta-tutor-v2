@@ -1,10 +1,11 @@
 :root {
   --page-max-width: 1520px;
   --page-padding-inline: 72px;
-  --content-gutter: max(
-    var(--page-padding-inline),
-    calc((100vw - var(--page-max-width)) / 2 + var(--page-padding-inline))
+  --container-width: min(
+    calc(100vw - 2 * var(--page-padding-inline)),
+    var(--page-max-width)
   );
+  --content-gutter: calc((100vw - var(--container-width)) / 2);
 
   --hero-navy: #061735;
   --hero-text: #4b6083;
@@ -230,18 +231,18 @@
 
 .hero-visual__layout {
   display: grid;
-  grid-template-columns: minmax(0, 46fr) minmax(0, 54fr);
-  min-height: clamp(660px, 46vw, 760px);
-  max-height: 800px;
+  grid-template-columns: minmax(0, 44fr) minmax(0, 56fr);
+  min-height: clamp(620px, 41vw, 720px);
+  max-height: 760px;
 }
 
 .hero-visual__copy-panel {
   display: flex;
   align-items: flex-start;
   padding:
-    100px
-    clamp(20px, 2.5vw, 36px)
-    clamp(28px, 3vw, 40px)
+    92px
+    clamp(16px, 2vw, 28px)
+    clamp(24px, 2.5vw, 32px)
     var(--content-gutter);
   background: var(--hero-white);
 }
@@ -255,12 +256,14 @@
 
 .hero-visual__image {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: -88%;
   display: block;
-  width: 100%;
+  width: 205%;
+  max-width: none;
   height: 100%;
   object-fit: cover;
-  object-position: 62% 44%;
+  object-position: center 46%;
 }
 
 .hero-copy {
@@ -438,7 +441,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-items: center;
-  min-height: 116px;
+  min-height: 108px;
 }
 
 .hero-trust-item {
@@ -622,6 +625,9 @@
 
   .hero-visual__image {
     position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     object-position: 68% 42%;
   }
 
@@ -696,6 +702,9 @@
 
   .hero-visual__image {
     position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     object-position: 72% 40%;
   }
 

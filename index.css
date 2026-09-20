@@ -10,9 +10,9 @@
   --hero-divider: #e6edf5;
   --hero-white: #ffffff;
 
-  --hero-copy-max: 680px;
-  --hero-visual-height: clamp(680px, 52vw, 780px);
-  --hero-bg-position: 62% 42%;
+  --hero-copy-max: 620px;
+  --hero-visual-height: clamp(720px, 56vw, 800px);
+  --hero-bg-position: 68% 48%;
 }
 
 .page-container {
@@ -247,15 +247,15 @@
   align-items: flex-start;
   width: 100%;
   max-width: var(--hero-copy-max);
-  padding-top: clamp(28px, 5vh, 56px);
+  padding-top: clamp(48px, 8.5vh, 88px);
 }
 
 .hero-title {
   margin: 0;
   max-width: var(--hero-copy-max);
   color: var(--hero-navy);
-  font-size: clamp(52px, 4.2vw, 64px);
-  line-height: 1.05;
+  font-size: clamp(54px, 4.15vw, 64px);
+  line-height: 1.06;
   letter-spacing: -0.045em;
   font-weight: 780;
 }
@@ -280,11 +280,11 @@
 }
 
 .hero-description {
-  max-width: 650px;
-  margin: clamp(36px, 3.5vw, 42px) 0 0;
-  color: var(--hero-text);
-  font-size: clamp(20px, 1.75vw, 26px);
-  line-height: 1.45;
+  max-width: 620px;
+  margin: clamp(38px, 3.6vw, 44px) 0 0;
+  color: #425a7a;
+  font-size: clamp(21px, 1.85vw, 26px);
+  line-height: 1.46;
   letter-spacing: -0.02em;
   font-weight: 430;
 }
@@ -297,9 +297,9 @@
 .hero-actions {
   display: flex;
   align-items: center;
-  gap: clamp(14px, 1.2vw, 20px);
-  margin-top: clamp(44px, 4vw, 50px);
-  flex-wrap: wrap;
+  gap: clamp(16px, 1.3vw, 20px);
+  margin-top: clamp(46px, 4.2vw, 52px);
+  flex-wrap: nowrap;
 }
 
 .hero-primary-action,
@@ -388,7 +388,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-items: center;
-  min-height: 112px;
+  min-height: 116px;
 }
 
 .hero-trust-item {
@@ -398,9 +398,21 @@
   justify-content: center;
   gap: 14px;
   color: #17335f;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 520;
   letter-spacing: -0.015em;
+}
+
+.hero-trust-item:first-child {
+  justify-content: flex-start;
+}
+
+.hero-trust-item:nth-child(2) {
+  justify-content: center;
+}
+
+.hero-trust-item:last-child {
+  justify-content: flex-end;
 }
 
 .hero-trust-item svg {
@@ -418,7 +430,7 @@
 @media (min-width: 1200px) {
   :root {
     --page-padding-inline: 72px;
-    --hero-bg-position: 62% 42%;
+    --hero-bg-position: 68% 48%;
   }
 
   .site-brand__name {
@@ -426,11 +438,38 @@
   }
 
   .site-nav {
-    gap: 22px;
+    gap: 24px;
   }
 
   .site-nav__link {
     font-size: 16px;
+  }
+
+  .site-header__cta-primary {
+    height: 44px;
+    padding-inline: 20px;
+    font-size: 15px;
+  }
+
+  .site-header__cta-secondary {
+    height: 44px;
+    padding-inline: 14px;
+    font-size: 14px;
+  }
+
+  .hero-primary-action,
+  .hero-secondary-action {
+    font-size: 16px;
+  }
+
+  .hero-primary-action {
+    height: 64px;
+    padding-inline: 26px;
+  }
+
+  .hero-secondary-action {
+    height: 64px;
+    padding-inline: 24px;
   }
 }
 
@@ -438,7 +477,20 @@
 @media (max-width: 1500px) and (min-width: 1200px) {
   :root {
     --page-padding-inline: 60px;
-    --hero-bg-position: 60% 42%;
+    --hero-bg-position: 66% 47%;
+    --hero-copy-max: 580px;
+  }
+
+  .hero-actions {
+    flex-wrap: wrap;
+  }
+}
+
+@media (min-width: 1600px) {
+  :root {
+    --page-padding-inline: 80px;
+    --hero-bg-position: 66% 50%;
+    --hero-copy-max: 640px;
   }
 }
 
@@ -448,7 +500,7 @@
     --page-padding-inline: 40px;
     --hero-copy-max: 560px;
     --hero-visual-height: clamp(640px, 68vw, 720px);
-    --hero-bg-position: 66% 40%;
+    --hero-bg-position: 70% 44%;
   }
 
   .site-header {
@@ -506,6 +558,12 @@
     flex-wrap: wrap;
   }
 
+  .hero-trust-item:first-child,
+  .hero-trust-item:nth-child(2),
+  .hero-trust-item:last-child {
+    justify-content: flex-start;
+  }
+
   .hero-trust__inner {
     grid-template-columns: 1fr;
     min-height: 0;
@@ -528,7 +586,8 @@
     --page-padding-inline: 20px;
     --hero-copy-max: 100%;
     --hero-visual-height: clamp(620px, 118vw, 760px);
-    --hero-bg-position: 72% 38%;
+    --hero-bg-position: 74% 36%;
+    --hero-visual-height: clamp(680px, 130vw, 820px);
   }
 
   .whatsapp-floating-button {
@@ -613,6 +672,13 @@
     width: 100%;
     gap: 14px;
     margin-top: clamp(28px, 6vw, 36px);
+    flex-wrap: nowrap;
+  }
+
+  .hero-trust-item:first-child,
+  .hero-trust-item:nth-child(2),
+  .hero-trust-item:last-child {
+    justify-content: flex-start;
   }
 
   .hero-primary-action,

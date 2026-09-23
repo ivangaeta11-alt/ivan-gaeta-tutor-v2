@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { ArrowUpRight } from "lucide-react";
 import { ambiti } from "./ambiti";
 
 const AmbitoTiles: React.FC = () => {
@@ -12,7 +13,7 @@ const AmbitoTiles: React.FC = () => {
             key={f.slug}
             to={f.path}
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="group relative block p-10 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-slate-200/40 transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+            className="group relative flex h-full flex-col p-10 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-slate-200/40 transition-all duration-300 hover:-translate-y-1 cursor-pointer"
           >
             <div
               className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-8 border transition-transform duration-300 group-hover:scale-105 ${f.accent}`}
@@ -27,6 +28,13 @@ const AmbitoTiles: React.FC = () => {
             <p className="text-slate-500 leading-relaxed font-light text-[17px]">
               {f.description}
             </p>
+
+            {/* mt-auto: l'etichetta resta in fondo, così le quattro card
+                la mostrano alla stessa altezza. */}
+            <div className="mt-auto pt-8 flex items-center gap-2 text-sm font-bold text-slate-400 group-hover:text-blue-600 transition-colors">
+              <span>Scopri il percorso</span>
+              <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </div>
 
             <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-10 transition-opacity duration-500">
               <div

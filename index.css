@@ -474,7 +474,7 @@
 /* ── Hero + header: desktop ──
    Soglia a 1060px e non 1200px: a 1200 un portatile da 1366 passava al
    layout impilato già al 110% di zoom. */
-@media (min-width: 1060px) {
+@media (min-width: 980px) {
   :root {
     --page-padding-inline: clamp(56px, 7.5vw, 136px);
     --hero-actions-max: 740px;
@@ -524,7 +524,7 @@
 }
 
 /* ── Hero + header: compact desktop ── */
-@media (max-width: 1500px) and (min-width: 1060px) {
+@media (max-width: 1500px) and (min-width: 980px) {
   :root {
     --hero-copy-max: 640px;
     --hero-actions-max: 680px;
@@ -553,7 +553,7 @@
   }
 }
 
-@media (max-width: 1359px) and (min-width: 1060px) {
+@media (max-width: 1359px) and (min-width: 980px) {
   :root {
     --hero-copy-max: 560px;
     --hero-actions-max: 560px;
@@ -566,7 +566,7 @@
 
 /* Desktop stretto: la colonna di testo scende sotto i 440px, quindi il
    titolo va rimpicciolito per restare su 2 righe. */
-@media (max-width: 1199px) and (min-width: 1060px) {
+@media (max-width: 1199px) and (min-width: 980px) {
   :root {
     /* Margine laterale ridotto: il bordo destro del testo è fissato al 48%
        della hero, quindi è l'unico modo di allargare la colonna. */
@@ -625,7 +625,7 @@
 }
 
 /* ── Hero desktop: geometria del blocco testo e del visual ── */
-@media (min-width: 1060px) {
+@media (min-width: 980px) {
   .hero-visual__copy-panel {
     width: calc(var(--content-gutter) + var(--hero-copy-max) + 36px);
     max-width: 48%;
@@ -654,8 +654,34 @@
   }
 }
 
+/* Desktop molto stretto (tipicamente zoom al 125%): la colonna di testo
+   non starebbe nel 48%, quindi la foto si riduce e cede spazio. */
+@media (max-width: 1059.98px) and (min-width: 980px) {
+  :root {
+    --page-padding-inline: clamp(36px, 4.4vw, 56px);
+  }
+
+  .hero-visual__copy-panel {
+    max-width: 53%;
+    padding-top: clamp(96px, 10vw, 112px);
+  }
+
+  .hero-visual__image {
+    width: 72%;
+  }
+
+  .hero-title {
+    font-size: 37px;
+  }
+
+  .hero-description {
+    max-width: 400px;
+    font-size: 16px;
+  }
+}
+
 /* ── Tablet ── */
-@media (max-width: 1059.98px) and (min-width: 768px) {
+@media (max-width: 979.98px) and (min-width: 768px) {
   :root {
     --page-padding-inline: 40px;
     --hero-copy-max: 560px;

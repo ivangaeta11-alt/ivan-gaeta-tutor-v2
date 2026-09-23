@@ -475,8 +475,10 @@
   border-left: 1px solid var(--hero-divider);
 }
 
-/* ── Hero + header: desktop ── */
-@media (min-width: 1200px) {
+/* ── Hero + header: desktop ──
+   Soglia a 1060px e non 1200px: a 1200 un portatile da 1366 passava al
+   layout impilato già al 110% di zoom. */
+@media (min-width: 1060px) {
   :root {
     --page-padding-inline: clamp(56px, 7.5vw, 136px);
     --hero-actions-max: 740px;
@@ -526,7 +528,7 @@
 }
 
 /* ── Hero + header: compact desktop ── */
-@media (max-width: 1500px) and (min-width: 1200px) {
+@media (max-width: 1500px) and (min-width: 1060px) {
   :root {
     --hero-copy-max: 640px;
     --hero-actions-max: 680px;
@@ -555,7 +557,7 @@
   }
 }
 
-@media (max-width: 1359px) and (min-width: 1200px) {
+@media (max-width: 1359px) and (min-width: 1060px) {
   :root {
     --hero-copy-max: 560px;
     --hero-actions-max: 560px;
@@ -563,6 +565,59 @@
 
   .hero-description {
     max-width: 500px;
+  }
+}
+
+/* Desktop stretto: la colonna di testo scende sotto i 440px, quindi il
+   titolo va rimpicciolito per restare su 2 righe. */
+@media (max-width: 1199px) and (min-width: 1060px) {
+  :root {
+    /* Margine laterale ridotto: il bordo destro del testo è fissato al 48%
+       della hero, quindi è l'unico modo di allargare la colonna. */
+    --page-padding-inline: clamp(48px, 5.5vw, 72px);
+    --hero-copy-max: 500px;
+    --hero-actions-max: 500px;
+  }
+
+  .hero-title {
+    font-size: 40px;
+  }
+
+  .hero-description {
+    max-width: 430px;
+    font-size: 17px;
+  }
+
+  .hero-actions {
+    gap: 12px;
+  }
+
+  .hero-primary-action,
+  .hero-secondary-action {
+    min-height: 52px;
+    font-size: 13px;
+  }
+
+  .hero-primary-action {
+    padding-inline: 14px;
+  }
+
+  .hero-secondary-action {
+    padding-inline: 12px;
+  }
+
+  .hero-primary-action svg,
+  .hero-secondary-action svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .hero-primary-action__arrow {
+    margin-left: 4px;
+  }
+
+  .site-nav {
+    gap: 18px;
   }
 }
 
@@ -574,7 +629,7 @@
 }
 
 /* ── Hero desktop: geometria del blocco testo e del visual ── */
-@media (min-width: 1200px) {
+@media (min-width: 1060px) {
   .hero-visual__copy-panel {
     width: calc(var(--content-gutter) + var(--hero-copy-max) + 36px);
     max-width: 48%;
@@ -604,7 +659,7 @@
 }
 
 /* ── Tablet ── */
-@media (max-width: 1199px) and (min-width: 768px) {
+@media (max-width: 1059.98px) and (min-width: 768px) {
   :root {
     --page-padding-inline: 40px;
     --hero-copy-max: 560px;

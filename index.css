@@ -452,16 +452,12 @@
   letter-spacing: -0.015em;
 }
 
-.hero-trust-item:first-child {
-  justify-content: flex-start;
-}
-
-.hero-trust-item:nth-child(2) {
-  justify-content: center;
-}
-
+/* Le tre voci sono centrate nella propria colonna: così lo spazio a
+   sinistra e a destra di ogni divisore è simmetrico. */
+.hero-trust-item:first-child,
+.hero-trust-item:nth-child(2),
 .hero-trust-item:last-child {
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .hero-trust-item svg {
@@ -771,14 +767,21 @@
     justify-content: flex-start;
   }
 
+  /* Elenco verticale largo quanto la voce più lunga e centrato nella
+     pagina: le icone restano incolonnate e i divisori non attraversano
+     tutto lo schermo. */
   .hero-trust__inner {
     grid-template-columns: 1fr;
+    width: fit-content;
+    max-width: 100%;
     min-height: 0;
+    margin-inline: auto;
   }
 
   .hero-trust-item {
     justify-content: flex-start;
-    padding: 18px 0;
+    min-height: 64px;
+    padding: 14px 0;
     border-left: none !important;
   }
 
@@ -940,15 +943,18 @@
 
   .hero-trust__inner {
     grid-template-columns: 1fr;
+    width: fit-content;
+    max-width: 100%;
     min-height: 0;
+    margin-inline: auto;
   }
 
   .hero-trust-item {
     justify-content: flex-start;
-    min-height: 72px;
-    padding: 18px 0;
+    min-height: 64px;
+    padding: 14px 0;
     font-size: 17px;
-    gap: 16px;
+    gap: 14px;
     border-left: none !important;
   }
 

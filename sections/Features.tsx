@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { ArrowUpRight } from "lucide-react";
 import AmbitoTiles from "../features/offerta/AmbitoTiles";
 
 const Features: React.FC = () => {
@@ -11,6 +13,17 @@ const Features: React.FC = () => {
         </div>
 
         <AmbitoTiles />
+
+        <div className="mt-12 flex justify-center">
+          <Link
+            to="/offerta-formativa"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="group inline-flex items-center gap-2 px-7 py-4 text-[15px] font-bold text-blue-600 bg-white border border-blue-100 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-200"
+          >
+            <span>Vedi tutta l'offerta formativa</span>
+            <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
+        </div>
       </div>
     </section>
   );

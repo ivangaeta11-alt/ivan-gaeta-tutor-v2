@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
 import { ambiti } from "./ambiti";
 
 const AmbitoTiles: React.FC = () => {
@@ -25,14 +24,9 @@ const AmbitoTiles: React.FC = () => {
               {f.tileTitle}
             </h4>
 
-            <p className="text-slate-500 leading-relaxed font-light text-[17px] mb-8">
+            <p className="text-slate-500 leading-relaxed font-light text-[17px]">
               {f.description}
             </p>
-
-            <div className="flex items-center gap-2 text-sm font-bold text-slate-400 group-hover:text-blue-600 transition-colors">
-              <span>Chiedi informazioni</span>
-              <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </div>
 
             <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-10 transition-opacity duration-500">
               <div

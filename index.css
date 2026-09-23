@@ -669,6 +669,10 @@
     aspect-ratio: 1.55 / 1;
     min-height: 0;
     z-index: 0;
+    /* Sfuma l'attacco con il blocco testo: la prima formula inizia
+       oltre l'8% dell'altezza, quindi resta leggibile. */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 6%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 6%);
   }
 
   .hero-visual__media .hero-visual__image {
@@ -762,6 +766,8 @@
     aspect-ratio: 1.7 / 1;
     min-height: 0;
     z-index: 0;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 6%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 6%);
   }
 
   .hero-visual__media .hero-visual__image {

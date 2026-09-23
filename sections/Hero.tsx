@@ -20,8 +20,8 @@ const TRUST_ITEMS = [
 ] as const;
 
 const LANDING_BG_SRC = `${import.meta.env.BASE_URL}landing-background.jpg`;
-const LANDING_BG_WIDTH = 3822;
-const LANDING_BG_HEIGHT = 1635;
+const LANDING_BG_WIDTH = 1916;
+const LANDING_BG_HEIGHT = 814;
 
 const Hero: React.FC<HeroProps> = ({ onNavigateRisorse }) => {
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {

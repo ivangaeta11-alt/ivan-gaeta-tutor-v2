@@ -18,7 +18,7 @@
 
   --hero-copy-max: 680px;
   --hero-actions-max: 760px;
-  --hero-aspect-ratio: 3822 / 1635;
+  --hero-aspect-ratio: 1916 / 814;
 }
 
 .page-container {
@@ -533,7 +533,7 @@
   }
 
   .hero-title {
-    font-size: clamp(48px, 3.6vw, 56px);
+    font-size: clamp(46px, 3.6vw, 56px);
   }
 
   .hero-primary-action,
@@ -577,7 +577,7 @@
 @media (min-width: 1200px) {
   .hero-visual__copy-panel {
     width: calc(var(--content-gutter) + var(--hero-copy-max) + 36px);
-    max-width: 56%;
+    max-width: 48%;
     padding-top: clamp(112px, 10.6vw, 152px);
   }
 
@@ -585,17 +585,18 @@
      scende senza che il fondo della foto venga tagliato. */
   .hero-visual__media {
     aspect-ratio: 2.308;
-    -webkit-mask-image: linear-gradient(to right, transparent 8%, #000 23%);
-    mask-image: linear-gradient(to right, transparent 8%, #000 23%);
+    -webkit-mask-image: linear-gradient(to right, transparent 22%, #000 36%);
+    mask-image: linear-gradient(to right, transparent 22%, #000 36%);
   }
 
-  /* Equivale a background-size: 92% auto + background-position: calc(100% + 0.6%) bottom */
+  /* Equivale a background-size: 78% auto + background-position: calc(100% + 0.6%) bottom.
+     Il 78% è il massimo che tiene le formule a destra del blocco testo. */
   .hero-visual__image {
     top: auto;
     right: -0.6%;
     bottom: 0;
     left: auto;
-    width: 92%;
+    width: 78%;
     height: auto;
     -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 10%);
     mask-image: linear-gradient(to bottom, transparent 0, #000 10%);
@@ -682,7 +683,10 @@
 
   .hero-copy {
     padding-top: clamp(8px, 1.5vw, 16px);
-    max-width: min(520px, 72vw);
+    max-width: min(560px, 82vw);
+    margin-inline: auto;
+    align-items: center;
+    text-align: center;
   }
 
   .hero-title {
@@ -692,12 +696,14 @@
   .hero-description {
     font-size: clamp(19px, 2.2vw, 23px);
     max-width: 520px;
+    margin-inline: auto;
   }
 
   .hero-actions {
     flex-direction: row;
     flex-wrap: nowrap;
     max-width: 100%;
+    justify-content: center;
   }
 
   .hero-trust-item:first-child,
@@ -814,10 +820,11 @@
   }
 
   .hero-copy {
-    max-width: min(390px, 100%);
+    max-width: min(420px, 100%);
     padding-top: clamp(8px, 2vw, 16px);
-    text-align: left;
-    align-items: flex-start;
+    margin-inline: auto;
+    text-align: center;
+    align-items: center;
   }
 
   .hero-title {
@@ -831,8 +838,9 @@
   }
 
   .hero-description {
-    max-width: 360px;
+    max-width: 380px;
     margin-top: clamp(28px, 6vw, 36px);
+    margin-inline: auto;
     font-size: clamp(18px, 4.8vw, 20px);
     line-height: 1.5;
   }
